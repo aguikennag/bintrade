@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+    {% block content %}
+        <main class="nk-pages " >
+            <div class="section" style="padding-top:90px">
+                <div class="container">
+                    <div class="nk-blocks d-flex justify-content-center">
+                        <div class="ath-container m-0">
+                            <div class="ath-body">
+                                <h5 class="ath-heading title">Sign In<small class="tc-default">with your ICO Account</small></h5>
+                                <form action="" method="POST">
+                                    {% csrf_token %}
+                                    {{form|crispy}}
+
+                                    <!--div class="field-item">
+                                        <div class="field-wrap">
+                                            <input type="text" class="input-bordered" placeholder="Your Email">
+                                        </div>
+                                    </div>
+                                    <div class="field-item">
+                                        <div class="field-wrap">
+                                            <input type="password" class="input-bordered" placeholder="Password">
+                                        </div>
+                                    </div>
+                                    <div class="field-item d-flex justify-content-between align-items-center">
+                                        <div class="field-item pb-0">
+                                            <input class="input-checkbox" id="remember-me-100" type="checkbox">
+                                            <label for="remember-me-100">Remember Me</label>
+                                        </div>
+                                        <div class="forget-link fz-6">
+                                            <a href="page-reset-v2.html">Forgot password?</a>
+                                        </div>
+                                    </div-->
+                                    <button class="btn btn-primary btn-block btn-md">Sign In</button>
+                                </form>
+                                <!--div class="sap-text"><span>Or Sign In With</span></div>
+
+                                <ul class="row gutter-20px gutter-vr-20px">
+                                    <li class="col"><a href="#" class="btn btn-md btn-facebook btn-block"><em class="icon fab fa-facebook-f"></em><span>Facebook</span></a></li>
+                                    <li class="col"><a href="#" class="btn btn-md btn-google btn-block"><em class="icon fab fa-google"></em><span>Google</span></a></li>
+                                </ul-->
+                                <div class="ath-note text-center">
+                                    Don’t have an account? <a href="{% url 'register' %}"> <strong>Sign up here</strong></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        {% block js %}
+        <script>
+   
+            $(document).ready(function(){
+              $(document).scrollTop(15)
+            })
+        </script>
+        {% endblock  %}
+        {% endblock %}
+    
+	

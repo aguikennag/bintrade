@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+    {% block content %}
+    <main class="nk-pages">
+        <div class="section" style="padding-top: 85px;">
+            <div class="container">
+                <div class="nk-blocks d-flex justify-content-center">
+                    <div class="ath-container m-0">
+                        <div class="ath-body">
+                            <h5 class="ath-heading title">Sign Up<small class="tc-default">Create New ICOX Account</small></h5>
+                            <form action="" method="POST">
+                                {% csrf_token %}
+                                {{form|crispy}}
+                                <!--div class="field-item">
+                                    <div class="field-wrap">
+                                        <input type="text" class="input-bordered" placeholder="Your Name">
+                                    </div>
+                                </div>
+                                <div class="field-item">
+                                    <div class="field-wrap">
+                                        <input type="text" class="input-bordered" placeholder="Your Email">
+                                    </div>
+                                </div>
+                                <div class="field-item">
+                                    <div class="field-wrap">
+                                        <input type="password" class="input-bordered" placeholder="Password">
+                                    </div>
+                                </div>
+                                <div class="field-item">
+                                    <div class="field-wrap">
+                                        <input type="password" class="input-bordered" placeholder="Repeat Password">
+                                    </div>
+                                </div>
+                                <div class="field-item">
+                                    <input class="input-checkbox" id="agree-term-2" type="checkbox">
+                                    <label for="agree-term-2">I agree to Icos <a href="#">Privacy Policy</a> &amp; <a href="#">Terms</a>.</label>
+                                </div-->
+                                <button class="btn btn-primary btn-block btn-md">Sign Up</button>
+                            </form>
+    
+                            <div class="ath-note text-center">
+                                Already have an account? <a href="{% url 'login' %}"> <strong>Sign in here</strong></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+        
+        {% block js %}
+        <script>
+   
+            $(document).ready(function(){
+              $(document).scrollTop(15)
+            })
+        </script>
+        {% endblock %}
+        {% endblock %}
+    
+	

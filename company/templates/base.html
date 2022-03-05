@@ -1,0 +1,375 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="zxx" class="js">
+<head>
+	<meta charset="utf-8">
+<meta name="author" content="Softnio">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<!-- Fav Icon  -->
+<link rel="shortcut icon" href="images/favicon.png">
+<!-- Site Title  -->
+<title>{{site_name}}| Hello</title>
+<!-- Bundle and Base CSS -->
+<link rel="stylesheet" href="{% static 'main/css/vendor.bundle.css' %}?ver=1930">
+<link rel="stylesheet" href="{% static 'main/css/style.css' %}?ver=1930" id="changeTheme">
+<!-- Extra CSS -->
+<link rel="stylesheet" href="{% static 'main/css/theme.css' %}?ver=1930">
+
+
+
+
+</head>
+
+
+    <body class="nk-body body-wider bg-light mode-onepage">
+
+	<div class="nk-wrap">
+
+		<header class="nk-header page-header is-transparent is-sticky is-shrink" id="header">
+		    <!-- Header @s -->
+         
+			<div class="header-main">
+				<div class="header-container container">
+					<div class="header-wrap">
+						<!-- Logo @s -->
+						<div class="header-logo logo animated" data-animate="fadeInDown" data-delay=".6">
+							<a href="./" class="logo-link">
+								<img class="logo-dark" src="{% static 'images/logo.png' %}" srcset="images/logo2x.png 2x" alt="logo">
+								<img class="logo-light" src="{% static 'images/logo-full-white.png' %}" srcset="images/logo-full-white2x.png 2x" alt="logo">
+							</a>
+						</div>
+                        <div  style="float: right;" class="text-center animated p-0" data-animate="fadeInUp" data-delay=".4">
+                            {% if user.is_authenticated %}
+                            <a href="{% url 'dashboard' %}" class="btn btn-grad p-2">Dashboard</a>
+                            {% else %}
+                            <a href="{% url 'login' %}" class="btn btn-grad p-2">Login/Register</a>
+                            {% endif %}
+                        </div>
+
+						<!-- Menu Toogle @s -->
+						<div class="header-nav-toggle">
+							<a href="#" class="navbar-toggle" data-menu-toggle="header-menu">
+                                <div class="toggle-line">
+                                    <span></span>
+                                </div>
+                            </a>
+						</div>
+
+						<!-- Menu @s -->
+						<div class="header-navbar animated" data-animate="fadeInDown" data-delay=".75">
+							<nav class="header-menu" id="header-menu">
+								<ul class="menu">
+									<li class="menu-item"><a class="menu-link nav-link" href="#header">Home</a></li>
+									<li class="menu-item"><a class="menu-link nav-link" href="#about">About</a></li>
+									<li class="menu-item"><a class="menu-link nav-link" href="#features">Features</a></li>
+									<li class="menu-item"><a class="menu-link nav-link" href="#tokensale">Token Sale</a></li>
+									<li class="menu-item"><a class="menu-link nav-link" href="#roadmap">Roadmap</a></li>
+									<li class="menu-item has-sub">
+										<a class="menu-link nav-link menu-toggle" href="#">More</a>
+										<ul class="menu-sub menu-drop">
+											<li class="menu-item"><a class="menu-link nav-link" href="#team">Team</a></li>
+                                            <li class="menu-item"><a class="menu-link nav-link" href="#faq">Faq</a></li>
+										</ul>
+									</li>
+									<li class="menu-item"><a class="menu-link nav-link" href="#contact">Contact</a></li>
+								</ul>
+								<!--ul class="menu-btns">
+									<li><a href="#" data-toggle="modal" data-target="#login-popup" class="btn btn-md btn-auto btn-grad no-change"><span>Login</span></a></li>
+								</ul-->
+							</nav>
+						</div><!-- .header-navbar @e -->
+					</div>                                                
+				</div>
+			</div><!-- .header-main @e -->
+
+			
+		</header>
+        {% block content %}{% endblock %}
+    
+       
+		<footer class="nk-footer bg-theme-grad">
+			<!--section class="section no-pdy section-contact bg-transparent" id="contact">
+			
+				<div class="container">
+				    <!-- Block @s ->
+					<div class="nk-block block-contact animated" data-animate="fadeInUp" data-delay=".9">
+                        <div class="row justify-content-center no-gutters">
+                            <div class="col-lg-6">
+                                <div class="contact-wrap split split-left split-lg-left bg-white">
+                                    <h5 class="title title-md">Contact Us</h5>
+                                    <form class="nk-form-submit" action="form/contact.php" method="post">
+                                        <div class="field-item">
+                                            <input name="contact-name" type="text" class="input-line required">
+                                            <label class="field-label field-label-line">Your Name</label>
+                                        </div>
+                                        <div class="field-item">
+                                            <input name="contact-email" type="email" class="input-line required email">
+                                            <label class="field-label field-label-line">Your Email</label>
+                                        </div>
+                                        <div class="field-item">
+                                            <textarea name="contact-message" class="input-line input-textarea required"></textarea>
+                                            <label class="field-label field-label-line">Your Message</label>
+                                        </div>
+                                        <input type="text" class="d-none" name="form-anti-honeypot" value="">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <button type="submit" class="btn btn-grad">Submit</button>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <div class="form-results"></div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div><!-- .col ->
+                            <div class="col-lg-4">
+                                <div class="contact-wrap split split-right split-lg-right bg-genitian bg-theme tc-light">
+                                    <div class="d-flex flex-column justify-content-between h-100">
+                                        <ul class="contact-list">
+                                            <li>
+                                                <em class="contact-icon fas fa-building"></em>
+                                                <div class="contact-text">
+                                                    <h6>ICO Crypto</h6>
+                                                    <span>728 Dooley Branch <br> Beckershire, LA 63598</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <em class="contact-icon fas fa-phone"></em>
+                                                <div class="contact-text">
+                                                    <span>+44 0123 4567</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <em class="contact-icon fas fa-envelope"></em>
+                                                <div class="contact-text">
+                                                    <span>info@company.com</span>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <em class="contact-icon fas fa-paper-plane"></em>
+                                                <div class="contact-text">
+                                                    <span>Join us on Telegram</span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <div class="contact-social">
+                                            <h6>Be a part of our community</h6>
+                                            <ul class="social-links">
+                                                <li><a href="#"><em class="fab fa-twitter"></em></a></li>
+                                                <li><a href="#"><em class="fab fa-medium-m"></em></a></li>
+                                                <li><a href="#"><em class="fab fa-facebook-f"></em></a></li>
+                                                <li><a href="#"><em class="fab fa-youtube"></em></a></li>
+                                                <li><a href="#"><em class="fab fa-bitcoin"></em></a></li>
+                                                <li><a href="#"><em class="fab fa-github"></em></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- .col ->
+                        </div><!-- .row ->
+					</div><!-- .block @e ->
+				</div>
+				
+				<div class="nk-ovm ovm-top ovm-h-60 bg-light"></div><!-- .nk-ovm ->
+			</section-->
+			<!-- // -->
+			<section class="section section-footer tc-light bg-transparent">
+			
+				<div class="container">
+				    <!-- Block @s -->
+					<div class="nk-block block-footer mgb-m30">
+                        <div class="row">
+                            <div class="col-lg-2 col-sm-4">
+                                <div class="wgs wgs-menu animated" data-animate="fadeInUp" data-delay=".2">
+                                    <h6 class="wgs-title">Company</h6>
+                                    <div class="wgs-body">
+                                        <ul class="wgs-links">
+                                            <li><a href="#">About Us</a></li>
+                                            <li><a href="#">Meet Our Team</a></li>
+                                            <li><a href="#">Advisors</a></li>
+                                            <li><a href="#">Contact Us</a></li>
+                                            <li><a href="#">Insights</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div><!-- .col -->
+                            <div class="col-lg-2 col-sm-4">
+                                <div class="wgs wgs-menu animated" data-animate="fadeInUp" data-delay=".3">
+                                    <h6 class="wgs-title">Legal</h6>
+                                    <div class="wgs-body">
+                                        <ul class="wgs-links">
+                                            <li><a href="#">Terms &amp; Conditions</a></li>
+                                            <li><a href="#">Privacy Policy</a></li>
+                                            <li><a href="#">Terms of Sales</a></li>
+                                            <li><a href="#">Whitepaper</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div><!-- .col -->
+                            <div class="col-lg-2 col-sm-4">
+                                <div class="wgs wgs-menu animated" data-animate="fadeInUp" data-delay=".4">
+                                    <h6 class="wgs-title">Quick Links</h6>
+                                    <div class="wgs-body">
+                                        <ul class="wgs-links">
+                                            <li><a href="#">Ecosystems</a></li>
+                                            <li><a href="#">Tokens</a></li>
+                                            <li><a href="#">Roadmaps</a></li>
+                                            <li><a href="#">Faqs</a></li>
+                                            <li><a href="#">Login</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div><!-- .col -->
+                            <div class="col-lg-6 order-lg-first">
+                                <div class="wgs wgs-text animated" data-animate="fadeInUp" data-delay=".1">
+                                    <div class="wgs-body">
+                                        <a href="./" class="wgs-logo">
+                                            <img src="{% static 'images/logo-full-white.png' %}" srcset="images/logo-full-white2x.png 2x" alt="logo">
+                                        </a>
+                                        <p>Copyright © 2018 ICO Crypto. <br>ABN: 2018AD947. All rights reserved. </p>
+                                        <p class="copyright-text">Template by <a href="https://softnio.com/">Softnio</a>. Handcrafted by iO.</p>
+                                    </div>
+                                </div>
+                            </div><!-- .col -->
+                        </div><!-- .row -->
+					</div><!-- .block @e -->
+				</div>
+				
+			</section>
+			<div class="nk-ovm shape-b"></div>
+		</footer>
+	</div>
+	
+    <!-- Modal @s -->
+	<div class="modal fade" id="login-popup">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <a href="#" class="modal-close" data-dismiss="modal" aria-label="Close"><em class="ti ti-close"></em></a>
+                <div class="ath-container m-0">
+                    <div class="ath-body">
+                        <h5 class="ath-heading title">Sign in <small class="tc-default">with your ICO Account</small></h5>
+                        <form action="#">
+                            <div class="field-item">
+                                <div class="field-wrap">
+                                    <input type="text" class="input-bordered" placeholder="Your Email">
+                                </div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-wrap">
+                                    <input type="password" class="input-bordered" placeholder="Password">
+                                </div>
+                            </div>
+                            <div class="field-item d-flex justify-content-between align-items-center">
+                                <div class="field-item pb-0">
+                                    <input class="input-checkbox" id="remember-me-100" type="checkbox">
+                                    <label for="remember-me-100">Remember Me</label>
+                                </div>
+                                <div class="forget-link fz-6">
+                                    <a href="#" data-toggle="modal" data-dismiss="modal" data-target="#reset-popup">Forgot password?</a>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary btn-block btn-md">Sign In</button>
+                        </form>
+                        <div class="sap-text"><span>Or Sign In With</span></div>
+
+                        <ul class="row gutter-20px gutter-vr-20px">
+                            <li class="col"><a href="#" class="btn btn-md btn-facebook btn-block"><em class="icon fab fa-facebook-f"></em><span>Facebook</span></a></li>
+                            <li class="col"><a href="#" class="btn btn-md btn-google btn-block"><em class="icon fab fa-google"></em><span>Google</span></a></li>
+                        </ul>
+                        <div class="ath-note text-center">
+                            Don’t have an account? <a href="#" data-toggle="modal" data-dismiss="modal" data-target="#register-popup"> <strong>Sign up here</strong></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- .modal @e -->
+	
+    <!-- Modal @s -->
+	<div class="modal fade" id="register-popup">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <a href="#" class="modal-close" data-dismiss="modal" aria-label="Close"><em class="ti ti-close"></em></a>
+                <div class="ath-container m-0">
+                    <div class="ath-body">
+                        <h5 class="ath-heading title">Sign Up <small class="tc-default">Create New ICOX Account</small></h5>
+                        <form action="#">
+                            <div class="field-item">
+                                <div class="field-wrap">
+                                    <input type="text" class="input-bordered" placeholder="Your Name">
+                                </div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-wrap">
+                                    <input type="text" class="input-bordered" placeholder="Your Email">
+                                </div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-wrap">
+                                    <input type="password" class="input-bordered" placeholder="Password">
+                                </div>
+                            </div>
+                            <div class="field-item">
+                                <div class="field-wrap">
+                                    <input type="password" class="input-bordered" placeholder="Repeat Password">
+                                </div>
+                            </div>
+                            <div class="field-item">
+                                <input class="input-checkbox" id="agree-term-2" type="checkbox">
+                                <label for="agree-term-2">I agree to Icos <a href="#">Privacy Policy</a> &amp; <a href="#">Terms</a>.</label>
+                            </div>
+                            <button class="btn btn-primary btn-block btn-md">Sign Up</button>
+                        </form>
+                        <div class="sap-text"><span>Or Sign Up With</span></div>
+
+                        <ul class="btn-grp gutter-20px gutter-vr-20px">
+                            <li class="col"><a href="#" class="btn btn-md btn-facebook btn-block"><em class="icon fab fa-facebook-f"></em><span>Facebook</span></a></li>
+                            <li class="col"><a href="#" class="btn btn-md btn-google btn-block"><em class="icon fab fa-google"></em><span>Google</span></a></li>
+                        </ul>
+                        <div class="ath-note text-center">
+                            Already have an account? <a href="#" data-toggle="modal" data-dismiss="modal" data-target="#login-popup"> <strong>Sign in here</strong></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- .modal @e -->
+    <!-- Modal @s -->
+	<div class="modal fade" id="reset-popup">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <a href="#" class="modal-close" data-dismiss="modal" aria-label="Close"><em class="ti ti-close"></em></a>
+                <div class="ath-container m-0">
+                    <div class="ath-body">
+                        <h5 class="ath-heading title">Reset <small class="tc-default">with your Email</small></h5>
+                        <form action="#">
+                            <div class="field-item">
+                                <div class="field-wrap">
+                                    <input type="text" class="input-bordered" placeholder="Your Email">
+                                </div>
+                            </div>
+                            <button class="btn btn-primary btn-block btn-md">Reset Password</button>
+                            <div class="ath-note text-center">
+                                Remembered? <a href="#" data-toggle="modal" data-dismiss="modal" data-target="#login-popup"> <strong>Sign in here</strong></a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- .modal @e -->
+    
+    
+	<!-- preloader -->
+	<div class="preloader preloader-alt no-split"><span class="spinner spinner-alt"><img class="spinner-brand" src="{% static 'images/logo-full-white.png' %}" alt=""></span></div>
+	
+	<!-- JavaScript -->
+	<script src="{% static 'main/js/jquery.bundle.js' %}"?ver=1930"></script>
+	<script src="{% static 'main/js/scripts.js' %}"?ver=1930"></script>
+	<script src="{% static 'main/js/charts.js' %}""></script>
+
+    {% block js %}{% endblock %}
+</body>
+</html>
