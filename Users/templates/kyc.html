@@ -1,0 +1,295 @@
+{% extends 'user-dashboard-base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="user-content">
+    <div class="user-kyc">
+        <form action="#">
+            <div class="from-step">
+                <div class="from-step-item">
+                    <div class="from-step-heading">
+                        <div class="from-step-number">01</div>
+                        <div class="from-step-head">
+                            <h4>Step 1 : Personal Details</h4>
+                            <p>Simple personal information, required for identification</p>
+                        </div>
+                    </div>
+                    <div class="from-step-content">
+                        <div class="note note-md note-info note-plane">
+                            <em class="fas fa-info-circle"></em> 
+                            <p>Please carefully fill out the form with your personal details. Your can’t edit these details once you submitted the form.</p>
+                        </div>
+                        <div class="gaps-2x"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-item input-with-label">
+                                    <label for="first-name" class="input-item-label">First Name</label>
+                                    <input class="input-bordered" type="text" id="first-name" name="first-name">
+                                </div><!-- .input-item -->
+                            </div><!-- .col -->
+                            <div class="col-md-6">
+                                <div class="input-item input-with-label">
+                                    <label for="last-name" class="input-item-label">Last Name</label>
+                                    <input class="input-bordered" type="text" id="last-name" name="last-name">
+                                </div><!-- .input-item -->
+                            </div><!-- .col -->
+                            <div class="col-md-6">
+                                <div class="input-item input-with-label">
+                                    <label for="email-address" class="input-item-label">Email Address</label>
+                                    <input class="input-bordered" type="text" id="email-address" name="email-address">
+                                </div><!-- .input-item -->
+                            </div><!-- .col -->
+                            <div class="col-md-6">
+                                <div class="input-item input-with-label">
+                                    <label for="phone-number" class="input-item-label">Phone Number</label>
+                                    <input class="input-bordered" type="text" id="phone-number" name="phone-number">
+                                </div><!-- .input-item -->
+                            </div><!-- .col -->
+                            <div class="col-md-6">
+                                <div class="input-item input-with-label">
+                                    <label for="date-of-birth" class="input-item-label">Date of Birth</label>
+                                    <input class="input-bordered date-picker" type="text" id="date-of-birth" name="date-of-birth">
+                                </div><!-- .input-item -->
+                            </div><!-- .col -->
+                            <div class="col-md-6">
+                                <div class="input-item input-with-label">
+                                    <label for="nationality" class="input-item-label">Nationality</label>
+                                    <select class="country-select" name="Nationality" id="Nationality">
+                                        <option value="us">United State</option>
+                                        <option value="uk">United KingDom</option>
+                                        <option value="fr">France</option>
+                                        <option value="ch">China</option>
+                                        <option value="cr">Czech Republic</option>
+                                        <option value="cb">Colombia</option>
+                                    </select>
+                                </div><!-- .input-item -->
+                            </div><!-- .col -->
+                            <div class="col-md-6">
+                                <div class="input-item input-with-label">
+                                    <label for="address-line-1" class="input-item-label">Address Line 1</label>
+                                    <input class="input-bordered" type="text" id="address-line-1" name="address-line-1">
+                                </div><!-- .input-item -->
+                            </div><!-- .col -->
+                            <div class="col-md-6">
+                                <div class="input-item input-with-label">
+                                    <label for="address-line-2" class="input-item-label">Address Line 2 <span>(optional)</span></label>
+                                    <input class="input-bordered" type="text" id="address-line-2" name="address-line-2">
+                                </div><!-- .input-item -->
+                            </div><!-- .col -->
+                            <div class="col-md-6">
+                                <div class="input-item input-with-label">
+                                    <label for="email-address" class="input-item-label">City of Residence</label>
+                                    <input class="input-bordered" type="text" id="email-address" name="email-address">
+                                </div><!-- .input-item -->
+                            </div><!-- .col -->
+                            <div class="col-md-6">
+                                <div class="input-item input-with-label">
+                                    <label for="phone-number" class="input-item-label">Zip Code</label>
+                                    <input class="input-bordered" type="text" id="phone-number" name="phone-number">
+                                </div><!-- .input-item -->
+                            </div><!-- .col -->
+                            <div class="col-md-6">
+                                <div class="input-item input-with-label">
+                                    <label for="phone-number" class="input-item-label">Telegram Username <span>(optional)</span></label>
+                                    <input class="input-bordered" type="text" id="phone-number" name="phone-number">
+                                </div><!-- .input-item -->
+                            </div><!-- .col -->
+                        </div><!-- .row -->
+                    </div><!-- .from-step-content -->
+                </div><!-- .from-step-item -->
+                <div class="from-step-item">
+                    <div class="from-step-heading">
+                        <div class="from-step-number">02</div>
+                        <div class="from-step-head">
+                            <h4>Step 2 : Indentity Verify</h4>
+                            <p>Upload documents to verify your indentity.</p>
+                        </div>
+                    </div>
+                    <div class="from-step-content">
+                        <div class="note note-md note-info note-plane">
+                            <em class="fas fa-info-circle"></em> 
+                            <p>Please upload any of the following personal document.</p>
+                        </div>
+                        <div class="gaps-2x"></div>
+                        <ul class="nav nav-tabs nav-tabs-bordered" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#passport">
+                                    <div class="nav-tabs-icon">
+                                        <img src="{% static 'user-dashboard/images/icon-passport.png' %}">
+                                        <img src="{% static 'user-dashboard/images/icon-passport-color.png' %}">
+                                    </div>
+                                    <span>Passport</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#national-card">
+                                    <div class="nav-tabs-icon">
+                                        <img src="{% static 'user-dashboard/images/icon-national-id.png' %}">
+                                        <img src="{% static 'user-dashboard/images/icon-national-id-color.png' %}">
+                                    </div>
+                                    <span>National Card</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#driver-licence">
+                                    <div class="nav-tabs-icon">
+                                        <img src="{% static 'user-dashboard/images/icon-licence.png' %}">
+                                        <img src="{% static 'user-dashboard/images/icon-licence-color.png' %}">
+                                    </div>
+                                    <span>Driver’s License</span>
+                                </a>
+                            </li>
+                        </ul><!-- .nav-tabs-line -->
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="passport">
+                                <h5 class="kyc-upload-title">To avoid delays when verifying account, Please make sure bellow:</h5>
+                                <ul class="kyc-upload-list">
+                                    <li>Chosen credential must not be expaired.</li>
+                                    <li>Document should be good condition and clearly visible.</li>
+                                    <li>Make sure that there is no light glare on the card.</li>
+                                </ul>
+                                <div class="gaps-4x"></div>
+                                <span class="upload-title">Upload Here Your Passport Copy</span>
+                                <div class="row align-items-center">
+                                    <div class="col-8">
+                                        <div class="upload-box">
+                                            <div class="upload-zone">
+                                                <div class="dz-message" data-dz-message>
+                                                    <span class="dz-message-text">Drag and drop file</span>
+                                                    <span class="dz-message-or">or</span>
+                                                    <button class="btn btn-primary">SELECT</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="kyc-upload-img">
+                                            <img src="{% static 'user-dashboard/images/vector-passport.png' %}" alt="vector">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="gaps-1x"></div>
+                            </div>
+                            <div class="tab-pane fade" id="national-card">
+                                <h5 class="kyc-upload-title">To avoid delays when verifying account, Please make sure bellow:</h5>
+                                <ul class="kyc-upload-list">
+                                    <li>Chosen credential must not be expaired.</li>
+                                    <li>Document should be good condition and clearly visible.</li>
+                                    <li>Make sure that there is no light glare on the card.</li>
+                                </ul>
+                                <div class="gaps-4x"></div>
+                                <span class="upload-title">Upload Here Your National id Front Side</span>
+                                <div class="row align-items-center">
+                                    <div class="col-8">
+                                        <div class="upload-box">
+                                            <div class="upload-zone">
+                                                <div class="dz-message" data-dz-message>
+                                                    <span class="dz-message-text">Drag and drop file</span>
+                                                    <span class="dz-message-or">or</span>
+                                                    <button class="btn btn-primary">SELECT</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="kyc-upload-img">
+                                            <img src="{% static 'user-dashboard/images/vector-id-front.png' %}" alt="vector">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="gaps-3x"></div>
+                                <span class="upload-title">Upload Here Your National id Back Side</span>
+                                <div class="row align-items-center">
+                                    <div class="col-8">
+                                        <div class="upload-box">
+                                            <div class="upload-zone">
+                                                <div class="dz-message" data-dz-message>
+                                                    <span class="dz-message-text">Drag and drop file</span>
+                                                    <span class="dz-message-or">or</span>
+                                                    <button class="btn btn-primary">SELECT</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="kyc-upload-img">
+                                            <img src="{% static 'user-dashboard/images/vector-id-back.png' %}" alt="vector">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="gaps-1x"></div>
+                            </div>
+                            <div class="tab-pane fade" id="driver-licence">
+                                <h5 class="kyc-upload-title">To avoid delays when verifying account, Please make sure bellow:</h5>
+                                <ul class="kyc-upload-list">
+                                    <li>Chosen credential must not be expaired.</li>
+                                    <li>Document should be good condition and clearly visible.</li>
+                                    <li>Make sure that there is no light glare on the card.</li>
+                                </ul>
+                                <div class="gaps-4x"></div>
+                                <span class="upload-title">Upload Here Your Driving Licence Copy</span>
+                                <div class="row align-items-center">
+                                    <div class="col-8">
+                                        <div class="upload-box">
+                                            <div class="upload-zone">
+                                                <div class="dz-message" data-dz-message>
+                                                    <span class="dz-message-text">Drag and drop file</span>
+                                                    <span class="dz-message-or">or</span>
+                                                    <button class="btn btn-primary">SELECT</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="kyc-upload-img">
+                                            <img src="{% static 'user-dashboard/images/vector-licence.png' %}" alt="vector">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="gaps-1x"></div>
+                            </div>
+                        </div>
+                        <div class="gaps-2x"></div>
+                    </div><!-- .from-step-content -->
+                </div><!-- .from-step-item -->
+                <div class="from-step-item">
+                    <div class="from-step-heading">
+                        <div class="from-step-number">03</div>
+                        <div class="from-step-head">
+                            <h4>Step 3 : Your Paying Wallet</h4>
+                            <p>Submit your wallet address that you are going to send funds</p>
+                        </div>
+                    </div>
+                    <div class="from-step-content">
+                        <div class="note note-md note-info note-plane">
+                            <em class="fas fa-info-circle"></em> 
+                            <p>DO NOT USE your exchange wallet address such as Kraken, Bitfinex, Bithumb, Binance etc.</p>
+                        </div>
+                        <div class="gaps-2x"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-item input-with-label">
+                                    <label for="swalllet" class="input-item-label">Source of Your Wallet</label>
+                                    <select class="input-bordered" name="swalllet" id="swalllet">
+                                        <option value="eth">Ethereum</option>
+                                        <option value="dac">DashCoin</option>
+                                        <option value="bic">BitCoin</option>
+                                    </select>
+                                </div><!-- .input-item -->
+                            </div><!-- .col -->
+                        </div><!-- .row -->
+                        <div class="input-item input-with-label">
+                            <label for="token-address" class="input-item-label">Enter your wallet address</label>
+                            <input class="input-bordered" type="text" id="token-address" name="token-address" value="0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae">
+                            <span class="input-note">Note: Address should be ERC20-compliant. Make sure that you hold this wallet private key.</span>
+                        </div><!-- .input-item -->
+                        <div class="gaps-2x"></div><!-- 20px gap -->
+                        <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#kycConfirm">Submit Details</a>
+                        <div class="gaps-2x"></div><!-- 20px gap -->
+                    </div><!-- .from-step-content -->
+                </div><!-- .from-step-item -->
+            </div><!-- .from-step -->
+        </form>
+    </div><!-- .user-kyc -->
+</div><!-- .user-content -->
+{% endblock %}

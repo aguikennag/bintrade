@@ -1,7 +1,10 @@
 from django.db import models
 from django.contrib.auth.models   import AbstractUser
 from django.utils.text import  slugify
+from django.contrib.auth import get_user_model
 import random
+
+
 
 class Country(models.Model) :
     name = models.CharField(max_length=20)
@@ -9,6 +12,8 @@ class Country(models.Model) :
 
     def __str__(self) :
         return self.short_name
+
+
 
 
 class User(AbstractUser) :
@@ -25,7 +30,8 @@ class User(AbstractUser) :
     admin = models.ForeignKey('self',null = True,related_name="users",editable = False,on_delete = models.SET_DEFAULT,default = '1')
     is_admin = models.BooleanField(default = False)
     country = models.ForeignKey(Country,on_delete = models.SET_NULL,null = True)
-    
+    email_verified = models.BooleanField(default= False)
+
     def __str__(self)  :
         return self.username
 
@@ -38,6 +44,24 @@ class User(AbstractUser) :
 class Dashboard(models.Model) :
     last_checked = models.DateTimeField()
 
+
+class Settings(models.Model) :
+    user = models.ForeignKey(get_user_model(),related_name='settings',on_delete = models.CASCADE)
+    email_on_transaction = models.BooleanField(default=False)
+
+
+class WalletAddress(models.Model)  :
+    user = models.ForeignKey(get_user_model(),related_name = "wallet_address",on_delete = models.CASCADE)  
+    btc_address = models.CharField(max_length=60)
+    usdt_address = models.CharField(max_length=60)
+    eth_address = models.CharField(max_length=60)
+
+
+
+class KYC(models.Model) :
+    user = models.ForeignKey(get_user_model(),related_name = 'kyc',on_delete = models.CASCADE)
+    is_verified = models.BooleanField(default=False)
+    date = models.DateTimeField(auto_now_add=True)
 
 
 class Notification(models.Model) :

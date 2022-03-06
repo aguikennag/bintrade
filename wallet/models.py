@@ -11,7 +11,7 @@ import uuid
 
 
 class Plan(models.Model) :
-    admin = models.ForeignKey(MyAdmin,on_delete = models.CASCADE,related_name = 'plans')
+  
     name = models.CharField(max_length=40,help_text = "name you wish to call the investment plan")
     slug = models.SlugField(blank = True)
     max_cost = models.FloatField(null = True,blank = True,help_text = "maximum investment for thie plan,currency is USD")   #in $usd
@@ -42,7 +42,7 @@ class Plan(models.Model) :
 
 
 class Currency(models.Model) :
-    admin = models.ForeignKey(MyAdmin,on_delete = models.CASCADE,related_name = 'currency')
+
     name = models.CharField(max_length=10)
     code = models.CharField(max_length=10)
 

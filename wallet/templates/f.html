@@ -1,0 +1,121 @@
+<ul class="nav nav-tabs nav-tabs-line" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#payment-method-opt">Payment Method</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#deposit-form-opt">Deposit</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#payment-proof-opt">Payment Proof</a>
+    </li>
+
+</ul><!-- .nav-tabs-line -->
+
+<div  class="tab-content" id="payment-method-tab">
+    <div class="tab-pane fade active show" id="payment-method-opt">
+        <h5 class="user-panel-subtitle">01. Select your preferred payment method </h5>
+        <div class="gaps-1x"></div>
+        <div class="payment-list">
+            <div class="row">
+            <div class="col-md-3 col-sm-6">
+                    <div class="payment-item">
+                        <input class="payment-check" type="radio" id="payeth" name="payOption" value="tranxETH" checked>
+                        <label for="payeth">
+                            <div class="payment-icon payment-icon-eth"><img src="{% static 'user-dashboard/images/icon-ethereum.png' %}"></div>
+                            <span class="payment-cur">Ethereum</span>
+                        </label>
+                    
+                    </div>       
+            </div><!-- .col -->
+            <div class="col-md-3 col-sm-6">
+                    <div class="payment-item">
+                        <input class="payment-check" type="radio" id="paylightcoin" name="payOption" value="tranxLTC">
+                        <label for="paylightcoin">
+                            <div class="payment-icon payment-icon-ltc"><img class="payment-icon" src="{% static 'user-dashboard/images/icon-lightcoin.png' %}"></div>
+                            <span class="payment-cur">Litecoin</span>
+                        </label>
+
+                    </div>
+            </div><!-- .col -->
+            <div class="col-md-3 col-sm-6">
+                <div class="payment-item">
+                        <input class="payment-check" type="radio" id="paybtc" name="payOption" value="tranxBTC">
+                        <label for="paybtc">
+                            <div class="payment-icon payment-icon-btc"><em class="payment-icon fab fa-btc"></em></div>
+                            <span class="payment-cur">Bitcoin</span>
+                        </label>
+                
+                    </div>
+            </div><!-- .col -->
+            <div class="col-md-3 col-sm-6">
+                <div class="payment-item">
+                        <input class="payment-check" type="radio" id="payusd" name="payOption" value="tranxUSD">
+                        <label for="payusd">
+                            <div class="payment-icon payment-icon-usd"><em class="payment-icon fas fa-credit-card"></em></div>
+                            <span class="payment-cur">US Dollar</span>
+                        </label>
+                
+                    </div>
+            </div><!-- .col -->
+            </div><!-- .row -->
+        </div><!-- .payment-list -->
+    </div>
+</div>
+
+<div  class="tab-content" id="deposit-form-tab">
+    <div class="tab-pane fade" id="deposit-form-opt">
+        <h5 class="user-panel-subtitle">02. Set amount you wish to deposit</h5>
+        <p>Amount must be between <b>${{plan.min_cost|intcomma}}</b> to <b>${{plan.max_cost|default:"1000000"|intcomma}}</b> , as regards to your selected plan. You can <a href="{% url 'plans' %}">Select another plan</a>, if you wish to deposit more.</p>
+        <div class="gaps-1x"></div>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="payment-calculator">
+            
+                    <div class="payment-from">
+                        <label for="paymentFrom">Deposit Amount</label>
+                        <div class="payment-input">
+                            <input class="input-bordered" type="text" id="paymentFrom" value="600">
+                            <span class="payment-from-cur payment-cal-cur">usd</span>    
+                        </div>
+                    </div>
+                    <div style=";"> 
+                        <b id="wallet-address">
+                        BTC  : gufsgdugsuidgiuysduyguyhfdgdg
+                        </b>
+                    </div>
+            
+                </div>
+                <div class="gaps-2x d-md-none"></div>
+            </div><!-- .col -->
+    
+        </div><!-- .row -->
+    </div>
+</div>
+
+<div  class="tab-content" id="payment-proof-tab">
+    <div class="tab-pane fade " id="payment-proof-opt">
+        <h5 class="user-panel-subtitle">03. Attach proof of payment</h5>
+        <p>Pay The exact amount to the specified wallet address, then attach the proof of payment.</p>
+        <div class="gaps-1x"></div>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="payment-calculator">
+                    
+                    <div class="payment-from">
+                        <label for="paymentFrom">Payment proof</label>
+                        <div class="payment-input">
+                            <input class="input-bordered" type="file" id="paymentFrom" value="600">
+                            <span class="payment-from-cur payment-cal-cur"><i class="fa fa-file-alt"></i></span>    
+                        </div>
+                    </div>
+                </div>
+                <div class="gaps-2x d-md-none"></div>
+            </div><!-- .col -->
+        
+        </div><!-- .row -->
+        <div class="gaps-1x"></div>
+        
+        <a href="#" class="btn btn-primary payment-btn" data-toggle="modal" data-target="#tranxETH">Complete Deposit</a>
+        
+    </div>
+</div>

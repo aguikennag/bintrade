@@ -155,13 +155,14 @@
                         </ul>
                     </div><!-- .user-box -->
                     <ul class="user-icon-nav">
-                        <li><a href="index.html"><em class="ti ti-dashboard"></em>Dashboard</a></li>
-                        <li><a href="kyc.html"><em class="ti ti-files"></em>KYC Application</a></li>
-                        <li><a href="tokens.html"><em class="ti ti-pie-chart"></em>Contributions</a></li>
-                        <li><a href="transactions.html"><em class="ti ti-control-shuffle"></em>Transactions</a></li>
-                        <li><a href="referrals.html"><em class="ti ti-infinite"></em>Referral</a></li>
-                        <li><a href="account.html"><em class="ti ti-user"></em>Account</a></li>
-                        <li><a href="security.html"><em class="ti ti-lock"></em>Security</a></li>
+                        <li><a href="{% url 'dashboard' %}"><em class="ti ti-dashboard"></em>Dashboard</a></li>
+                        
+                      
+                        <li><a href="{% url 'transaction' %}"><em class="ti ti-control-shuffle"></em>Transactions</a></li>
+                        <li><a href="{% url 'referral' %}"><em class="ti ti-infinite"></em>Referral</a></li>
+                        <li><a href="{% url 'profile' %}"><em class="ti ti-user"></em>Account</a></li>
+                        <li><a href="{% url 'setting' %}"><em class="ti ti-lock"></em>Account Settings</a></li>
+                        <li><a href="{% url 'kyc' %}"><em class="ti ti-files"></em>KYC Application</a></li>
                     </ul><!-- .user-icon-nav -->
                     <div class="user-sidebar-sap"></div><!-- .user-sidebar-sap -->
                     <ul class="user-nav">

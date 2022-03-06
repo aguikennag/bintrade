@@ -13,8 +13,8 @@ import datetime
 
 
 
-class EnterDepositAmount(LoginRequiredMixin,View)  :
-    template_name = 'enter-amount.html'
+class Deposit(LoginRequiredMixin,View)  :
+    template_name = 'deposit.html'
     form_class = AmountForm
     model = Plan
 
@@ -46,7 +46,7 @@ class EnterDepositAmount(LoginRequiredMixin,View)  :
 
   
 
-class Deposit(LoginRequiredMixin,View)  :
+class Deposigt(LoginRequiredMixin,View)  :
     model = Wallet
     model_p = Plan
     template_name = 'deposit.html'
@@ -140,10 +140,7 @@ class Withdrawal(LoginRequiredMixin,View)  :
      
 
 
-class Invest(LoginRequiredMixin,TemplateView) :
+class Invest(LoginRequiredMixin,ListView) :
     template_name = 'plans.html'
-
-    def get_context_data(self,*args,**kwargs) : 
-        context = super(Invest,self).get_context_data(*args,**kwargs) 
-        context['plan'] = Plan.objects.filter(admin = self.request.user.admin.user_admin)
-        return context
+    model = Plan
+    context_object_name = "plans"

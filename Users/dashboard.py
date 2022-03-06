@@ -1,3 +1,5 @@
+from ast import List
+from re import template
 from django.shortcuts import render
 from django.views.generic import ListView,View,RedirectView,TemplateView
 from django.views.generic.edit import CreateView,UpdateView
@@ -5,7 +7,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.forms.models import model_to_dict
-from wallet.models import Wallet,WithdrawalApplication
+from wallet.models import Wallet,WithdrawalApplication,Transaction as TR
 from .forms import ProfileUpdateForm
 
 
@@ -29,6 +31,33 @@ class Dashboard(LoginRequiredMixin,TemplateView) :
             request.user.user_wallet.on_plan_complete()
         return render(request,self.template_name,{})    
 
+
+class Transaction(LoginRequiredMixin,ListView) :
+    model = TR
+    template_name= 'user-transactions.html'
+    
+    def get_queryset(self) :
+        return self.model.objects.filter(user = self.request.user)
+
+
+class Setting(LoginRequiredMixin,View) :
+    template_name = 'settings.html'
+
+    def get(self,request,*args,**kwargs) :
+        return render(request,self.template_name,locals())
+    
+
+
+class KYC(LoginRequiredMixin,View) :
+    template_name = "kyc.html"
+    
+    def get(self,request,*args,**kwargs) :
+        return render(request,self.template_name,locals())
+    
+
+class Referral (LoginRequiredMixin,TemplateView) :
+
+    template_name= 'referral.html'
 
 
 class Profile(LoginRequiredMixin,UpdateView) :
