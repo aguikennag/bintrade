@@ -41,34 +41,17 @@
                     </div><!-- .site-logo -->
                     
                     <div class="dropdown topbar-action-item topbar-action-user">
-                        <a href="#" data-toggle="dropdown"> <img class="icon" src="{% static 'user-dashboard/images/user-thumb-sm.png' %}" alt="thumb"> </a>
+                        <a href="#" data-toggle="dropdown"> <img class="icon" src="{{user.get_picture}}" alt="thumb"> </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <div class="user-dropdown">
                                 <div class="user-dropdown-head">
-                                    <h6 class="user-dropdown-name">Stefan Harary <span>(IXIA1A105)</span></h6>
-                                    <span class="user-dropdown-email">useremail@example.com</span>
+                                    <h6 class="user-dropdown-name">{{user.name}} <span>({{user.unique_id}})</span></h6>
+                                    <span class="user-dropdown-email">{{user.email}}</span>
                                 </div>
-                                <div class="user-dropdown-balance">
-                                    <h6>ICO TOKEN BALANCE</h6>
-                                    <h3>120,000,000 IC0X</h3>
-                                    <ul>
-                                        <li>1.240 BTC</li>
-                                        <li>19.043 ETH</li>
-                                        <li>6,500.13 USD</li>
-                                    </ul>
-                                </div>
-                                <ul class="user-dropdown-btns btn-grp guttar-10px">
-                                    <li><a href="#" class="btn btn-xs btn-warning">Confirm Email</a></li>
-                                    <li><a href="kyc.html" class="btn btn-xs btn-warning">KYC Pending</a></li>
-                                </ul>
-                                <div class="gaps-1x"></div>
+        
+                                
                                 <ul class="user-dropdown-links">
-                                    <li><a href="account.html"><i class="ti ti-id-badge"></i>My Profile</a></li>
-                                    <li><a href="security.html"><i class="ti ti-lock"></i>Security</a></li>
-                                    <li><a href="activity.html"><i class="ti ti-eye"></i>Activity</a></li>
-                                </ul>
-                                <ul class="user-dropdown-links">
-                                    <li><a href="login.html"><i class="ti ti-power-off"></i>Logout</a></li>
+                                    <li><a href="{% url 'logout' %}"><i class="ti ti-power-off"></i>Logout</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -81,7 +64,7 @@
             <div class="d-lg-flex align-items-center justify-content-between">
                 <div class="topbar-lg d-none d-lg-block">
                     <div class="site-logo">
-                        <a href="index.html" class="site-brand">
+                        <a href="{% url 'index' %}" class="site-brand">
                             <img src="{% static 'user-dashboard/images/logo.png' %}" alt="logo" srcset="images/logo2x.png 2x">
                         </a>
                     </div><!-- .site-logo -->
@@ -89,9 +72,7 @@
 
                 <div class="topbar-action d-none d-lg-block">
                     <ul class="topbar-action-list">
-                        <li class="topbar-action-item topbar-action-link">
-                            <a href="#"><em class="ti ti-home"></em> Go to main site</a>
-                        </li><!-- .topbar-action-item -->
+
 
                         <li class="dropdown topbar-action-item topbar-action-language">
                             <a href="#" data-toggle="dropdown"> EN <em class="ti ti-angle-down"></em> </a>
@@ -103,29 +84,16 @@
                         </li><!-- .topbar-action-item -->
 
                         <li class="dropdown topbar-action-item topbar-action-user">
-                            <a href="#" data-toggle="dropdown"> <img class="icon" src="{% static 'user-dashboard/images/user-thumb-sm.png' %}" alt="thumb"> </a>
+                            <a href="#" data-toggle="dropdown"> <img class="icon" src="{{user.get_picture}}" alt="thumb"> </a>
                             <div class="dropdown-menu dropdown-menu-right">
                                 <div class="user-dropdown">
                                     <div class="user-dropdown-head">
-                                        <h6 class="user-dropdown-name">Stefan Harary <span>(IXIA1A105)</span></h6>
-                                        <span class="user-dropdown-email">useremail@example.com</span>
+                                        <h6 class="user-dropdown-name">{{user.name}} <span>(user.unique_id)</span></h6>
+                                        <span class="user-dropdown-email">{{user.email}}</span>
                                     </div>
-                                    <div class="user-dropdown-balance">
-                                        <h6>ICO TOKEN BALANCE</h6>
-                                        <h3>120,000,000 IC0X</h3>
-                                        <ul>
-                                            <li>1.240 BTC</li>
-                                            <li>19.043 ETH</li>
-                                            <li>6,500.13 USD</li>
-                                        </ul>
-                                    </div>
+                                   
                                     <ul class="user-dropdown-links">
-                                        <li><a href="account.html"><i class="ti ti-id-badge"></i>My Profile</a></li>
-                                        <li><a href="security.html"><i class="ti ti-lock"></i>Security</a></li>
-                                        <li><a href="activity.html"><i class="ti ti-eye"></i>Activity</a></li>
-                                    </ul>
-                                    <ul class="user-dropdown-links">
-                                        <li><a href="login.html"><i class="ti ti-power-off"></i>Logout</a></li>
+                                        <li><a href="{% url 'logout' %}"><i class="ti ti-power-off"></i>Logout</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -145,13 +113,15 @@
                     <div class="user-sidebar-overlay"></div>
                     <div class="user-box d-none d-lg-block">
                         <div class="user-image">
-                            <img src="{% static 'user-dashboard/images/user-thumb-lg.png' %}" alt="thumb">
+                            <img style="border-radius: 50%;height: 80px;width:80px;" src="{{user.get_picture}}" alt="thumb">
                         </div>
-                        <h6 class="user-name">Stefan Harary</h6>
-                        <div class="user-uid">Unique ID: <span>IXIA1A105</span></div>
+                        <h6 class="user-name">{{user.name}}</h6>
+                        <div class="user-uid">Unique ID: <span>{{user.unique_id}}</span></div>
                         <ul class="btn-grp guttar-10px">
-                            <li><a href="#" class="btn btn-xs btn-warning">Confirm Email</a></li>
-                            <li><a href="kyc.html" class="btn btn-xs btn-warning">KYC Pending</a></li>
+                            {% if not user.email_verified %}
+                            <li><a href="#" class="btn btn-xs btn-warning">Verify Email</a></li>
+                            {% endif %}
+                            <!--li><a href="kyc.html" class="btn btn-xs btn-warning">KYC Pending</a></li-->
                         </ul>
                     </div><!-- .user-box -->
                     <ul class="user-icon-nav">
@@ -166,18 +136,16 @@
                     </ul><!-- .user-icon-nav -->
                     <div class="user-sidebar-sap"></div><!-- .user-sidebar-sap -->
                     <ul class="user-nav">
-                        <li><a href="how-to.html">How to invest?</a></li>
-                        <li><a href="faq.html">Faqs</a></li>
-                        <li><a href="#">Legal</a></li>
-                        <li>Contact Support<span>info@icocrypto.com</span></li>
+                        <li><a href="{% url 'plans' %}">How to invest?</a></li>
+                        <li><a href="{% url 'faq' %}">Faqs</a></li>
+                        <li><a href="{% url 'legal' %}">Legal</a></li>
+                        <li>Contact Support<span>{{support_email}}</span></li>
                     </ul><!-- .user-nav -->
                     <div class="d-lg-none">
                         <div class="user-sidebar-sap"></div>
                         <div class="gaps-1x"></div>
                         <ul class="topbar-action-list">
-                            <li class="topbar-action-item topbar-action-link">
-                                <a href="#"><em class="ti ti-home"></em> Go to main site</a>
-                            </li><!-- .topbar-action-item -->
+                         
                             <li class="dropup topbar-action-item topbar-action-language">
                                 <a href="#" data-toggle="dropdown" aria-haspopup="true"> EN <em class="ti ti-angle-up"></em> </a>
                                 <ul class="dropdown-menu">
@@ -195,15 +163,28 @@
         </div><!-- .container -->
     </div>
     <!-- UserWraper End -->
+
+    {% if messages %}
+    {% for message in messages %}
+     <div class="alert alert-info alert-dismissible show fade" style="background-color:{{main_theme}};margin:20px;z-index:2000;width:90%;top:50px;position:absolute" >
+       <div class="alert-body">
+         <button class="close" data-dismiss="alert">
+           <span>&times;</span>
+         </button>
+         {{message}}
+       </div>
+     </div>
+     {% endfor %}
+     {% endif %}
     
     
     <div class="footer-bar">
         <div class="container">
             <div class="row">
                 <div class="col-md-7">
-                    <span class="footer-copyright">Copyright 2018, <a href="#">ICO Crypto</a>.  All Rights Reserved.</span>
+                    <span class="footer-copyright">Copyright 2022, <a href="#">{{site_name}} ltd.</a>.  All Rights Reserved.</span>
                 </div><!-- .col -->
-                <div class="col-md-5 text-md-right">
+                <!--div class="col-md-5 text-md-right">
                     <ul class="footer-links">
                         <li><a href="policy.html">Privacy Policy</a></li>
                         <li><a href="policy.html">Terms of Sales</a></li>
@@ -218,7 +199,14 @@
 	<!-- JavaScript (include all script here) -->
 	<script src="{% static 'user-dashboard/js/jquery.bundle.js' %}"?ver=101"></script>
 	<script src="{% static 'user-dashboard/js/script.js' %}"?ver=101"></script>
-    
+    <script>
+        $(".close").click(function(){
+         
+            $(".alert").attr("hidden","")
+        }
+        )
+    </script>
+
     {% block js %}{% endblock %}
 </body>
 </html>

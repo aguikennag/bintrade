@@ -39,8 +39,8 @@
                                     <th>Member</th>
                                    
                                     <th>Amount</th>
-                                    <th>Coin</th>
-                                   
+                                    <th>Payment Method</th>
+                                    <th>Proof</th>
                                     <th> Date</th>
         
                                     <th>Action</th>
@@ -60,7 +60,7 @@
                                         <span>{{deposit.user.username}}<br><c style="font-size: 10px">{{deposit.user.name}}</c></span>
                                             {% if deposit.user.picture %}
                                             <img alt="image" src="{{deposit.user.picture.url}}" width="35"
-                                            data-toggle="tooltip" title="Wildan Ahdian">
+                                            data-toggle="tooltip" title="{{deposit.user.username}}">
                                             {% else %}
                           
                                                {% endif %}
@@ -68,7 +68,15 @@
                                     </td>
                                     
                                     <td>${{deposit.amount}}</td>
-                                    <td>{{deposit.coin}}</td>
+                                    <td>{{deposit.payment_method}}</td>
+                                    <td>
+
+                                        <a href="{{deposit.payment_proof.url}}">
+                                          <img alt="image" src="{{deposit.payment_proof.url}}" width="55">
+                                        </a>
+                                        
+                                  </td>
+                                  
                                     <td>{{deposit.date}}</td>
                                   
                                     <td id="action-cell">

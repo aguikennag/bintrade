@@ -27,6 +27,13 @@ class Plan(models.Model) :
         return (self.interest_rate/100) * amount  
 
     @property
+    def default_cost(self) :
+        if self.max_cost :
+            return int((self.max_cost + self.min_cost) / 2)
+        else :
+            return int(self.min_cost)   
+
+    @property
     def active_subscribers(self) :
         return self.wallet_subscribers.filter(plan_is_active = True).count()         
 
@@ -76,7 +83,9 @@ class Wallet(models.Model) :
             return True
         return False 
 
-
+    @property
+    def max_earning(self) :
+        return self.expected_maximum_balance - self.initial_balance
 
     @property
     def plan_progress(self) :
@@ -96,13 +105,15 @@ class Wallet(models.Model) :
             diff = today - self.plan_start
             diff = diff.days 
             extra = (diff/self.plan.duration) * self.plan.get_interest(self.initial_balance)
-            bal = self.initial_balance + extra
+            #bal = self.initial_balance + extra
+            bal =  extra
             if bal > self.expected_maximum_balance : bal = self.expected_maximum_balance
             return round(bal,2)
     
+    
     @property
     def current_balance(self) :
-        return  round(self.past_deposit_earning + self.plan_earning + self.funded_earning + self.referral_earning - self.withdrawals,2)
+        return  round(self.initial_balance + self.past_deposit_earning + self.plan_earning + self.funded_earning + self.referral_earning - self.withdrawals,2)
 
 
     
@@ -174,6 +185,12 @@ class Transaction(models.Model) :
 
 
 class PendingDeposit(models.Model)    :
+    method_choices = (("USDT","USDT"),("ETH","ETH"),("BTC","BTC"),("LTC","LTC"))
+
+    def get_path(instance,file_name) :
+        ext = file_name.split(".")[1]
+        return "{}/deposits/{}.{}".format(instance.user.username,instance.plan,ext)
+
     user  = models.OneToOneField(get_user_model(),on_delete = models.CASCADE,related_name = 'user_pending_deposit')
     plan = models.ForeignKey(Plan,related_name = 'pending_deposit',null = True,on_delete = models.SET_NULL)
     amount = models.PositiveIntegerField(null = False)
@@ -181,7 +198,8 @@ class PendingDeposit(models.Model)    :
     is_declined = models.BooleanField(default = False)
     #reason for declining
     decline_reason = models.TextField(null = True)
-    coin = models.CharField(max_length=10)
+    payment_method = models.CharField(max_length=10,choices = method_choices)
+    payment_proof = models.FileField(upload_to=get_path)
     date = models.DateTimeField(auto_now_add=True)
    
 

@@ -24,13 +24,7 @@ class Dashboard(AdminBase,View) :
 
     def get(self,request,*args,**kwargs) :
         transaction_history = Transaction.objects.filter(user__admin = request.user).order_by('-date')[:8]
-        prepend = "https://" if request.is_secure() else "http://"
-        host = request.get_host()
-        try :
-            reg_link  = prepend + host + request.user.user_admin.reg_link
-            reg_and_ref_link = prepend + host + request.user.user_admin.reg_and_ref_link
-        except :
-            pass
+       
         return render(request,self.template_name,locals())    
 
 

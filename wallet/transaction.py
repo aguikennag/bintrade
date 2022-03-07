@@ -6,19 +6,23 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy,reverse
 from urllib.parse import urlparse,urlunparse,urljoin
 from .models import Wallet,WithdrawalApplication,Plan,PendingDeposit
-from .forms import WithdrawalForm,AmountForm
+from .forms import WithdrawalForm,DepositForm
 from Users.models import Notification
 from django.utils import timezone
+from django.contrib import messages
 import datetime
 
 
 
 class Deposit(LoginRequiredMixin,View)  :
     template_name = 'deposit.html'
-    form_class = AmountForm
+    form_class = DepositForm
     model = Plan
 
     def get(self,request,*args,**kwargs) :
+         #check if user has pending deposit
+        if PendingDeposit.objects.filter(user = request.user,is_approved = False).exists() :
+            return HttpResponse("You have a pending deposit already do wait for approval,thank You")    
         if not request.user.user_wallet.allowed_to_invest :
             return HttpResponse("Your plan is still active,you cannot make another innvestment at this time")
         _slug = kwargs.get('slug',None)
@@ -30,18 +34,30 @@ class Deposit(LoginRequiredMixin,View)  :
         return render(request,self.template_name,locals())
 
     def post(self,request,*args,**kwargs) : 
-        _slug = kwargs.get('slug',None)
-        if not _slug : return HttpResponse("Invalid request")
-        try : plan = self.model.objects.get(slug =_slug)
+         #check if user has pending deposit
+        if PendingDeposit.objects.filter(user = request.user,is_approved = False).exists() :
+            return HttpResponse("You have a pending deposit already do wait for approval,thank You")    
+        if not request.user.user_wallet.allowed_to_invest :
+            return HttpResponse("Your plan is still active,you cannot make another innvestment at this time")
+
+        try : plan = self.model.objects.get(pk = self.request.POST['plan'])
         except self.model.DoesNotExist :
             return HttpResponse("Plan you selected does not exist")
+        except KeyError :
+            return HttpResponse("invalid request")
 
-        form = self.form_class(plan = plan,data = request.POST)
+        form = self.form_class(plan,request.POST,request.FILES)
+
         if form.is_valid() :
-            amount = form.cleaned_data['amount']
-            return HttpResponseRedirect(reverse('deposit',args=[plan.slug,amount]))
+            form.save(commit=False)
+            form.instance.plan = plan
+            form.instance.user = request.user
+            form.save()
+            messages.success(request,"Your deposit transaction has been registered and is being processed, you will be notified when processing is completed.") 
+            return HttpResponseRedirect(reverse('dashboard'))
         else :
             
+            print(form.errors)
             return render(request,self.template_name,locals())    
 
   

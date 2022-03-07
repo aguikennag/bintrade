@@ -12,15 +12,15 @@
                 <a class="nav-link active" data-toggle="tab" href="#payment-method-opt">Payment Method</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#deposit-form-opt">Select Amount</a>
+                <a class="nav-link" id="deposit-form" data-toggle="tab" href="#deposit-form-opt">Select Amount</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#payment-proof-opt">Complete Payment </a>
+                <a class="nav-link" id="complete-payment" data-toggle="tab" href="#payment-proof-opt">Complete Payment </a>
             </li>
         
         </ul><!-- .nav-tabs-line -->
         
-        <form action="" method="post">
+        <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div  class="tab-content" id="payment-method-tab">
                 
@@ -30,8 +30,18 @@
                     <div class="payment-list">
                         <div class="row">
                         <div class="col-md-3 col-sm-6">
+                            <div class="payment-item">
+                                    <input checked  class="payment-check" wallet_address="{{usdt_wallet_address}}" type="radio" id="payusd" name="payment_method" value="USDT">
+                                    <label for="payusd">
+                                        <div class="payment-icon payment-icon-usd"><em class="payment-icon fas fa-credit-card"></em></div>
+                                        <span class="payment-cur">US Dollar</span>
+                                    </label>
+                            
+                                </div>
+                        </div><!-- .col --> 
+                        <div class="col-md-3 col-sm-6">
                                 <div class="payment-item">
-                                    <input class="payment-check" type="radio" id="payeth" name="payOption" value="tranxETH" checked>
+                                    <input  class="payment-check" wallet_address="{{eth_wallet_address}}" type="radio" id="payeth" name="payment_method" value="ETH" >
                                     <label for="payeth">
                                         <div class="payment-icon payment-icon-eth"><img src="{% static 'user-dashboard/images/icon-ethereum.png' %}"></div>
                                         <span class="payment-cur">Ethereum</span>
@@ -41,7 +51,7 @@
                         </div><!-- .col -->
                         <div class="col-md-3 col-sm-6">
                                 <div class="payment-item">
-                                    <input class="payment-check" type="radio" id="paylightcoin" name="payOption" value="tranxLTC">
+                                    <input class="payment-check"  wallet_address="{{ltc_wallet_address}}" type="radio" id="paylightcoin" name="payment_method" value="LTC">
                                     <label for="paylightcoin">
                                         <div class="payment-icon payment-icon-ltc"><img class="payment-icon" src="{% static 'user-dashboard/images/icon-lightcoin.png' %}"></div>
                                         <span class="payment-cur">Litecoin</span>
@@ -51,7 +61,7 @@
                         </div><!-- .col -->
                         <div class="col-md-3 col-sm-6">
                             <div class="payment-item">
-                                    <input class="payment-check" type="radio" id="paybtc" name="payOption" value="tranxBTC">
+                                    <input class="payment-check"  wallet_address="{{btc_wallet_address}}" type="radio" id="paybtc" name="payment_method" value="BTC">
                                     <label for="paybtc">
                                         <div class="payment-icon payment-icon-btc"><em class="payment-icon fab fa-btc"></em></div>
                                         <span class="payment-cur">Bitcoin</span>
@@ -59,18 +69,18 @@
                             
                                 </div>
                         </div><!-- .col -->
-                        <div class="col-md-3 col-sm-6">
-                            <div class="payment-item">
-                                    <input class="payment-check" type="radio" id="payusd" name="payOption" value="tranxUSD">
-                                    <label for="payusd">
-                                        <div class="payment-icon payment-icon-usd"><em class="payment-icon fas fa-credit-card"></em></div>
-                                        <span class="payment-cur">US Dollar</span>
-                                    </label>
-                            
-                                </div>
-                        </div><!-- .col -->
+                        
                         </div><!-- .row -->
                     </div><!-- .payment-list -->
+                    <span style="float: right;padding: 5px;">
+                        <b>
+                            <a class="next" to_tab="deposit-form">
+                               NEXT <i class="fa fa-arrow-right"></i>
+                            </a>
+                        </b>
+                    </span>
+                  
+                    
                 </div>
             
                 <div class="tab-pane fade" id="deposit-form-opt">
@@ -84,7 +94,7 @@
                                 <div class="payment-from">
                                     <label for="paymentFrom">Deposit Amount</label>
                                     <div class="payment-input">
-                                        <input class="input-bordered" max="{{plan.max_cost}}"  min="{{plan.min_cost}}" type="number" id="paymentFrom" value="600">
+                                        <input class="input-bordered" max="{{plan.max_cost|default:'1000000'}}"  min="{{plan.min_cost}}" type="number" id="paymentFrom" value="{{plan.default_cost}}" name="amount">
                                         <span class="payment-from-cur payment-cal-cur">usd</span>    
                                     </div>
                                 </div>
@@ -95,11 +105,19 @@
                         </div><!-- .col -->
                 
                     </div><!-- .row -->
+                   
+                    <span style="float: right;padding: 5px;">
+                        <b>
+                            <a class="next" to_tab="complete-payment">
+                               NEXT <i class="fa fa-arrow-right"></i>
+                            </a>
+                        </b>
+                    </span>
                 </div>
             
                 <div class="tab-pane fade " id="payment-proof-opt">
                     <h5 class="user-panel-subtitle">03. Attach proof of payment</h5>
-                    <p>Pay The exact amount to the specified wallet address, then attach the proof of payment.</p>
+                    <p>Pay <b>$</b><b id="pay-amount">{{plan.default_cost}}</b> to the specified wallet address, then attach the proof of payment.</p>
                     <p>
 
                         <h5 class="user-panel-subtitle"><b>Disclaimer :</b></h5>
@@ -114,7 +132,7 @@
                                 <div class="payment-from">
                                     <label for="paymentFrom">Wallet Address</label>
                                     <div class="payment-input">
-                                        <input editable="false" class="input-bordered" type="text" id="address_value" value="{{usdt_wallet_address}}">
+                                        <input name="wallet_address" readonly class="input-bordered" type="text" id="address_value" value="{{usdt_wallet_address}}">
                                         <span id="address_name" class="payment-from-cur payment-cal-cur">USDT</span>    
                                     </div>
                                 </div>
@@ -122,7 +140,8 @@
                                 <div class="payment-from">
                                     <label for="paymentFrom">Payment proof</label>
                                     <div class="payment-input">
-                                        <input class="input-bordered" type="file" id="paymentFrom" value="600">
+                                        <input hidden readonly value="{{plan.pk}}" name="plan">
+                                        <input name="payment_proof" class="input-bordered" type="file" id="paymentFrom">
                                         <span class="payment-from-cur payment-cal-cur"><i class="fa fa-file-alt"></i></span>    
                                     </div>
                                 </div>
@@ -133,7 +152,7 @@
                     </div><!-- .row -->
                     <div class="gaps-1x"></div>
                     
-                    <a href="#" class="btn btn-primary payment-btn" data-toggle="modal" data-target="#tranxETH">Submit</a>
+                    <button style="float: right;border-radius: 15px;" type="submit" class="btn btn-primary payment-btn mb-2 px-2 py-1"  >Submit</button>
                     
                 </div>
             
@@ -144,4 +163,45 @@
 </div><!-- .user-content -->
 
 
+
+{% endblock %}
+
+{% block js %}
+
+<script>
+    $(".payment-check").on("change", function() {
+        //fill in the wallet address for selected method
+        $("input[name=wallet_address]").val($(this).attr("wallet_address"))
+        $("#address_name").html($(this).attr("value"))
+      
+    })
+   
+
+    $(".next").click(function(){ 
+        $("#" + $(this).attr("to_tab")).trigger("click")
+    })
+
+    $("input[name=amount]").on("keyup keydown",function(){
+        $("#pay-amount").html($(this).val())
+    })
+
+    function correctAmount(){
+
+        max_cost = "{{plan.max_cost}}"
+        min_cost = "{{plan.min_cost}}"
+        
+        entered_value = parseInt($(this).val())
+        max_cost = parseInt(max_cost)
+        min_cost = parseInt(min_cost)
+
+        if ( entered_value > max_cost){
+            $(this).val(max_cost)
+        }
+
+        else if (entered_value < min_cost){
+            $(this).val(min_cost)
+        }
+        
+    }
+</script>
 {% endblock %}

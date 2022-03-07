@@ -43,10 +43,10 @@ class DepositNotice(AdminBase,ListView)   :
     context_object_name = "deposits" 
 
     def get_queryset(self) :
-        return self.model.objects.filter(user__admin = self.request.user,is_approved = False)    
+        return self.model.objects.filter(is_approved = False)    
 
 
-class ApproveDeposit(View) :
+class ApproveDeposit(AdminBase,View) :
     model = PendingDeposit
 
     def on_approved_deposit(self,instance) :
@@ -68,7 +68,7 @@ class ApproveDeposit(View) :
         status = "Approved",
         amount = instance.amount,
         transaction_type = 'DEPOSIT',
-        coin = instance.coin,
+        coin = instance.payment_method,
         description = "Deposit Approved"
         )    
         wallet.save()
@@ -90,22 +90,15 @@ class ApproveDeposit(View) :
         try : 
             pd = self.model.objects.get(pk = pk)
             
-            if not pd.user.admin == request.user :
-                feedback['error'] = "You are not authorized to perform this action"
-                return JsonResponse(feedback)
-            else : 
-                self.on_approved_deposit(pd)  
-                if request.user.user_admin.settings.enable_transaction_emails :
-                    #self.send_email(pd)  
-                    pass
-                #delete pending
-                pd.delete()
-                feedback['success'] = True
-                return JsonResponse(feedback)
+            self.on_approved_deposit(pd)  
+            pd.delete()
+            feedback['success'] = True
+            return JsonResponse(feedback)
+
         except self.model.DoesNotExist :
             feedback['error'] = "this deposit does no longer exist"
             return JsonResponse(feedback)
-        return JsonResponse(feedback)
+
 
 
 class DeclineDeposit(AdminBase,View)   :
@@ -120,5 +113,5 @@ class WithdrawalRequest(AdminBase,ListView) :
 
     
     def get_queryset(self) :
-        return self.model.objects.filter(user__admin = self.request.user).order_by('-date')
+        return self.model.objects.all().order_by('-date')
 

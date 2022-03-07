@@ -16,20 +16,18 @@ class Dashboard(LoginRequiredMixin,TemplateView) :
 
     def get_context_data(self,*args,**kwargs) :
         ctx = super(Dashboard,self).get_context_data(*args,**kwargs)  
-        if 'wthl' in self.request.GET : 
-            ctx['redirect_message'] = "Your withdrawal request was successful"
-        elif 'dpt' in self.request.GET :
-            ctx['redirect_message'] = "Your deposit has been acknowledged,awaiting approval." 
-        
+        try : ctx['pending_deposit'] = self.request.user.user_pending_deposit.amount
+        except : pass
+        ctx['recent_transactions'] = TR.objects.all()[:6]
         init = self.request.user.username[0] 
         ctx['initial'] = init.upper()
-        #ctx['pending_deposit'] = request.user.
+
         return ctx
 
     def get(self,request,*args,**kwargs)   :
         if request.user.user_wallet.plan_is_due :
             request.user.user_wallet.on_plan_complete()
-        return render(request,self.template_name,{})    
+        return render(request,self.template_name,self.get_context_data())    
 
 
 class Transaction(LoginRequiredMixin,ListView) :
@@ -50,7 +48,7 @@ class Setting(LoginRequiredMixin,View) :
 
 class KYC(LoginRequiredMixin,View) :
     template_name = "kyc.html"
-    
+
     def get(self,request,*args,**kwargs) :
         return render(request,self.template_name,locals())
     

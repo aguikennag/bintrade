@@ -13,9 +13,26 @@
                             <div class="tile-bubbles"></div>
                             <h6 class="tile-title">WALLET BALANCE</h6>
                             <ul class="tile-info-list">
-                                <li><span>$1.646</span></li>
+                                <li><span>${{user.user_wallet.current_balance}}</span></li>
                               
                             </ul>
+                            <div  class="tile-title">
+                                
+                                {% if pending_deposit %}
+                                Pending Deposit : 
+                                <span style="color: green;">
+                                    +${{pending_deposit}}
+                                </span>
+                               
+                                {% endif %}
+                                {% if pending_withdrawal %}
+                                Pending : 
+                                <span style="color: red;">
+                                    -${{pending_withdrawal}}
+                                </span>
+                                {% endif %}
+
+                            </div>
                         </div>
                     </div>
                
@@ -39,60 +56,80 @@
                 <div class="token-countdown-clock" data-date="2021/08/10"></div>
             </div>
         </div><!-- .token-card -->
+     
         <div class="progress-card">
-            <h4>Investment Plan Progress <span style="float: right;">
-                <a href="{% url 'plans' %}">Invest</a></span></h4>
-            <ul class="progress-info">
-                <li><span>Raised -</span> 2,758 ICOX</li>
-                <li><span>TOTAL -</span> 1,500,000 ICOX</li>
-            </ul>
-            <div class="progress-bar">
-                <div class="progress-hcap" style="width:90%">
-                    <div>Hard cap <span>1,400,000</span></div>
+            {% if user.user_wallet.plan_is_active %}
+            <h4>Investment Plan Progress 
+
+            </h4>
+                <ul class="progress-info">
+                    <li><span>Earned -</span> ${{user.user_wallet.plan_earning}}</li>
+                    <li><span>Expected -</span> ${{user.user_wallet.max_earning}}</li>
+                </ul>
+                <div class="progress-bar">
+                    <!--div class="progress-hcap" style="width:90%">
+                        <div>Due for withdrawal <span>{{user.user_wallet.due_withdawab</span></div>
+                    </div-->
+                    <!--div class="progress-scap" style="width:34%">
+                        <div>Soft cap <span>40,000</span></div>
+                    </div>
+                    <div class="progress-psale" style="width:12%">
+                        <div>Pre Sale <span>10,000</span></div>
+                    </div-->
+                    <div class="progress-percent" style="width:{{user.user_wallet.plan_progress}}%"></div>
                 </div>
-                <div class="progress-scap" style="width:34%">
-                    <div>Soft cap <span>40,000</span></div>
-                </div>
-                <div class="progress-psale" style="width:12%">
-                    <div>Pre Sale <span>10,000</span></div>
-                </div>
-                <div class="progress-percent" style="width:25%"></div>
-            </div>
+            {% else %}    
+            You have no running investment at the moment.
+            <center>
+                <span>
+                    <a href="{% url 'plans' %}">Invest</a></span>
+                </span>
+            </center>
+            {% endif %}
         </div>
+        
         <div class="gaps-3x"></div>
         <div class="table-responsive">
             <h4>Recent Transactions</h4>
+
+              
+        {% if not recent_transactions %}
+         <div class="status status-empty">
+            <div class="status-icon">
+                <em class="ti ti-files"></em>
+                <div class="status-icon-sm">
+                    <em class="ti ti-close"></em>
+                </div>
+            </div>
+            <span class="status-text">You have not contributed yet! You should make some.</span>
+            <a href="#" class="btn btn-primary">Contribute Now</a>
+        </div> >
+        {% else %}
             <table class="table">
                 <thead>
                     <tr>
-                        <th>PreSale</th>
-                        <th>Sale Stage 1</th>
-                        <th>Sale Stage 2</th>
+                        <th>TRX REF.</th>
+                        <th>Amount</th>
+                        <th>TRX Type</th>
+                        <th>Payment method</th>
+                        <th>Date</th>
                     </tr>
                 </thead>
                 <tbody>
+                    {% for tx in recent_transactions %}
                     <tr>
-                        <td><span>Start Date</span>03 July 2018</td>
-                        <td><span>Start Date</span>15 August 2018</td>
-                        <td><span>Start Date</span>28 October 2018</td>
+                        <td>{{tx.transaction_id}}</td>
+                        <td>${{tx.amount}}</td>
+                        <td>{{tx.transaction_type}}</td>
+                        <td>{{tx.coin}}</td>
+                        <td><span>{{tx.date}}</span></td>
+                       
                     </tr>
-                    <tr>
-                        <td><span>End Date</span>19 July 2018</td>
-                        <td><span>End Date</span>02 September 2018</td>
-                        <td><span>End Date</span>16 November 2018</td>
-                    </tr>
-                    <tr>
-                        <td><span>Bonus</span>30%</td>
-                        <td><span>Bonus</span>20%</td>
-                        <td><span>Bonus</span>10%</td>
-                    </tr>
-                    <tr>
-                        <td><span>Soft Cap</span>$ 20M</td>
-                        <td><span>Hard Cap</span>$ 50M</td>
-                        <td><span>Hard Cap</span>$ 30M</td>
-                    </tr>
+                    {% endfor %}
+                 
                 </tbody>
             </table>
+            {% endif %}
         </div>
         
     </div><!-- .user-panel -->

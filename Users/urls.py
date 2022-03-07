@@ -4,8 +4,11 @@ from .accounts import Register,LoginRedirect
 from .dashboard import KYC, Dashboard,Profile, Referral, Setting, Transaction
 
 urlpatterns = [
+    #ACCOUNT
     path('subscribe/',Subscribe.as_view(),name = 'subscribe'),
     path('register/',Register.as_view(),name = 'register'),
+
+    #DASHBOARD
     path('dashboard/',Dashboard.as_view(),name = 'dashboard'),
     path('profile/',Profile.as_view(),name = 'profile'),
     path('kyc/',KYC.as_view(),name = 'kyc'),

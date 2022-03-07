@@ -1,5 +1,5 @@
 from django import forms
-from .models import WithdrawalApplication
+from .models import PendingDeposit, WithdrawalApplication
 
 
 class WithdrawalForm(forms.ModelForm) :
@@ -20,13 +20,15 @@ class WithdrawalForm(forms.ModelForm) :
         return initial.amount or amt
 
 
-class AmountForm(forms.Form)  :
+class DepositForm(forms.ModelForm)  :
 
     def __init__(self,plan = None,*args,**kwargs) :
         super().__init__(*args,**kwargs)
         self.plan = plan
     
-    amount = forms.IntegerField()    
+    class Meta() :
+        model = PendingDeposit
+        fields = ['payment_method','amount','payment_proof'] 
 
 
     def clean_amount(self) :

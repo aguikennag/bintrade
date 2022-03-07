@@ -1,7 +1,11 @@
+from email.policy import default
 from django.db import models
 from django.contrib.auth.models   import AbstractUser
 from django.utils.text import  slugify
 from django.contrib.auth import get_user_model
+from django.conf import settings
+
+import os
 import random
 
 
@@ -31,6 +35,19 @@ class User(AbstractUser) :
     is_admin = models.BooleanField(default = False)
     country = models.ForeignKey(Country,on_delete = models.SET_NULL,null = True)
     email_verified = models.BooleanField(default= False)
+
+    @property
+    def unique_id(self) :
+        return "NTDID{}".format(self.pk)
+
+    @property
+    def get_picture(self) :
+        BASE_DIR = settings.STATIC_URL
+        default_path = os.path.join(BASE_DIR,"user-dashboard/images/user-thumb-sm.png")
+        if not self.picture :
+            return default_path
+        
+        return self.picture.url    
 
     def __str__(self)  :
         return self.username
