@@ -29,6 +29,10 @@ class Plan(models.Model) :
         return (self.interest_rate/100) * amount  
 
     @property
+    def duration_verbose(self) :
+        return "{} hours".format(self.duration * 24 )    
+
+    @property
     def default_cost(self) :
         if self.max_cost :
             return int((self.max_cost + self.min_cost) / 2)

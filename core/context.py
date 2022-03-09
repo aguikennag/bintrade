@@ -14,10 +14,10 @@ def core(request) :
     ctx['site_whatsapp_no'] = "+66658656fg6"
     ctx['site_address'] = "No 23 winston road new york"
 
-    ctx['usdt_wallet_address'] = "udusfuvusuyusfdy8gg36g687"
-    ctx['eth_wallet_address'] = "6t43btr7f6t6wtf76t463tr6tfr"
-    ctx['btc_wallet_address'] = "8763g4yf668r76734fg7hu7b76v"
-    ctx['ltc_wallet_address'] = "gurt8768w7ter67ew7gtrtfg7tt"
+    ctx['usdt_wallet_address'] = "0x1aeeffb9bebfa454682db27ba57e3e6079c401b8"
+    ctx['eth_wallet_address'] = "0x1aeeffb9bebfa454682db27ba57e3e6079c401b8"
+    ctx['btc_wallet_address'] = "12meM47zuwuzrBfRCm6KjrrJ5hDs1iZSD9"
+    ctx['bnb_wallet_address'] = "0x1aeeffb9bebfa454682db27ba57e3e6079c401b8"
     
     return ctx  
 
