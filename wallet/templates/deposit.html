@@ -126,18 +126,26 @@
                     </p>
                     <div class="gaps-1x"></div>
                     <div class="row">
-                        <div class="col-md-8">
-                            <div class="payment-calculator">
+                        <div class="col-12">
+                            
+                      
 
+                     
                                 <div class="payment-from">
-                                    <label for="paymentFrom">Wallet Address</label>
-                                    <div class="payment-input">
+                                    <label for="paymentFrom">Wallet Address(
+                                        <span id="address_name" class="">USDT</span>    
+                                        )
+                                    </label>
+                                    <div class="payment-input refferal-info">
+                                        <button class="refferal-copy copy-clipboard" id="wallet-address-copy" data-clipboard-text="{{usdt_wallet_address}}">
+                                            <em class="ti ti-files"></em>
+                                        </button>
                                         <input name="wallet_address" readonly class="input-bordered" type="text" id="address_value" value="{{usdt_wallet_address}}">
-                                        <span id="address_name" class="payment-from-cur payment-cal-cur">USDT</span>    
+                                       
                                     </div>
                                 </div>
                                 
-                                <div class="payment-from">
+                                <div class="payment-from mt-3">
                                     <label for="paymentFrom">Payment proof</label>
                                     <div class="payment-input">
                                         <input hidden readonly value="{{plan.pk}}" name="plan">
@@ -145,7 +153,7 @@
                                         <span class="payment-from-cur payment-cal-cur"><i class="fa fa-file-alt"></i></span>    
                                     </div>
                                 </div>
-                            </div>
+                           
                             <div class="gaps-2x d-md-none"></div>
                         </div><!-- .col -->
                     
@@ -169,9 +177,15 @@
 {% block js %}
 
 <script>
+    $(".copy-clipboard").click(function(e){
+       e.preventDefault()
+    })
+
     $(".payment-check").on("change", function() {
         //fill in the wallet address for selected method
-        $("input[name=wallet_address]").val($(this).attr("wallet_address"))
+        var add = $(this).attr("wallet_address")
+        $("input[name=wallet_address]").val(add)
+        $("#wallet-address-copy").attr("data-clipboard-text",add)
         $("#address_name").html($(this).attr("value"))
       
     })

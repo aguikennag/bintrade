@@ -58,10 +58,12 @@
         </div><!-- .token-card -->
      
         <div class="progress-card">
-            {% if user.user_wallet.plan_is_active %}
+            
             <h4>Investment Plan Progress 
 
             </h4>
+            {% if user.user_wallet.plan_is_active %}
+
                 <ul class="progress-info">
                     <li><span>Earned -</span> ${{user.user_wallet.plan_earning}}</li>
                     <li><span>Expected -</span> ${{user.user_wallet.max_earning}}</li>
@@ -78,19 +80,35 @@
                     </div-->
                     <div class="progress-percent" style="width:{{user.user_wallet.plan_progress}}%"></div>
                 </div>
+                <h3 class=""><span style="font-size: 15px;color:inherit">Plan </span>-> {{user.user_wallet.plan}}</h3>
+
             {% else %}    
-            You have no running investment at the moment.
-            <center>
-                <span>
-                    <a href="{% url 'plans' %}">Invest</a></span>
-                </span>
-            </center>
+            <div class="status status-empty">
+                <div class="status-icon">
+                    <em class="ti ti-files"></em>
+                    <div class="status-icon-sm">
+                        <em class="ti ti-close"></em>
+                    </div>
+                </div>
+                <span class="status-text"> You have no running investment at the moment.</span>
+                <center>
+                    <span>
+                        <a style="font-size: 18px;" href="{% url 'plans' %}">Invest</a></span>
+                    </span>
+                </center>
+            </div> 
+           
+     
             {% endif %}
         </div>
         
         <div class="gaps-3x"></div>
         <div class="table-responsive">
-            <h4>Recent Transactions</h4>
+            <h4>Recent Transactions
+                {% if  recent_transactions %}
+                <span style="float: right;"><a href="{% url 'transaction' %}">View all</a></span>
+                 {% endif %}
+            </h4>
 
               
         {% if not recent_transactions %}
@@ -101,9 +119,9 @@
                     <em class="ti ti-close"></em>
                 </div>
             </div>
-            <span class="status-text">You have not contributed yet! You should make some.</span>
-            <a href="#" class="btn btn-primary">Contribute Now</a>
-        </div> >
+            <span class="status-text">You have no transactions yet</span>
+
+        </div> 
         {% else %}
             <table class="table">
                 <thead>

@@ -13,7 +13,7 @@ class Index(TemplateView) :
 
     def get_context_data(self,*args,**kwargs) : 
         context = super(Index,self).get_context_data(*args,**kwargs) 
-        context['plan'] = Plan.objects.all()
+        context['plans'] = Plan.objects.all()
         return context
         
 

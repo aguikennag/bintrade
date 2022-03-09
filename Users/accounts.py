@@ -7,7 +7,7 @@ from wallet.models import Wallet
 from myadmin.models import MyAdmin
 from core.notification import Notification
 from core.mail import Email
-from .models import  User
+from .models import  Settings, User
 from .forms import UserCreateForm
 
 class Register(CreateView) :
@@ -31,38 +31,39 @@ class Register(CreateView) :
         return render(request,self.template_name,locals())
 
 
-    def auto_create_wallet(self,user) :
-        Wallet.objects.create(user = user)
+    def auto_create_related(self) :
+        Wallet.objects.create(user = self.user)
+        Settings.objects.create(user = self.user)
         return
 
-    def add_ref_earning(self) :
-        #add referral earning
-        """ref_id = form.cleaned_data.get('ref_id',None)
+    def add_referral(self) :
+ 
+        ref_id = self.ref_id
+        print(ref_id)
         if ref_id :
             #add for user
             try : 
-                referer = User.objects.get(referral_id  = ref_id)
-                referer.referals.add(user)
-                referer.user_wallet.referral_earning += ref_bonus
-                referer.user_wallet.save()
+                referee = User.objects.get(referral_id  = ref_id)
+                self.user.referee = referee
+              
                 #notify user of bonus
-                msg = "{} just registered with you referal id,you just got a referral bonus of {}".format(user.username,ref_bonus)
-                Notification.objects.create(user = referer,message = msg)
+                msg = "{} just registered with you referal id".format(self.user.username)
+                Notification.objects.create(user = referee,message = msg)
             except : 
-                pass"""    
+                pass   
+        self.user.save()    
 
-    def post(self,request,*args,**kwargs) :
-        my_reg_id = ""
-        my_ref_id = ""
+    def post(self,request,*args,**kwargs) :    
         form = self.form_class(request.POST)
         if form.is_valid() :
-            ref_bonus  = 10 #in $dollars
-            user  = form.save()
-            self.auto_create_wallet(user)
-        
+            self.ref_id = form.cleaned_data.get('referral_id',None)
+            self.user  = form.save(commit = False)
+            self.add_referral()
+            self.auto_create_related()
+           
             #send welcome email
             mail = Email()    
-            try : mail.welcome_email(user) 
+            try : mail.welcome_email(self.user) 
             except : pass
         return HttpResponseRedirect(self.success_url)
 

@@ -8,6 +8,7 @@ from urllib.parse import urlparse,urlunparse,urljoin
 from .models import Wallet,WithdrawalApplication,Plan,PendingDeposit
 from .forms import WithdrawalForm,DepositForm
 from Users.models import Notification
+from myadmin.models import Settings as AdminSetting
 from django.utils import timezone
 from django.contrib import messages
 import datetime
@@ -119,38 +120,39 @@ class DepositComplete(LoginRequiredMixin,View)  :
 
 class Withdrawal(LoginRequiredMixin,View)  :  
     model = WithdrawalApplication
-    template_name = 'withdrawal.html' 
+    template_name = 'withdraw.html' 
     form_class  = WithdrawalForm
 
-    def get(self,request,*args,**kwargs) :
-        #verify you have no pending withdrawal
-        if self.model.objects.filter(user = request.user).exists() :
-            return HttpResponse("You already have a pending application,please wait for approval")
-        #check if user has a plan
-        if request.user.user_wallet.plan :
-            #check if its ready for withdrawal
-            if timezone.now() < request.user.user_wallet.plan_end : 
-                return HttpResponse("You cant withdraw now as your investment has not reached maturity")
-            amount = request.user.user_wallet.current_balance
-            form = self.form_class(initial = {'amount' : amount})
-        else : 
-            return HttpResponse("You are not on any plan and can not widthdraw.Please subscribe to a plan to enable withdrawal" )   
-            
+    def withdrawal_allowed(self) :
+        try :
+            withdrawal_allowed = AdminSetting.objects.all()[0].enable_withdrawal
+        except : withdrawal_allowed = False
+        return withdrawal_allowed
+
+    def get(self,request,*args,**kwargs) :  
+        withdrawal_allowed = self.withdrawal_allowed()
         return render(request,self.template_name,locals())
+
 
     def post(self,request,*args,**kwargs) :
         #to do : on admin approval  deactivate user plan 
-        form = self.form_class(request.POST) 
-        if form.is_valid() :
-            if self.model.objects.filter(user = self.request.user).exists() :
-                return HttpResponse("You already have a pending application,please wait for approval")
+        withdrawal_allowed = self.withdrawal_allowed()
+        if not  withdrawal_allowed :
+            return HttpResponse("Fund withdrawals are not available at the moment, we are working to bring it back ASAP. please check back in a moment")
+        
+        if not request.user.wallet_address_valid :
+            return HttpResponse("""You are yet to enter a valid wallet address, you can't proceed with a withdrawal. Please <a href="{% url 'profile' %}?tab=wallet-address">provide a valid wallet address for payment""")
+        
+        form = self.form_class(user = request.user,data = request.POST) 
+        if form.is_valid() :     
             form.save(commit = False)
             form.instance.user = request.user
             form.save()
             msg = "Your withdrawal application has been submitted for processing,You will be notified once completed."
+            messages.success(request,msg)
             Notification.objects.create(user = request.user,message = msg)
-            url = urljoin(reverse('dashboard'),"?wthl=Cvxp") 
-            return HttpResponseRedirect(url)
+           
+            return HttpResponseRedirect(reverse('dashboard'))
         else :
             return render(request,self.template_name,locals())    
      

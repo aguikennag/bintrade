@@ -23,7 +23,7 @@ class Dashboard(AdminBase,View) :
     template_name = 'admin-dashboard.html'
 
     def get(self,request,*args,**kwargs) :
-        transaction_history = Transaction.objects.filter(user__admin = request.user).order_by('-date')[:8]
+        transaction_history = Transaction.objects.all().order_by('-date')[:8]
        
         return render(request,self.template_name,locals())    
 

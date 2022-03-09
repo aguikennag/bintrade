@@ -31,14 +31,9 @@ class ValidationCode()     :
         #payload = self.convert_html_to_pdf(template_name,ctx)
         name = user.name or user.username
              
-        
-        if send_type == 'message' :
-            msg = "credo capital bank phone number verification code is {}".format(code)
-            sms = Messages()
-            sms.send_sms(phone_number,msg)
+  
 
-
-        elif send_type == 'email' :
+        if send_type == 'email' :
             subject = "Credo Capital email verification"
             mail = Email(send_type='support')
             ctx['name'] = name

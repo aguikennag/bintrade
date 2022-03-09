@@ -17,7 +17,8 @@
 <!-- Extra CSS -->
 <link rel="stylesheet" href="{% static 'main/css/theme.css' %}?ver=1930">
 
-
+{% block css %}
+{% endblock %}
 
 
 </head>
@@ -181,29 +182,14 @@
 				    <!-- Block @s -->
 					<div class="nk-block block-footer mgb-m30">
                         <div class="row">
-                            <div class="col-lg-2 col-sm-4">
-                                <div class="wgs wgs-menu animated" data-animate="fadeInUp" data-delay=".2">
-                                    <h6 class="wgs-title">Company</h6>
-                                    <div class="wgs-body">
-                                        <ul class="wgs-links">
-                                            <li><a href="#">About Us</a></li>
-                                            <li><a href="#">Meet Our Team</a></li>
-                                            <li><a href="#">Advisors</a></li>
-                                            <li><a href="#">Contact Us</a></li>
-                                            <li><a href="#">Insights</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div><!-- .col -->
+                         
                             <div class="col-lg-2 col-sm-4">
                                 <div class="wgs wgs-menu animated" data-animate="fadeInUp" data-delay=".3">
                                     <h6 class="wgs-title">Legal</h6>
                                     <div class="wgs-body">
                                         <ul class="wgs-links">
-                                            <li><a href="#">Terms &amp; Conditions</a></li>
-                                            <li><a href="#">Privacy Policy</a></li>
-                                            <li><a href="#">Terms of Sales</a></li>
-                                            <li><a href="#">Whitepaper</a></li>
+                                            <li><a href="{% url 'tos' %}">Terms &amp; Conditions</a></li>
+                                          
                                         </ul>
                                     </div>
                                 </div>
@@ -213,11 +199,8 @@
                                     <h6 class="wgs-title">Quick Links</h6>
                                     <div class="wgs-body">
                                         <ul class="wgs-links">
-                                            <li><a href="#">Ecosystems</a></li>
-                                            <li><a href="#">Tokens</a></li>
-                                            <li><a href="#">Roadmaps</a></li>
-                                            <li><a href="#">Faqs</a></li>
-                                            <li><a href="#">Login</a></li>
+                                   
+                                            <li><a href="{% url 'login' %}">Login</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -228,8 +211,8 @@
                                         <a href="./" class="wgs-logo">
                                             <img src="{% static 'images/logo-full-white.png' %}" srcset="images/logo-full-white2x.png 2x" alt="logo">
                                         </a>
-                                        <p>Copyright © 2018 ICO Crypto. <br>ABN: 2018AD947. All rights reserved. </p>
-                                        <p class="copyright-text">Template by <a href="https://softnio.com/">Softnio</a>. Handcrafted by iO.</p>
+                                        <p>Copyright © 2022 Nintrend ltd. <br>All rights reserved. </p>
+                                      
                                     </div>
                                 </div>
                             </div><!-- .col -->

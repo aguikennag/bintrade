@@ -1,0 +1,271 @@
+{% extends 'user-dashboard-base.html' %}
+{% load humanize %}
+{% load static %}
+
+{% block content %}
+
+<div class="user-content">
+    <div class="user-panel">
+        <h2 class="user-panel-title">Withdraw Funds</h2>
+        <ul class="nav nav-tabs nav-tabs-line" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#payment-method-opt">Wallet</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="deposit-form" data-toggle="tab" href="#deposit-form-opt">Select Amount</a>
+            </li>
+            
+        
+        </ul><!-- .nav-tabs-line -->
+        
+        <form action="" method="post" enctype="multipart/form-data">
+            
+            {% csrf_token %}
+            {% if user.wallet_address_valid %}
+                {% if  withdrawal_allowed %}
+                    {% if form.errors %}
+                    <div class="status status-empty py-0" style="text-align: left;">
+                        <!--div class="status-icon">
+                            
+                            <div class="status-icon-sm">
+                                <em class="ti ti-close"></em>
+                            </div>
+                        </div-->
+                        <span style="font-size: 18px;color:rgb(228, 102, 102)" class="status-text"><em style="font-size: 12px;" class="ti ti-close">&nbsp;</em>Errors</a></span>
+                        <div class="payment-item" style="text-align: left;">
+                            <ul clas="errorlist" >
+                            {% for field in form %}
+                            {% if field.errors %}
+                            <li>
+                                <b>{{field.label}}</b> :
+                                <ul class="errorlist ml-3" >
+                                    {% for error in field.errors %}
+                                    <li>{{error}}</li>
+                                    {% endfor %}
+                                </ul>
+                                
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                            </ul>
+                        </div>
+            
+                    </div> 
+                    {% endif %}
+                    <div  class="tab-content" id="payment-method-tab">
+                        
+                        <div class="tab-pane fade active show" id="payment-method-opt">
+                        
+                        
+                            
+                            <h5 class="user-panel-subtitle">01. Where do you want to withdraw from  </h5>
+                            <div class="gaps-1x"></div>
+                            <div class="payment-list">
+                                <div class="row">
+                            
+                                <div class="col-md-6 col-sm-6 col-6">
+                                        <div class="payment-item">
+                                            <input checked class="payment-check"  balance="{{user.user_wallet.referral_earning}}" type="radio" id="paylightcoin" name="balance_type" value="Main">
+                                            <label for="paylightcoin">
+                                                <div class="payment-icon payment-icon-ltc">
+                                                    <em class="payment-icon fas fa-money-bill-wave"></em>
+                                                
+                                                </div>
+                                                <span class="payment-cur">Main </span>
+                                                
+                                            </label>
+                                            <span class="payment-cur" style="color: #304043;font-size: 16px;">${{user.user_wallet.current_balance}}</span>
+                    
+                                        </div>
+                                </div><!-- .col -->
+                                <div class="col-md-6 col-sm-6 col-6">
+                                    <div class="payment-item">
+                                            <input class="payment-check"  balance="{{user.user_wallet.referral_earning}}" type="radio" id="paybtc" name="balance_type" value="Referral">
+                                            <label for="paybtc">
+                                                <div class="payment-icon payment-icon-btc"><em class="payment-icon fas fa-users"></em></div>
+                                                <span class="payment-cur">Referral</span><br>
+                                                
+                                            </label>
+                                            <span class="payment-cur" style="color: #304043;font-size: 16px;">${{user.user_wallet.referral_earning}}</span>
+
+                                    
+                                        </div>
+                                </div><!-- .col -->
+                                
+                                </div><!-- .row -->
+                            </div><!-- .payment-list -->
+                            <span style="float: right;padding: 5px;">
+                                <b>
+                                    <a class="next" to_tab="deposit-form">
+                                    NEXT <i class="fa fa-arrow-right"></i>
+                                    </a>
+                                </b>
+                            </span>
+                        
+                            
+                        </div>
+                    
+                        <div class="tab-pane fade" id="deposit-form-opt">
+                            <h5 class="user-panel-subtitle">02. Set amount you wish to deposit</h5>
+                            <p>Amount must be between <b>$1</b> to <b id="max-amount">${{user.user_wallet.current_balance}}</b> .</p>
+                            <div class="gaps-1x"></div>
+                            <div class="row">
+
+                            
+
+                                <div class="col-md-6">
+                                    <div class="payment-calculator">
+                                
+                                        <div class="payment-from">
+                                            <label for="paymentFrom">Amount</label>
+                                            <div class="payment-input">
+                                                <input class="input-bordered" placeholder="0.00" type="number" id="paymentFrom"  name="amount">
+                                                <span class="payment-from-cur payment-cal-cur">usd</span>    
+                                            </div>
+                                        </div>
+                                    
+                                
+                                    </div>
+                                
+                                </div><!-- .col -->
+                                {% if user.settings.password_on_withdrawal %}
+                                <div class="col-lg-6 col-12">
+                                
+                                    <div class="input-item input-with-label">
+                                        <label for="" class="input-item-label">Password</label>
+                                        <input class="input-bordered" type="password" name="password">
+                                    </div><!-- .input-item -->
+                            
+                                    <p> You have enabled <b>password on withdrawal</b> in your settings, you can <a href="{% url 'setting' %}">chnage that</a>.</p>
+                                    <div class="gaps-1x"></div>
+                                </div><!-- .col -->
+                                {% endif %}
+                        
+                            </div><!-- .row -->
+
+                        <div class="gaps-2x d-md-none"></div>
+                            
+                            <button style="float: right;border-radius: 15px;" type="submit" class="btn btn-primary payment-btn mb-2 px-2 py-1"  >Submit</button>
+                            
+
+                        
+                        
+                        </div>
+                    
+                        <div class="tab-pane fade " id="payment-proof-opt">
+                            <h5 class="user-panel-subtitle">03. Attach proof of payment</h5>
+                            <p>Pay <b>$</b><b id="pay-amount">{{plan.default_cost}}</b> to the specified wallet address, then attach the proof of payment.</p>
+                            <p>
+
+                                <h5 class="user-panel-subtitle"><b>Disclaimer :</b></h5>
+                                -Incomplete payments wil not be processed.<br>
+                                -{{site_name}} ltd will not be held responsible for payments made to wrong wallet address destinations.
+                            </p>
+                            <div class="gaps-1x"></div>
+                            <div class="row">
+                                <div class="col-12">
+                                    
+                            
+
+                            
+                                        <div class="payment-from">
+                                            <label for="paymentFrom">Wallet Address(
+                                                <span id="address_name" class="">USDT</span>    
+                                                )
+                                            </label>
+                                            <div class="payment-input refferal-info">
+                                                <button class="refferal-copy copy-clipboard" id="wallet-address-copy" data-clipboard-text="{{usdt_wallet_address}}">
+                                                    <em class="ti ti-files"></em>
+                                                </button>
+                                                <input name="wallet_address" readonly class="input-bordered" type="text" id="address_value" value="{{usdt_wallet_address}}">
+                                            
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="payment-from mt-3">
+                                            <label for="paymentFrom">Payment proof</label>
+                                            <div class="payment-input">
+                                                <input hidden readonly value="{{plan.pk}}" name="plan">
+                                                <input name="payment_proof" class="input-bordered" type="file" id="paymentFrom">
+                                                <span class="payment-from-cur payment-cal-cur"><i class="fa fa-file-alt"></i></span>    
+                                            </div>
+                                        </div>
+                                
+                                    <div class="gaps-2x d-md-none"></div>
+                                </div><!-- .col -->
+                            
+                            </div><!-- .row -->
+                            <div class="gaps-1x"></div>
+                            
+                            <button style="float: right;border-radius: 15px;" type="submit" class="btn btn-primary payment-btn mb-2 px-2 py-1"  >Submit</button>
+                            
+                        </div>
+                    
+                    
+                    </div>
+                {% else %}
+                <div class="status status-empty">
+                    <div class="status-icon">
+                        
+                        <div class="status-icon-sm">
+                            <em class="ti ti-close"></em>
+                        </div>
+                    </div>
+                    <span style="font-size: 14px;" class="status-text">Fund withdrawals are not available at the moment, we are working to bring it back ASAP. please check back in a moment</span>
+        
+                </div> 
+                {% endif %}
+            {% else %}
+            <div class="status status-empty">
+                <div class="status-icon">
+                    
+                    <div class="status-icon-sm">
+                        <em class="ti ti-close"></em>
+                    </div>
+                </div>
+                <span style="font-size: 14px;" class="status-text">You are yet to enter a valid wallet address, you can't proceed with a withdrawal. Please <a href="{% url 'profile' %}?tab=wallet-address">provide a valid wallet address for payment</a></span>
+    
+            </div> 
+            {% endif %}
+        </form>
+    </div><!-- .user-panel -->
+</div><!-- .user-content -->
+
+
+
+{% endblock %}
+
+{% block js %}
+
+<script>
+   
+
+    $(".payment-check").on("change", function() {
+        //fill in the wallet address for selected method
+        var bal = $(this).attr("balance")
+        $("#max-amount").html("$" + bal)
+      
+    })
+   
+
+    $(".next").click(function(){ 
+        $("#" + $(this).attr("to_tab")).trigger("click")
+    })
+
+
+    function correctAmount(){
+
+        max_amount = $(this).attr("balance")
+        entered_value = parseInt($(this).val())
+        max_amount = parseInt(max_amount)
+ 
+
+        if ( entered_value > max_amount){
+            $(this).val(max_amount)
+        }
+
+ 
+        
+    }
+</script>
+{% endblock %}

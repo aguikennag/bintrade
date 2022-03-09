@@ -21,6 +21,12 @@ class Country(models.Model) :
 
 
 class User(AbstractUser) :
+    wallet_choices = (
+        ("BTC","BTC"),
+        ("ETH","ETH"),
+        ("USDT","USDT"),
+        ("LTC","LTC")
+    )
     
     def get_path(instance,filename) :
         filename = "{}.{}".format(instance.name,filename.split('.')[1])
@@ -29,11 +35,16 @@ class User(AbstractUser) :
     name = models.CharField(max_length=30)
     phone_number = models.CharField(max_length = 30,blank = False,null = False)
     picture = models.FileField(upload_to = get_path)
-    referals = models.ManyToManyField('self',symmetrical=False,blank = True,related_name ="referee")
+    referee = models.ForeignKey('self',blank = True,null=True,related_name ="referral",on_delete = models.SET_NULL)
     referral_id  = models.CharField(max_length=10,blank = True,editable = False)
-    admin = models.ForeignKey('self',null = True,related_name="users",editable = False,on_delete = models.SET_DEFAULT,default = '1')
+
     is_admin = models.BooleanField(default = False)
     country = models.ForeignKey(Country,on_delete = models.SET_NULL,null = True)
+    
+    #payment wallet
+    _wallet_name = models.CharField(max_length=10,null  = True,choices = wallet_choices)
+    _wallet_address = models.CharField(max_length=40,null  = True,help_text = "BEP20 address")
+    
     email_verified = models.BooleanField(default= False)
 
     @property
@@ -47,15 +58,44 @@ class User(AbstractUser) :
         if not self.picture :
             return default_path
         
-        return self.picture.url    
+        return self.picture.url  
+
+    @property
+    def wallet_address_valid(self) :
+        if not self._wallet_address or not self._wallet_name :
+            return False
+        return True        
+
+    def __init__(self,*args,**kwargs) :
+        super(User,self).__init__(*args,**kwargs)
+        #specify fields to monitor
+        self.__fields_to_watch_for_changes = ['email'] 
+        #set the old values
+        for field in self.__fields_to_watch_for_changes :
+            setattr(self,'__initial_{}'.format(field),getattr(self,field)) 
+
+    def has_changed(self,field) :
+        original = "__initial_{}".format(field) 
+        return getattr(self,original)  == getattr(self,field)            
 
     def __str__(self)  :
         return self.username
 
     def save(self,*args,**kwargs) :
+        #check if email changed      
+        if self.has_changed('email') :
+            self.email_verified = False
         self.slug = slugify(self.name) 
         if not self.referral_id  : self.referral_id = random.randrange(999999,99999999999)
         super(User,self).save(*args,**kwargs)
+
+        
+
+
+class Security(models.Model) :
+    user = models.OneToOneField(get_user_model(),related_name ='security',on_delete = models.CASCADE)
+    otp = models.PositiveIntegerField(blank=True,null = True)
+    otp_expiry = models.DateTimeField(blank=True,null = True)
 
 
 class Dashboard(models.Model) :
@@ -63,8 +103,12 @@ class Dashboard(models.Model) :
 
 
 class Settings(models.Model) :
-    user = models.ForeignKey(get_user_model(),related_name='settings',on_delete = models.CASCADE)
-    email_on_transaction = models.BooleanField(default=False)
+    user = models.OneToOneField(get_user_model(),related_name='settings',on_delete = models.CASCADE)
+    email_on_transaction = models.BooleanField(default=True)
+    password_on_withdrawal =  models.BooleanField(default=True)
+
+    def __str__(self) :
+        return "{}-setting".format(self.user.username)
 
 
 class WalletAddress(models.Model)  :

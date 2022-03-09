@@ -92,7 +92,6 @@ class WalletAddress(models.Model) :
 
 
 class Settings(models.Model)  :
-    admin =  models.OneToOneField(MyAdmin,on_delete = models.CASCADE,related_name='settings')
     reg_email_verify = models.BooleanField(default = False,help_text="enable email verification on registration")       
     enable_newsletters = models.BooleanField(default = False)
     enable_transaction_emails = models.BooleanField(default = False)
@@ -100,9 +99,10 @@ class Settings(models.Model)  :
     enable_watsapp_chat =  models.BooleanField(default = False)
     enable_social_links = models.BooleanField(default = False)
     enable_registration_emails = models.BooleanField(default = False,help_text ="send emails to users upon registration") 
+    enable_withdrawal = models.BooleanField(default=False)
 
     def __str__(self) :
-        return self.admin.user.username
+        return "control-site"
         
         
 

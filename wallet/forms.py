@@ -1,23 +1,59 @@
 from django import forms
-from .models import PendingDeposit, WithdrawalApplication
+from django.contrib.auth.password_validation import validate_password
+from .models import PendingDeposit, WithdrawalApplication as WA
 
 
 class WithdrawalForm(forms.ModelForm) :
+    password = forms.CharField(required=False,strip=True)
 
-    def __init__(self,*args,**kwargs) :
+    def __init__(self,user= None,*args,**kwargs) :
+        self.user = user
         super(WithdrawalForm,self).__init__(*args,**kwargs)
-        #self.fields['amount'].disabled = True                           
+                               
 
     
     class Meta() :
-        model = WithdrawalApplication
-        fields = ['coin','wallet_address','amount']
+        
+        model = WA
+        fields = ['balance_type','amount']
 
 
     def clean_amount(self) :
-        amt = self.cleaned_data['amount'] 
-        initial = getattr(self,'instance',None)
-        return initial.amount or amt
+        amt = self.cleaned_data.get('amount',None) 
+
+        #check if balance is available up to amt for the 
+        #particular balance_type\
+        
+        balance_type = self.clean_balance_type()
+        if balance_type == "Referral" :
+            if amt > self.user.user_wallet.referral_earning :
+                err = "Your referral balance is insufficient to make this withdrawal, enter a lower amount"
+                raise forms.ValidationError(err)
+
+            elif amt > self.user.user_wallet.current_balance :
+                err = "Your main balance is insufficient to make this withdrawal, enter a lower amount"
+                raise forms.ValidationError(err)
+        return amt
+
+    def clean_balance_type(self) :
+        b_type = self.cleaned_data.get('balance_type',None)
+        #check for pending withrawal under the balance type
+        if WA.objects.filter(user = self.user,balance_type=b_type,status="PENDING").exists() :
+            err = "You already have a pending withdrawal request on your {} balance, you can't create another".format(b_type)
+            raise forms.ValidationError(err)
+        
+        #check if plan is due if bal type is main
+        if b_type == "Main" and not self.user.user_wallet.plan_is_due :
+            err = "You cannot withdraw from your main balance as your plan is not yet due."
+            raise forms.ValidationError(err)
+        return b_type
+
+    def clean_password(self)   :
+        password = self.cleaned_data.get('password',None)
+        #verify password
+        if not self.user.check_password(password)  :
+            raise forms.ValidationError("Password does not match")
+        return password     
 
 
 class DepositForm(forms.ModelForm)  :

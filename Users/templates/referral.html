@@ -3,34 +3,46 @@
 
 {% block content %}
 <div class="user-content">
-    <div class="row">
-      
-             <div class="col-6">
-                 <div class="tile-item tile-light" style="background-color: white;">
-                     <div class="tile-bubbles"></div>
-                     <h6 class="tile-title">REFERRAL EARNINGS</h6>
-                     <ul class="tile-info-list">
-                         <li><span>$1.646</span></li>
-                       
-                     </ul>
-                 </div>
-             </div>
-             <div class="col-6">
-                 <div class="tile-item tile-light " style="background-color: white;">
-                     <div class="tile-bubbles"></div>
-                     <h6 class="tile-title">REFERRALS</h6>
-                     <ul class="tile-info-list">
-                         <li><span>46</span></li>
-                       
-                     </ul>
-                 </div>
-
-             </div>
-
-    </div>
-       
+  
   
     <div class="user-panel">
+        <div class="row">
+      
+            <div class="col-6">
+                <div class="tile-item tile-light p-2" style="background-color: white;">
+                    <div class="tile-bubbles"></div>
+                    <h6 class="tile-title">REFERRAL EARNINGS</h6>
+                    <ul class="tile-info-list">
+                        <li><span>${{user.user_wallet.referral_earning}}</span></li>
+                      
+                    </ul>
+                    <div style="color: #304073;">
+                        {% if pending_withdrawal %}
+                        Pending : 
+                        <span style="color: red;">
+                            -${{pending_withdrawal}}
+                        </span>
+                        {% endif %}
+                    </div>
+                  
+                    
+                </div>
+    
+            </div>
+            <div class="col-6">
+                <div class="tile-item tile-light p-2" style="background-color: white;">
+                    <div class="tile-bubbles"></div>
+                    <h6 class="tile-title">REFERRALS</h6>
+                    <ul class="tile-info-list">
+                        <li><span>{{user.referral.all|length}}</span></li>
+                      
+                    </ul>
+                </div>
+
+            </div>
+
+   </div>
+      
         <h2 class="user-panel-title">Referral</h2>
         <h5>Invite your friends and family and recive free tokens</h5>
         <p><strong>Each member recives a unique referral link to share with friends and family and recive a bonus - 5% of the value of their contribution.</strong></p>
@@ -40,11 +52,11 @@
         <div class="refferal-info">
             <span class="refferal-copy-feedback copy-feedback"></span>
             <em class="fas fa-link"></em>
-            <input type="text" class="refferal-address" value="https://demo.themenio.com/ico?ref=7d264f90653733592" disabled>
-            <button class="refferal-copy copy-clipboard" data-clipboard-text="https://demo.themenio.com/ico?ref=7d264f90653733592"><em class="ti ti-files"></em></button>
+            <input type="text" class="refferal-address" value="{{referral_link}}" disabled>
+            <button class="refferal-copy copy-clipboard" data-clipboard-text="{{referral_link}}"><em class="ti ti-files"></em></button>
         </div><!-- .refferal-info --> <!-- @updated on v1.0.1 -->
         <div class="gaps-2x"></div>
-        <ul class="share-links">
+        <!--ul class="share-links">
             <li>Share with : </li>
             <li><a href="#"><em class="fas fa-at"></em></a></li>
             <li><a href="#"><em class="fab fa-twitter"></em></a></li>
@@ -60,68 +72,39 @@
  
  
         <h4>Your Refferals</h4>
+        {% if not user.referral.all %}
+        <div class="status status-empty">
+            <div class="status-icon">
+                <em class="ti ti-files"></em>
+                <div class="status-icon-sm">
+                    <em class="ti ti-close"></em>
+                </div>
+            </div>
+            <span class="status-text">You have no referrals yet, They will appear here.</span>
+
+        </div> 
+        {% else %}
         <table class="data-table refferal-table">
             <thead>
                 <tr>
                     <th class="refferal-name"><span>Referee</span></th>
-                    <th class="refferal-tokens"><span>Bought Token</span></th>
-                    <th class="refferal-bonus"><span>Bonus</span></th>
-                    <th class="refferal-date"><span>Date</span></th>
-                    <th class="refferal-channel"><span>Channel</span></th>
+                    <th class="refferal-bonus"><span>Total deposits</span></th>
+                    <th class="refferal-bonus"><span>Date Joined</span></th>
+                  
                 </tr>
             </thead>
             <tbody>
+              
+                {% for ref in user.referral.all %}
                 <tr>
-                    <td class="refferal-name">Cynthia Foster</td>
-                    <td class="refferal-tokens">800</td>
-                    <td class="refferal-bonus">8</td>
-                    <td class="refferal-date">08-02-2018</td>
-                    <td class="refferal-channel">Facebook</td>
+                    <td class="refferal-name">{{ref.username}}</td>
+                    <td class="">${{ref.user_wallet.past_deposits|default:0.00}}</td>
+                    <td class="refferal-date">{{ref.date_joined}}</td>
                 </tr>
-                <tr>
-                    <td class="refferal-name">Cynthia Foster</td>
-                    <td class="refferal-tokens">800</td>
-                    <td class="refferal-bonus">8</td>
-                    <td class="refferal-date">08-02-2018</td>
-                    <td class="refferal-channel">Facebook</td>
-                </tr>
-                <tr>
-                    <td class="refferal-name">Cynthia Foster</td>
-                    <td class="refferal-tokens">800</td>
-                    <td class="refferal-bonus">8</td>
-                    <td class="refferal-date">08-02-2018</td>
-                    <td class="refferal-channel">Facebook</td>
-                </tr>
-                <tr>
-                    <td class="refferal-name">Cynthia Foster</td>
-                    <td class="refferal-tokens">800</td>
-                    <td class="refferal-bonus">8</td>
-                    <td class="refferal-date">08-02-2018</td>
-                    <td class="refferal-channel">Facebook</td>
-                </tr>
-                <tr>
-                    <td class="refferal-name">Cynthia Foster</td>
-                    <td class="refferal-tokens">800</td>
-                    <td class="refferal-bonus">8</td>
-                    <td class="refferal-date">08-02-2018</td>
-                    <td class="refferal-channel">Facebook</td>
-                </tr>
-                <tr>
-                    <td class="refferal-name">Cynthia Foster</td>
-                    <td class="refferal-tokens">800</td>
-                    <td class="refferal-bonus">8</td>
-                    <td class="refferal-date">08-02-2018</td>
-                    <td class="refferal-channel">Facebook</td>
-                </tr>
-                <tr>
-                    <td class="refferal-name">Cynthia Foster</td>
-                    <td class="refferal-tokens">800</td>
-                    <td class="refferal-bonus">8</td>
-                    <td class="refferal-date">08-02-2018</td>
-                    <td class="refferal-channel">Facebook</td>
-                </tr>
+                {% endfor %}
             </tbody>
         </table>
+        {% endif %}
         
     </div><!-- .user-panel -->
 </div><!-- .user-content -->

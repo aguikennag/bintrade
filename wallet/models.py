@@ -18,7 +18,9 @@ class Plan(models.Model) :
     min_cost = models.FloatField(help_text = "minimum investment for thie plan,currency is USD")   #in $usd
     duration = models.PositiveIntegerField(help_text = "plan duration in days")  #in days
     interest_rate = models.FloatField(blank = False,null = False,help_text = "in %,e.g 50,100,200")
+    referral_percentage = models.FloatField(help_text="determines how much referal bonus a use gets when a referral makes deposit on this plan")
     date = models.DateField(auto_now_add= True)
+
 
     def __str__(self) :
         return self.name
@@ -72,26 +74,30 @@ class Wallet(models.Model) :
     expected_maximum_balance = models.FloatField(default = 0.0,blank = True) #at the end of the plan
     referral_earning = models.FloatField(default = 0.0)
     past_deposit_earning = models.FloatField(default = 0.0)
+    past_deposits = models.FloatField(default = 0.0) 
     funded_earning = models.FloatField(default = 0.0) 
     withdrawals = models.FloatField(default = 0.0) 
     plan_is_active = models.BooleanField(default = False,blank = True)
     previous_plan = models.ForeignKey(Plan,related_name = 'previous_plan',null = True,blank = True,on_delete = models.SET_NULL)
     
     @property
-    def plan_is_due(self) :
-        if timezone.now()   ==   self.plan_end :
+    def  plan_is_due(self) :
+        if not self.plan_is_active or timezone.now()  >=  self.plan_end :
             return True
         return False 
 
     @property
     def max_earning(self) :
-        return self.expected_maximum_balance - self.initial_balance
+        return self.plan.get_interest(self.initial_balance)
 
     @property
     def plan_progress(self) :
         if self.plan_is_active :
-            _ratio = (timezone.now() - self.plan_start) / (self.plan_end - self.plan_start)   
-            return int(_ratio * 100)
+            today = timezone.now()   
+            diff = today - self.plan_start
+            diff_in_seconds = diff.seconds
+            plan_duration_in_seconds = self.plan.duration * 24 * 60 *60
+            return (diff_in_seconds/plan_duration_in_seconds) * 100
         else :
             return 0     
 
@@ -103,17 +109,20 @@ class Wallet(models.Model) :
             #calcculate what the balance should be for the plan
             today = timezone.now()   
             diff = today - self.plan_start
-            diff = diff.days 
-            extra = (diff/self.plan.duration) * self.plan.get_interest(self.initial_balance)
+        
+            diff_in_seconds = diff.seconds
+            plan_duration_in_seconds = self.plan.duration * 24 * 60 *60
+            extra = (diff_in_seconds/plan_duration_in_seconds) * self.plan.get_interest(self.initial_balance)
             #bal = self.initial_balance + extra
             bal =  extra
-            if bal > self.expected_maximum_balance : bal = self.expected_maximum_balance
+            if bal > self.expected_maximum_balance : 
+                bal = self.expected_maximum_balance
             return round(bal,2)
     
     
     @property
     def current_balance(self) :
-        return  round(self.initial_balance + self.past_deposit_earning + self.plan_earning + self.funded_earning + self.referral_earning - self.withdrawals,2)
+        return  round(self.initial_balance + self.past_deposit_earning + self.plan_earning + self.funded_earning - self.withdrawals,2)
 
 
     
@@ -144,6 +153,7 @@ class Wallet(models.Model) :
 
 
     def save(self,*args,**kwargs) :
+        self.expected_maximum_balance = self.plan_earning + self.initial_balance
         super(Wallet,self).save(*args,**kwargs)     
 
 
@@ -215,13 +225,11 @@ class PendingDeposit(models.Model)    :
 
 
 class WithdrawalApplication(models.Model) :
-    coin_choices = (('BTC','BTC'),('USDT','USDT'),('ETH','ETH'),('BNB','BNB'))
+    balance_type_choices = (('Referral','Referral'),('Main','Main'))
     status = (('PENDING','PENDING'),('PROCESSING','PROCESSING'),('APPROVED','APPROVED'),('DECLINED','DECLINED'))
     user  = models.OneToOneField(get_user_model(),on_delete = models.CASCADE,related_name = 'pending_withdrawal')
     amount = models.FloatField()  #in $
-    coin = models.CharField(max_length=10,choices = coin_choices)
-    wallet_address = models.CharField(max_length= 200,help_text = "Please enter the correct address matching the selected coin,as any mismatch might lead to complete loss")
-    #extra address info goes here
+    balance_type = models.CharField(max_length=10,choices = balance_type_choices)
     status = models.CharField(max_length= 20,choices = status,default = 'PENDING')
     amount_paid = models.FloatField(blank = True,null = True)  
     is_received = models.BooleanField(default = True)

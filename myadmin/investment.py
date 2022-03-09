@@ -49,6 +49,23 @@ class DepositNotice(AdminBase,ListView)   :
 class ApproveDeposit(AdminBase,View) :
     model = PendingDeposit
 
+    def add_referee_earning(self,instance) :
+        if instance.user.referee :
+            earning = (instance.plan.referral_percentage/100) * instance.amount
+            referee_wallet =  instance.user.referee.user_wallet
+            referee_wallet.referral_earning += earning
+            referee_wallet.save()
+            #notify
+            msg = "You have been credited with a referral bonus of ${}, for your referral {}.".format(
+                earning,
+                instance.user.username
+            )
+            Notification.objects.create(
+                user = instance.user.referee,
+                message = msg
+            )
+
+
     def on_approved_deposit(self,instance) :
         #fund user wallet
         wallet = instance.user.user_wallet
@@ -56,9 +73,12 @@ class ApproveDeposit(AdminBase,View) :
         wallet.plan_start = timezone.now()
         wallet.plan_end = timezone.now() + timezone.timedelta(days = int(instance.plan.duration))
         wallet.initial_balance = instance.amount
-        wallet.expected_maximum_balance = instance.amount +  instance.plan.get_interest(instance.amount)
         wallet.plan_is_active = True
+        wallet.past_deposits +=  instance.amount
         
+        #add for referral
+        self.add_referee_earning(instance)
+
         #notify user 
         msg = "Your ${} deposit has been approved.".format(instance.amount)
         Notification.objects.create(user = instance.user,message = msg)

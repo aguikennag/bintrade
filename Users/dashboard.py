@@ -1,14 +1,13 @@
-from ast import List
-from re import template
+
 from django.shortcuts import render
 from django.views.generic import ListView,View,RedirectView,TemplateView
 from django.views.generic.edit import CreateView,UpdateView
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy,reverse
 from django.forms.models import model_to_dict
-from wallet.models import Wallet,WithdrawalApplication,Transaction as TR
-from .forms import ProfileUpdateForm
+from wallet.models import Wallet,WithdrawalApplication as WA,Transaction as TR
+
 
 
 class Dashboard(LoginRequiredMixin,TemplateView) :
@@ -18,7 +17,7 @@ class Dashboard(LoginRequiredMixin,TemplateView) :
         ctx = super(Dashboard,self).get_context_data(*args,**kwargs)  
         try : ctx['pending_deposit'] = self.request.user.user_pending_deposit.amount
         except : pass
-        ctx['recent_transactions'] = TR.objects.all()[:6]
+        ctx['recent_transactions'] = TR.objects.filter(user=self.request.user)[:6]
         init = self.request.user.username[0] 
         ctx['initial'] = init.upper()
 
@@ -33,17 +32,11 @@ class Dashboard(LoginRequiredMixin,TemplateView) :
 class Transaction(LoginRequiredMixin,ListView) :
     model = TR
     template_name= 'user-transactions.html'
+    context_object_name = "transactions"
     
     def get_queryset(self) :
         return self.model.objects.filter(user = self.request.user)
 
-
-class Setting(LoginRequiredMixin,View) :
-    template_name = 'settings.html'
-
-    def get(self,request,*args,**kwargs) :
-        return render(request,self.template_name,locals())
-    
 
 
 class KYC(LoginRequiredMixin,View) :
@@ -57,17 +50,15 @@ class Referral (LoginRequiredMixin,TemplateView) :
 
     template_name= 'referral.html'
 
+    def get_context_data(self, **kwargs) :
+        ctx = super().get_context_data(**kwargs)
+        try : 
+            ctx['pending_withdrawal'] = WA.objects.filter(user=self.request.user,balance_type = "Referral",status="PENDING")[0].amount
+        except : pass
+        prepend = "https://" if self.request.is_secure() else "http://"
+        host = prepend + self.request.get_host()
+        ctx['referral_link'] = "{}{}?ref_id={}".format(host,reverse("register"),self.request.user.referral_id)
+        return ctx
 
-class Profile(LoginRequiredMixin,UpdateView) :
-    template_name = 'profile.html'
-    model = get_user_model()
-    form_class = ProfileUpdateForm
-    success_url = reverse_lazy('dashboard')
-    
-    def get_object(self) :
-        return self.request.user
 
-    def get(self,request,*args,**kwargs) :
-        form = self.form_class(initial = model_to_dict(request.user))
-        return render(request,self.template_name,locals())
 
