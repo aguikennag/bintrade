@@ -24,9 +24,9 @@
 </head>
 
 
-    <body class="nk-body body-wider bg-light mode-onepage">
+    <body class="nk-body body-wider bg-light mode-onepage" >
 
-	<div class="nk-wrap">
+	<div class="nk-wrap" style="">
 
 		<header class="nk-header page-header is-transparent is-sticky is-shrink" id="header">
 		    <!-- Header @s -->
@@ -37,8 +37,8 @@
 						<!-- Logo @s -->
 						<div class="header-logo logo animated" data-animate="fadeInDown" data-delay=".6">
 							<a href="./" class="logo-link">
-								<img class="logo-dark" src="{% static 'images/logo.png' %}" srcset="images/logo2x.png 2x" alt="logo">
-								<img class="logo-light" src="{% static 'images/logo-full-white.png' %}" srcset="images/logo-full-white2x.png 2x" alt="logo">
+								<img class="logo-dark" src="{% static 'images/logo.png' %}" srcset="{% static 'images/logo2x' %} 2x" alt="logo">
+								<img class="logo-light" src="{% static 'images/logo-full-white.png' %}" srcset="{% static 'images/logo-full-white2x.png' %} 2x" alt="logo">
 							</a>
 						</div>
                         <div  style="float: right;" class="text-center animated p-0" data-animate="fadeInUp" data-delay=".4">
@@ -209,7 +209,7 @@
                                 <div class="wgs wgs-text animated" data-animate="fadeInUp" data-delay=".1">
                                     <div class="wgs-body">
                                         <a href="./" class="wgs-logo">
-                                            <img src="{% static 'images/logo-full-white.png' %}" srcset="images/logo-full-white2x.png 2x" alt="logo">
+                                            <img src="{% static 'images/logo-full-white.png' %}" srcset="{% static 'images/logo-full-white2x.png'%} 2x" alt="logo">
                                         </a>
                                         <p>Copyright © 2022 Nintrend ltd. <br>All rights reserved. </p>
                                       
