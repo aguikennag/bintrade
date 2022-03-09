@@ -15,7 +15,7 @@ class Country(models.Model) :
     short_name = models.CharField(max_length=5)
 
     def __str__(self) :
-        return self.short_name
+        return "{}({})".format(self.name,self.short_name)
 
 
 

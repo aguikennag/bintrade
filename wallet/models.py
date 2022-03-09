@@ -82,8 +82,9 @@ class Wallet(models.Model) :
     
     @property
     def  plan_is_due(self) :
-        if not self.plan_is_active or timezone.now()  >=  self.plan_end :
-            return True
+        if  self.plan_end :
+            if timezone.now()  >=  self.plan_end :
+                return True
         return False 
 
     @property
@@ -137,7 +138,7 @@ class Wallet(models.Model) :
         #deactivate plan
         self.plan_is_active = False
         past_earning = self.past_deposit_earning 
-        self.past_deposit_earning = past_earning + self.plan_earning() + self.initial_balance
+        self.past_deposit_earning = past_earning + self.plan_earning + self.initial_balance
         self.previous_plan = self.plan
         self.initial_balance = 0.0
         self.plan = None
