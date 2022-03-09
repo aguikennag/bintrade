@@ -37,7 +37,7 @@ class UserCreateForm(UserCreationForm) :
     referral_id = forms.CharField(required  = False)
 
     def __init__(self,*args,**kwargs) :
-        super(ProfileForm,self).__init__(*args,**kwargs)
+        super(UserCreateForm,self).__init__(*args,**kwargs)
         self.fields['email'].required = True
 
     class Meta(UserCreationForm.Meta) :
