@@ -24,11 +24,14 @@ class AdminBase(UserPassesTestMixin,LoginRequiredMixin,) :
 
 class Dashboard(AdminBase,View) :
     template_name = 'admin-dashboard.html'
-    pd_model = PendingDeposit
+    tx_model = Transaction
 
     def get(self,request,*args,**kwargs) :
         transaction_history = Transaction.objects.all().order_by('-date')[:8]
-        site_revenue = self.pd_model.objects.filter(is_active = False).aggregate(
+        site_revenue = self.tx_model.objects.filter(
+            transaction_type = "DEPOSIT",
+            status = "Approved"
+        ).aggregate(
             revenue = Sum("amount")
         )['revenue'] or 0.00
         registered_users = get_user_model().objects.all().count()

@@ -161,7 +161,7 @@ class Wallet(models.Model) :
         query = self.user.investment.filter(is_active = True)
         capitals  = query.aggregate(
             investment_bal = Sum("amount")
-        )['investment_bal']
+        )['investment_bal'] or 0
         current_interests = 0
         for inv in query :
             current_interests += inv.current_earning 
