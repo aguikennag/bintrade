@@ -59,8 +59,7 @@
                                     <td>
                                         <span>{{deposit.user.username}}<br><c style="font-size: 10px">{{deposit.user.name}}</c></span>
                                             {% if deposit.user.picture %}
-                                            <img alt="image" src="{{deposit.user.picture.url}}" width="35"
-                                            data-toggle="tooltip" title="{{deposit.user.username}}">
+                                            
                                             {% else %}
                           
                                                {% endif %}
@@ -161,7 +160,7 @@
             success : function(data){
            
                 if(data.success){
-                  $(this).html("<i class='fa fa-good'></>");
+                  $("#approve-deposit-modal").attr("hidden","")
                   $("#action-cell").html("<button class='btn btn-success'>Approved</button>");
                 }
                 

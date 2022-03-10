@@ -14,7 +14,7 @@
                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pr-0 pt-3">
                         <div class="card-content">
                           <h5 class="font-15">Total Revenue</h5><hr>
-                          <h2 class="mb-3 font-18">${{user.user_admin.revenue}}</h2>
+                          <h2 class="mb-3 font-18">${{site_revenue}}</h2>
                           <!--p class="mb-0"><span class="col-green"><a class="col-green" href="">View Statement</a></span> </p-->
                         </div>
                       </div>
@@ -40,7 +40,7 @@
                             <div style="">
                             <span>
                            
-                            <c style="padding-right:30px">Registered Users:</c><a href="{% url 'my-members' %}">{{user.users.all|length}}</a>
+                            <c style="padding-right:30px">Registered Users :</c><a href="{% url 'my-members' %}">{{registered_users}}</a>
                           </div>
                           <!--a href=""><p class="mb-0"><span class="col-orange">View Detail</span> </p></a-->
                         </div>

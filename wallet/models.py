@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.conf import settings
 from django.utils.text import slugify
 from django.utils import timezone
+from django.db.models import Sum
 from Users.models import Notification
 from myadmin.models import MyAdmin
 import random
@@ -39,10 +40,7 @@ class Plan(models.Model) :
         else :
             return int(self.min_cost)   
 
-    @property
-    def active_subscribers(self) :
-        return self.wallet_subscribers.filter(plan_is_active = True).count()         
-
+   
 
     def save(self,*args,**kwargs) :
         self.slug = slugify(self.name)
@@ -63,51 +61,41 @@ class Currency(models.Model) :
         return self.name
 
 
-
-class Wallet(models.Model) :
-    CURRENCY = (('USD','USD'),('BPD','BPD'))
-    wallet_id = models.UUIDField(default = uuid.uuid4,editable = False,null = False)
-    user = models.OneToOneField(get_user_model(),related_name = 'user_wallet',on_delete = models.CASCADE)
-    #preferred_currency = models.ForeignKey(Currency,on_delete=models.CASCADE,related_name = 'currency')
-    plan = models.ForeignKey(Plan,related_name = 'wallet_subscribers',null = True,blank = True,on_delete = models.SET_NULL)
-    plan_start = models.DateTimeField(null = True,blank = True)
-    plan_end = models.DateTimeField(null = True,blank = True)
-    #becomes value of plan when user invests
-    initial_balance = models.FloatField(default=0.0,blank = True,)  #equal to entered amount
-    #bonus_amount = models.FloatField(blank = True,null = True)  #fadmin can set amount to override current balance calculation
-    expected_maximum_balance = models.FloatField(default = 0.0,blank = True) #at the end of the plan
-    referral_earning = models.FloatField(default = 0.0)
-    past_deposit_earning = models.FloatField(default = 0.0)
-    past_deposits = models.FloatField(default = 0.0) 
-    funded_earning = models.FloatField(default = 0.0) 
-    withdrawals = models.FloatField(default = 0.0) 
-    plan_is_active = models.BooleanField(default = False,blank = True)
-    previous_plan = models.ForeignKey(Plan,related_name = 'previous_plan',null = True,blank = True,on_delete = models.SET_NULL)
+class Investment(models.Model) :
+    user = models.ForeignKey(get_user_model(),related_name = 'investment',on_delete = models.CASCADE)
+    #amount for the plan
+    amount  = models.FloatField(default = 0.00)
+    plan = models.ForeignKey(Plan,related_name = 'plan_investment',null = True,blank = True,on_delete = models.SET_NULL)
+    plan_start = models.DateTimeField()
+    plan_end = models.DateTimeField()
+    expected_earning = models.FloatField(default = 0.00,blank = True) #at the end of the plan
+    is_active = models.BooleanField(default=True)
     
+    class Meta() :
+        ordering = ['-plan_start']
+
+
+    def save(self,*args,**kwargs) :
+        if not self.pk : 
+            self.expected_earning = self.plan.get_interest(self.amount)
+            self.plan_start  = timezone.now()
+            self.plan_end = timezone.now() + timezone.timedelta(days=self.plan.duration)
+
+        #deduct from balance
+        self.user.user_wallet.debit(self.amount)
+        
+        super(Investment,self).save(*args,**kwargs)
+
+
     @property
-    def  plan_is_due(self) :
-        if  self.plan_end :
-            if timezone.now()  >=  self.plan_end :
+    def  _due(self) :
+        if timezone.now()  >=  self.plan_end :
                 return True
         return False 
 
-    @property
-    def max_earning(self) :
-        return self.plan.get_interest(self.initial_balance)
 
     @property
-    def plan_progress(self) :
-        if self.plan_is_active :
-            today = timezone.now()   
-            diff = today - self.plan_start
-            diff_in_seconds = diff.seconds
-            plan_duration_in_seconds = self.plan.duration * 24 * 60 *60
-            return (diff_in_seconds/plan_duration_in_seconds) * 100
-        else :
-            return 0     
-
-    @property
-    def plan_earning(self) :
+    def current_earning(self) :
         if not self.plan :
             return 0.00
         else :
@@ -117,48 +105,84 @@ class Wallet(models.Model) :
         
             diff_in_seconds = diff.seconds
             plan_duration_in_seconds = self.plan.duration * 24 * 60 *60
-            extra = (diff_in_seconds/plan_duration_in_seconds) * self.plan.get_interest(self.initial_balance)
-            #bal = self.initial_balance + extra
-            bal =  extra
-            if bal > self.expected_maximum_balance : 
-                bal = self.expected_maximum_balance
-            return round(bal,2)
+            earning = (diff_in_seconds/plan_duration_in_seconds) * self.plan.get_interest(self.amount)
+            #bal = self.amount + extra
+            
+            return round(earning,2)
+    
+
+    @property
+    def plan_progress(self) :
+        if self.is_active :
+            today = timezone.now()   
+            diff = today - self.plan_start
+            diff_in_seconds = diff.seconds
+            plan_duration_in_seconds = self.plan.duration * 24 * 60 *60
+            return (diff_in_seconds/plan_duration_in_seconds) * 100
+        else :
+            return 0  
+
+    @property
+    def on_plan_complete(self)  :
+        #deactivate plan
+        self.is_active = False
+        #move to wallet
+        self.user.user_wallet.amount += self.amount + self.expected_earning
+        self.user.user_wallet.save()
+        self.save()
+    
+    def __str__(self) :
+        return "{}-{}".format(self.user.username,self.plan)
+
+
+class Wallet(models.Model) :
+
+    wallet_id = models.UUIDField(default = uuid.uuid4,editable = False,null = False)
+    user = models.OneToOneField(get_user_model(),related_name = 'user_wallet',on_delete = models.CASCADE)
+
+    #deposits go in here
+    initial_balance = models.FloatField(default=0.0,blank = True,)
+    #bonus_amount = models.FloatField(blank = True,null = True)  #fadmin can set amount to override current balance calculation
+    referral_earning = models.FloatField(default = 0.0)
+    #for bouses and have nots
+    funded_earning = models.FloatField(default = 0.0) 
+    withdrawals = models.FloatField(default = 0.0) 
+
+    def debit(self,amount) :
+        self.initial_balance -= amount
+        self.save()
+
+    def credit(self,amount) :
+        self.initial_balance += amount
+        self.save()
+    
+    @property
+    def get_active_investment_balance(self) :
+        query = self.user.investment.filter(is_active = True)
+        capitals  = query.aggregate(
+            investment_bal = Sum("amount")
+        )['investment_bal']
+        current_interests = 0
+        for inv in query :
+            current_interests += inv.current_earning 
+        return capitals + current_interests
     
     
     @property
     def current_balance(self) :
-        return  round(self.initial_balance + self.past_deposit_earning + self.plan_earning + self.funded_earning - self.withdrawals,2)
+        return  round(self.initial_balance + self.get_active_investment_balance + self.funded_earning - self.withdrawals,2)
 
-
-    
     @property
-    def allowed_to_invest(self) :
-        if self.plan :
-            if self.plan_is_active :
-                return False
-        return True  
-
-    def on_plan_complete(self)  :
-        #deactivate plan
-        self.plan_is_active = False
-        past_earning = self.past_deposit_earning 
-        self.past_deposit_earning = past_earning + self.plan_earning + self.initial_balance
-        self.previous_plan = self.plan
-        self.initial_balance = 0.0
-        self.plan = None
-        self.plan_start = None
-        self.plan_end = None
-        self.save()
-
-                    
+    def available_balance(self) :
+        return  round(self.initial_balance + self.funded_earning - self.withdrawals,2)
+                            
 
     
     def __str__(self) :
-        return self.user.username
+        return "{}-wallet".format(self.user.username)
 
 
     def save(self,*args,**kwargs) :
-        self.expected_maximum_balance = self.plan_earning + self.initial_balance
         super(Wallet,self).save(*args,**kwargs)     
 
 
@@ -204,12 +228,11 @@ class PendingDeposit(models.Model)    :
 
     def get_path(instance,file_name) :
         ext = file_name.split(".")[1]
-        return "{}/deposits/{}.{}".format(instance.user.username,instance.plan,ext)
+        return "{}/deposits/{}.{}".format(instance.user.username,instance.pk,ext)
 
     user  = models.OneToOneField(get_user_model(),on_delete = models.CASCADE,related_name = 'user_pending_deposit')
-    plan = models.ForeignKey(Plan,related_name = 'pending_deposit',null = True,on_delete = models.SET_NULL)
     amount = models.PositiveIntegerField(null = False)
-    is_approved  = models.BooleanField(default = False)
+    is_active = models.BooleanField(default = True)
     is_declined = models.BooleanField(default = False)
     #reason for declining
     decline_reason = models.TextField(null = True)
@@ -221,7 +244,14 @@ class PendingDeposit(models.Model)    :
 
     def  __str__(self) :
         return self.user.username
+    
 
+    def on_approve(self) :
+        #credit wallet
+        self.user.user_wallet.credit(self.amount)
+      
+        self.is_active = False
+        self.delete()
 
     def save(self,*args,**kwargs) :
         super(PendingDeposit,self).save(*args,**kwargs)    

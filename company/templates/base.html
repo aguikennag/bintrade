@@ -10,7 +10,7 @@
 <!-- Fav Icon  -->
 <link rel="shortcut icon" href="images/favicon.png">
 <!-- Site Title  -->
-<title>{{site_name}}| Hello</title>
+<title>{{site_name}}| {{title|default:"Creating the trends in crypto trading"}}</title>
 <!-- Bundle and Base CSS -->
 <link rel="stylesheet" href="{% static 'main/css/vendor.bundle.css' %}?ver=1930">
 <link rel="stylesheet" href="{% static 'main/css/style.css' %}?ver=1930" id="changeTheme">
@@ -41,13 +41,7 @@
 								<img class="logo-light" src="{% static 'images/logo-full-white.png' %}" srcset="{% static 'images/logo-full-white2x.png' %} 2x" alt="logoalt">
 							</a>
 						</div>
-                        <div  style="float: right;" class="text-center animated p-0" data-animate="fadeInUp" data-delay=".4">
-                            {% if user.is_authenticated %}
-                            <a href="{% url 'dashboard' %}" class="btn btn-grad p-2">Dashboard</a>
-                            {% else %}
-                            <a href="{% url 'login' %}" class="btn btn-grad p-2">Login/Register</a>
-                            {% endif %}
-                        </div>
+                        
 
 						<!-- Menu Toogle @s -->
 						<div class="header-nav-toggle">

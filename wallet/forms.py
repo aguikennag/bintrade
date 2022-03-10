@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.password_validation import validate_password
-from .models import PendingDeposit, WithdrawalApplication as WA
+from .models import Investment, PendingDeposit, WithdrawalApplication as WA
 
 
 class WithdrawalForm(forms.ModelForm) :
@@ -57,10 +57,6 @@ class WithdrawalForm(forms.ModelForm) :
 
 
 class DepositForm(forms.ModelForm)  :
-
-    def __init__(self,plan = None,*args,**kwargs) :
-        super().__init__(*args,**kwargs)
-        self.plan = plan
     
     class Meta() :
         model = PendingDeposit
@@ -69,9 +65,35 @@ class DepositForm(forms.ModelForm)  :
 
     def clean_amount(self) :
         amount  = self.cleaned_data['amount']
-        if not self.plan : raise forms.ValidationError("An unspecified error occured,please try again later")
-        if self.plan.max_cost and not amount <= self.plan.max_cost :
+        return amount
+
+
+class InvestmentForm(forms.ModelForm)  :
+
+    def __init__(self,user=None,*args,**kwargs) :
+        super().__init__(*args,**kwargs)
+        self.user = user
+    
+    class Meta() :
+        model = Investment
+        fields = ['plan','amount'] 
+
+
+    def clean_amount(self) :
+        amount  = self.cleaned_data['amount']
+        plan = self.cleaned_data['plan']
+        
+        if not plan : 
+            raise forms.ValidationError("An unspecified error occured,please try again later")
+        
+        if plan.max_cost and amount > plan.max_cost :
             raise forms.ValidationError("Amount must be the specified limits or select another plan") 
-        if  not amount >=  self.plan.min_cost  :
+        
+        if amount < plan.min_cost  :
             raise forms.ValidationError("Amount must be the specified limits or select another plan") 
+        
+        #check if user has enough balance
+        if not self.user.user_wallet.available_balance >= amount :
+            raise forms.ValidationError("Insufficient balance, Your available wallet balance is too low !") 
+        
         return amount

@@ -18,7 +18,7 @@ from core.forms import OtpForm
 class Profile(LoginRequiredMixin,UpdateView) :
     template_name = 'profile.html'
     model = get_user_model()
-    profile_form = ProfileForm
+    form_class = ProfileForm
     wallet_form = WalletForm
     verify_email_form  = VerifyEmailForm
     otp_form  = OtpForm
@@ -31,13 +31,15 @@ class Profile(LoginRequiredMixin,UpdateView) :
     def get_object(self) :
         return self.request.user
 
-    def get(self,request,*args,**kwargs) :
-        profile_form = self.profile_form(initial = model_to_dict(request.user))
-        wallet_form = self.wallet_form(initial = model_to_dict(request.user))
-        verify_email_form = self.verify_email_form(initial = model_to_dict(request.user))
-        otp_form = OtpForm
-        tab  =  request.GET.get('tab','personal-data')
-        return render(request,self.template_name,locals())
+    def get_context_data(self, **kwargs) :
+        ctx = super(Profile,self).get_context_data(**kwargs)  
+        ctx['wallet_form'] = self.wallet_form(initial = model_to_dict(self.request.user))
+        ctx['verify_email_form'] = self.verify_email_form(initial = model_to_dict(self.request.user))
+        ctx['otp_form'] = self.otp_form
+        ctx['tab']  =  self.request.GET.get('tab','personal-data')
+        return ctx
+
+
 
 
 class WalletUpdate(LoginRequiredMixin,UpdateView) :

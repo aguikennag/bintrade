@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy,reverse
 from urllib.parse import urlparse,urlunparse,urljoin
 from .models import Wallet,WithdrawalApplication,Plan,PendingDeposit
-from .forms import WithdrawalForm,DepositForm
+from .forms import WithdrawalForm,DepositForm,InvestmentForm
 from Users.models import Notification
 from myadmin.models import Settings as AdminSetting
 from django.utils import timezone
@@ -14,44 +14,27 @@ from django.contrib import messages
 import datetime
 
 
-
 class Deposit(LoginRequiredMixin,View)  :
     template_name = 'deposit.html'
     form_class = DepositForm
-    model = Plan
+    model = PendingDeposit
+
 
     def get(self,request,*args,**kwargs) :
-         #check if user has pending deposit
-        if PendingDeposit.objects.filter(user = request.user,is_approved = False).exists() :
-            return HttpResponse("You have a pending deposit already do wait for approval,thank You")    
-        if not request.user.user_wallet.allowed_to_invest :
-            return HttpResponse("Your plan is still active,you cannot make another innvestment at this time")
-        _slug = kwargs.get('slug',None)
-        if not _slug : return HttpResponse("Invalid request")
-        try : plan = self.model.objects.get(slug =_slug)
-        except self.model.DoesNotExist :
-            return HttpResponse("Plan you selected does not exist")
+        if self.model.objects.filter(user= request.user,is_active = True).exists():
+            return HttpResponse("You still have a pending deposit, please wait for approval")
+        
         form = self.form_class    
         return render(request,self.template_name,locals())
 
-    def post(self,request,*args,**kwargs) : 
-         #check if user has pending deposit
-        if PendingDeposit.objects.filter(user = request.user,is_approved = False).exists() :
-            return HttpResponse("You have a pending deposit already do wait for approval,thank You")    
-        if not request.user.user_wallet.allowed_to_invest :
-            return HttpResponse("Your plan is still active,you cannot make another innvestment at this time")
-
-        try : plan = self.model.objects.get(pk = self.request.POST['plan'])
-        except self.model.DoesNotExist :
-            return HttpResponse("Plan you selected does not exist")
-        except KeyError :
-            return HttpResponse("invalid request")
-
-        form = self.form_class(plan,request.POST,request.FILES)
+    def post(self,request,*args,**kwargs) :
+        if self.model.objects.filter(user= request.user,is_active = True).exists():
+            return HttpResponse("You still have a pending deposit, please wait for approval")
+        form = self.form_class(request.POST,request.FILES)
 
         if form.is_valid() :
             form.save(commit=False)
-            form.instance.plan = plan
+       
             form.instance.user = request.user
             form.save()
             messages.success(request,"Your deposit transaction has been registered and is being processed, you will be notified when processing is completed.") 
@@ -61,59 +44,74 @@ class Deposit(LoginRequiredMixin,View)  :
             print(form.errors)
             return render(request,self.template_name,locals())    
 
+
+class Plans(LoginRequiredMixin,ListView) :
+    template_name = 'plans.html'
+    model = Plan
+    context_object_name = "plans"
+
+
+
+class Invest(LoginRequiredMixin,View)  :
+    template_name = 'invest.html'
+    form_class = InvestmentForm
+    model = Plan
+    plan = None
+
+    def get_context(self) :
+        ctx = {}
+        user_balance = self.request.user.user_wallet.available_balance   
+        #check if balance will permit
+        if user_balance < self.plan.min_cost :
+            ctx['low_balance'] = True
+
+        #max should be user balance of plan max, which ever is larger
+        ctx['max_amount'] = min(self.plan.max_cost or 0.00,user_balance)
+        ctx['default_cost'] = min(self.plan.default_cost,user_balance)
+        ctx['plan'] = self.plan
+        return ctx
+
+
+    def get(self,request,*args,**kwargs) :
+         #check if user has pending deposit
+        _slug = kwargs.get('slug',None)
+        if not _slug : return HttpResponse("Invalid request")
+        try : self.plan = self.model.objects.get(slug =_slug)
+        except self.model.DoesNotExist :
+            return HttpResponse("Plan you selected does not exist")
+        ctx = self.get_context()
+        ctx['form'] = self.form_class 
+        
+        return render(request,self.template_name,ctx)
+
+    def post(self,request,*args,**kwargs) : 
+        _slug = kwargs.get('slug',None)
+        if not _slug : return HttpResponse("Invalid request")
+        try : self.plan = self.model.objects.get(slug =_slug)
+        except self.model.DoesNotExist :
+            return HttpResponse("Plan you selected does not exist")
+        form = self.form_class(user=request.user,data = request.POST)
+
+        if form.is_valid() :
+            form.save(commit=False)
+            form.instance.user = request.user
+            form.save()
+            msg = "You have succesfully subscribed to the {} investment plan.".format(
+                form.instance.plan.name
+            )
+            messages.success(request,msg) 
+            return HttpResponseRedirect(reverse('dashboard'))
+        else :
+            print('failed')
+            ctx = self.get_context()
+            ctx['form'] = form
+            print(request.POST)
+            print(form.errors)
+            return render(request,self.template_name,ctx)    
+
   
 
-class Deposigt(LoginRequiredMixin,View)  :
-    model = Wallet
-    model_p = Plan
-    template_name = 'deposit.html'
 
-    def get(self,request,*args,**kwargs) :
-        
-        _slug = kwargs.get('slug',None)
-        amount  = kwargs.get('amount',None)
-        if not _slug or not amount : return HttpResponse("Invalid request")
-        try : 
-            plan = self.model_p.objects.get(slug =_slug)
-            if not amount <= plan.max_cost and not amount >= plan.min_cost :
-                return "Entered amount is not valid for the selected plan"
-        except self.model_p.DoesNotExist :
-            return HttpResponse("Plan you selected does not exist")
-        return render(request,self.template_name,locals())
-
-    def post(self,request,*args,**kwargs) :    
-        return HttpResponse("Invalid")
-
-
-
-
-class DepositComplete(LoginRequiredMixin,View)  :
-    model = Wallet
-    model_p = Plan
-    template_name = 'deposit.html'
-
-    def get(self,request,*args,**kwargs) :
-        _slug = kwargs.get('slug',None)
-        coin = kwargs.get('coin',None)
-        amount  = kwargs.get('amount',None)
-        if not _slug or not coin or not amount : return HttpResponse("Invalid request")
-        try : plan = self.model_p.objects.get(slug =_slug)
-        except self.model_p.DoesNotExist :
-            return HttpResponse("Plan you selected does not exist")
-        
-        #check if user has pending deposit
-        if not PendingDeposit.objects.filter(user = request.user,is_approved = False).exists() :
-            msg = "You deposit has been acknowledged and is now processing,you will be notified shortly" 
-            Notification.objects.create(user = request.user,message = msg)
-            #create pending deposit 
-            PendingDeposit.objects.create(user = request.user,plan = plan,coin = coin,amount = amount) 
-            url = urljoin(reverse('dashboard'),"?dpt=hsdvv") 
-            return HttpResponseRedirect(url)
-        else :
-            return HttpResponse("You have a pending deposit already do wait for approval,thank You")    
-
-    def post(self,request,*args,**kwargs) :    
-        return HttpResponse("Invalid")
 
 
 
@@ -157,8 +155,3 @@ class Withdrawal(LoginRequiredMixin,View)  :
             return render(request,self.template_name,locals())    
      
 
-
-class Invest(LoginRequiredMixin,ListView) :
-    template_name = 'plans.html'
-    model = Plan
-    context_object_name = "plans"

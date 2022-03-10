@@ -17,12 +17,16 @@
                               
                             </ul>
                             <div  class="tile-title">
+                                Available Balance : 
+                                <span style="">
+                                    +${{user.user_wallet.available_balance}}
+                                </span><br>
                                 
                                 {% if pending_deposit %}
                                 Pending Deposit : 
                                 <span style="color: green;">
                                     +${{pending_deposit}}
-                                </span>
+                                </span><br>
                                
                                 {% endif %}
                                 {% if pending_withdrawal %}
@@ -59,29 +63,28 @@
      
         <div class="progress-card">
             
-            <h4>Investment Plan Progress 
+            <h4>Investments  Progress 
 
             </h4>
-            {% if user.user_wallet.plan_is_active %}
-
-                <ul class="progress-info">
-                    <li><span>Earned -</span> ${{user.user_wallet.plan_earning}}</li>
-                    <li><span>Expected -</span> ${{user.user_wallet.max_earning}}</li>
-                </ul>
-                <div class="progress-bar">
-                    <!--div class="progress-hcap" style="width:90%">
-                        <div>Due for withdrawal <span>{{user.user_wallet.due_withdawab</span></div>
-                    </div-->
-                    <!--div class="progress-scap" style="width:34%">
-                        <div>Soft cap <span>40,000</span></div>
+            {% if user.active_investments %}
+            
+                {% for investment in user.active_investments %}
+                <div>
+                    <h3 class=""><span style="font-size: 15px;color:inherit">Plan </span>-> {{investment.plan}}</h3>
+   
+                        <span>Capital  -</span> ${{investment.amount}}
+              
+                    <ul class="progress-info">
+                        <li><span>Earned -</span> ${{investment.current_earning}}</li>
+                        <li><span>Expected -</span> ${{investment.expected_earning}}</li>
+                    </ul>
+                    <div class="progress-bar">
+                    
+                        <div class="progress-percent" style="width:{{investment.plan_progress}}%"></div>
                     </div>
-                    <div class="progress-psale" style="width:12%">
-                        <div>Pre Sale <span>10,000</span></div>
-                    </div-->
-                    <div class="progress-percent" style="width:{{user.user_wallet.plan_progress}}%"></div>
+                   
                 </div>
-                <h3 class=""><span style="font-size: 15px;color:inherit">Plan </span>-> {{user.user_wallet.plan}}</h3>
-
+                {% endfor %}
             {% else %}    
             <div class="status status-empty">
                 <div class="status-icon">

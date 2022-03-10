@@ -24,8 +24,8 @@ class Dashboard(LoginRequiredMixin,TemplateView) :
         return ctx
 
     def get(self,request,*args,**kwargs)   :
-        if request.user.user_wallet.plan_is_active and request.user.user_wallet.plan_is_due :
-            request.user.user_wallet.on_plan_complete()
+        #if request.user.user_wallet.plan_is_active and request.user.user_wallet.plan_is_due :
+            #request.user.user_wallet.on_plan_complete()
         return render(request,self.template_name,self.get_context_data())    
 
 

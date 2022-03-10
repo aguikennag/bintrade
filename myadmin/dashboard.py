@@ -5,10 +5,13 @@ from django.contrib.auth.mixins import UserPassesTestMixin,LoginRequiredMixin
 from django.shortcuts import render 
 from django.http import HttpResponse,HttpResponseRedirect
 from django.conf import settings
-from wallet.models import Transaction
+from django.db.models  import Sum
+
+from wallet.models import PendingDeposit, Transaction
 from .models import Settings as ModelSetting
 from .forms import SettingsForm
 from django.utils import timezone
+from django.contrib.auth import get_user_model
 
 class AdminBase(UserPassesTestMixin,LoginRequiredMixin,) :
 
@@ -21,10 +24,14 @@ class AdminBase(UserPassesTestMixin,LoginRequiredMixin,) :
 
 class Dashboard(AdminBase,View) :
     template_name = 'admin-dashboard.html'
+    pd_model = PendingDeposit
 
     def get(self,request,*args,**kwargs) :
         transaction_history = Transaction.objects.all().order_by('-date')[:8]
-       
+        site_revenue = self.pd_model.objects.filter(is_active = False).aggregate(
+            revenue = Sum("amount")
+        )['revenue'] or 0.00
+        registered_users = get_user_model().objects.all().count()
         return render(request,self.template_name,locals())    
 
 

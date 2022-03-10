@@ -43,7 +43,7 @@ class DepositNotice(AdminBase,ListView)   :
     context_object_name = "deposits" 
 
     def get_queryset(self) :
-        return self.model.objects.filter(is_approved = False)    
+        return self.model.objects.filter(is_active = True)    
 
 
 class ApproveDeposit(AdminBase,View) :
@@ -67,22 +67,14 @@ class ApproveDeposit(AdminBase,View) :
 
 
     def on_approved_deposit(self,instance) :
-        #fund user wallet
-        wallet = instance.user.user_wallet
-        wallet.plan = instance.plan
-        wallet.plan_start = timezone.now()
-        wallet.plan_end = timezone.now() + timezone.timedelta(days = int(instance.plan.duration))
-        wallet.initial_balance = instance.amount
-        wallet.plan_is_active = True
-        wallet.past_deposits +=  instance.amount
-        
+        instance.on_approve()
         #add for referral
         self.add_referee_earning(instance)
 
         #notify user 
         msg = "Your ${} deposit has been approved.".format(instance.amount)
         Notification.objects.create(user = instance.user,message = msg)
-        
+
         #create transaction
         Transaction.objects.create(user = instance.user,
         status = "Approved",
@@ -91,7 +83,7 @@ class ApproveDeposit(AdminBase,View) :
         coin = instance.payment_method,
         description = "Deposit Approved"
         )    
-        wallet.save()
+        
         return
         
 
@@ -109,9 +101,7 @@ class ApproveDeposit(AdminBase,View) :
             return JsonResponse(feedback)
         try : 
             pd = self.model.objects.get(pk = pk)
-            
             self.on_approved_deposit(pd)  
-            pd.delete()
             feedback['success'] = True
             return JsonResponse(feedback)
 

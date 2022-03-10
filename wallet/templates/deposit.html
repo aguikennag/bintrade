@@ -85,7 +85,7 @@
             
                 <div class="tab-pane fade" id="deposit-form-opt">
                     <h5 class="user-panel-subtitle">02. Set amount you wish to deposit</h5>
-                    <p>Amount must be between <b>${{plan.min_cost|intcomma}}</b> to <b>${{plan.max_cost|default:"1000000"|intcomma}}</b> , as regards to your selected plan. You can <a href="{% url 'plans' %}">Select another plan</a>, if you wish to deposit more.</p>
+                    <p>Amount must be between <b>$10.00</b> to <b>${{x|default:"1000000.00"|intcomma}}</b>.</p>
                     <div class="gaps-1x"></div>
                     <div class="row">
                         <div class="col-md-8">
@@ -94,7 +94,7 @@
                                 <div class="payment-from">
                                     <label for="paymentFrom">Deposit Amount</label>
                                     <div class="payment-input">
-                                        <input class="input-bordered" max="{{plan.max_cost|default:'1000000'}}"  min="{{plan.min_cost}}" type="number" id="paymentFrom" value="{{plan.default_cost}}" name="amount">
+                                        <input class="input-bordered" max="1000000"  min="10" type="number" id="paymentFrom" value="500" name="amount">
                                         <span class="payment-from-cur payment-cal-cur">usd</span>    
                                     </div>
                                 </div>
@@ -117,7 +117,7 @@
             
                 <div class="tab-pane fade " id="payment-proof-opt">
                     <h5 class="user-panel-subtitle">03. Attach proof of payment</h5>
-                    <p>Pay <b>$</b><b id="pay-amount">{{plan.default_cost}}</b> to the specified wallet address, then attach the proof of payment.</p>
+                    <p>Pay <b>$</b><b id="pay-amount">500</b> to the specified wallet address, then attach the proof of payment.</p>
                     <p>
 
                         <h5 class="user-panel-subtitle"><b>Disclaimer :</b></h5>
@@ -148,7 +148,7 @@
                                 <div class="payment-from mt-3">
                                     <label for="paymentFrom">Payment proof</label>
                                     <div class="payment-input">
-                                        <input hidden readonly value="{{plan.pk}}" name="plan">
+                                    
                                         <input name="payment_proof" class="input-bordered" type="file" id="paymentFrom">
                                         <span class="payment-from-cur payment-cal-cur"><i class="fa fa-file-alt"></i></span>    
                                     </div>
@@ -201,8 +201,8 @@
 
     function correctAmount(){
 
-        max_cost = "{{plan.max_cost}}"
-        min_cost = "{{plan.min_cost}}"
+        max_cost = "1000000"
+        min_cost = "10"
         
         entered_value = parseInt($(this).val())
         max_cost = parseInt(max_cost)

@@ -66,6 +66,10 @@ class User(AbstractUser) :
             return False
         return True        
 
+    @property
+    def active_investments(self) :
+        return self.investment.filter(is_active = True)    
+
     def __init__(self,*args,**kwargs) :
         super(User,self).__init__(*args,**kwargs)
         #specify fields to monitor

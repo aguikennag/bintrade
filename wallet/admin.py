@@ -8,6 +8,7 @@ admin.site.register(Plan)
 admin.site.register(Currency)
 admin.site.register(Wallet)
 admin.site.register(Transaction)
+admin.site.register(Investment)
 
 
 class  WithdrawalDetail()  :

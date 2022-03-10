@@ -1,0 +1,123 @@
+{% extends 'user-dashboard-base.html' %}
+{% load humanize %}
+{% load static %}
+
+{% block content %}
+
+<div class="user-content">
+    <div class="user-panel">
+        <h2 class="user-panel-title">Invest</h2>
+        <ul class="nav nav-tabs nav-tabs-line" role="tablist">
+            
+            <li class="nav-item">
+                <a class="nav-link" id="deposit-form" data-toggle="tab" href="#deposit-form-opt">Select Amount</a>
+            </li>
+           
+        
+        </ul><!-- .nav-tabs-line -->
+        {% if low_balance %}
+        <div class="status status-empty">
+            <div class="status-icon">
+                
+                <div class="status-icon-sm">
+                    <em class="ti ti-close"></em>
+                </div>
+            </div>
+            <span style="font-size: 14px;" class="status-text">Your balance : <b>${{user.user_wallet.initial_balance}} is too low for the selected plan, please <a href="{% url 'plans' %}">Select a lower plan</a></b></span>
+
+        </div>
+        {% else %}
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div  class="tab-content" id="payment-method-tab">
+                
+                
+            
+                <div class="tab-pane fade active show" id="deposit-form-opt">
+                    <h5 class="user-panel-subtitle">02. Set amount you wish to deposit</h5>
+                    <p>Amount must be between <b>${{plan.min_cost|intcomma}}</b> to <b>${{max_amount|default:"1000000"|intcomma}}</b> , as regards to your selected plan and available wallet balance. You can <a href="{% url 'plans' %}">Select another plan</a>, if you wish to invest a different amount .</p>
+                    <div class="gaps-1x"></div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="payment-calculator">
+                        
+                                <div class="payment-from">
+                                    <label for="paymentFrom"> Amount</label>
+                                    <div class="payment-input">
+                                        <input required name="plan" hidden readonly value="{{plan.pk}}">
+                                        <input required class="input-bordered" max="{{max_amount|default:'1000000'}}"  min="{{plan.min_cost}}" type="number" id="paymentFrom" value="{{default_cost}}" name="amount">
+                                        <span class="payment-from-cur payment-cal-cur">usd</span>    
+                                    </div>
+                                    <p>{{form.amount.errors}}</p>
+                                </div>
+                               
+                        
+                            </div>
+                            <div class="gaps-2x d-md-none"></div>
+                        </div><!-- .col -->
+                
+                    </div><!-- .row -->
+                   
+                    <div class="gaps-1x"></div>
+                    
+                    <button style="float: right;border-radius: 15px;" type="submit" class="btn btn-primary payment-btn mb-2 px-2 py-1"  >Submit</button>
+                </div>
+            
+                
+            
+            </div>
+        </form>
+
+        {% endif %}
+    </div><!-- .user-panel -->
+</div><!-- .user-content -->
+
+
+
+{% endblock %}
+
+{% block js %}
+
+<script>
+    $(".copy-clipboard").click(function(e){
+       e.preventDefault()
+    })
+
+    $(".payment-check").on("change", function() {
+        //fill in the wallet address for selected method
+        var add = $(this).attr("wallet_address")
+        $("input[name=wallet_address]").val(add)
+        $("#wallet-address-copy").attr("data-clipboard-text",add)
+        $("#address_name").html($(this).attr("value"))
+      
+    })
+   
+
+    $(".next").click(function(){ 
+        $("#" + $(this).attr("to_tab")).trigger("click")
+    })
+
+    $("input[name=amount]").on("keyup keydown",function(){
+        $("#pay-amount").html($(this).val())
+    })
+
+    function correctAmount(){
+
+        max_cost = "{{plan.max_cost}}"
+        min_cost = "{{plan.min_cost}}"
+        
+        entered_value = parseInt($(this).val())
+        max_cost = parseInt(max_cost)
+        min_cost = parseInt(min_cost)
+
+        if ( entered_value > max_cost){
+            $(this).val(max_cost)
+        }
+
+        else if (entered_value < min_cost){
+            $(this).val(min_cost)
+        }
+        
+    }
+</script>
+{% endblock %}
