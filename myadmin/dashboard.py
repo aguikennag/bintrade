@@ -44,7 +44,7 @@ class Settings(AdminBase,View) :
     template_name = "form.html"
 
     def get(self,request,*args,**kwargs) :
-        form = self.form_class(instance=self.model.objects.get(admin = request.user.user_admin))
+        form = self.form_class()
         form_title = "Admin Settings"
         return render(request,self.template_name,locals())
 
@@ -60,11 +60,5 @@ class Settings(AdminBase,View) :
             return render(request,self.template_name,locals())
 
 
-class Members(AdminBase,View) :
-    template_name = 'members.html'
-
-    def get(self,request,*args,**kwargs) :
-        members = request.user.users.all().order_by('-name','-username')
-        return render(request,self.template_name,locals())
 
 

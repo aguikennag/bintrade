@@ -14,18 +14,22 @@ class FundMember() :
     template_name = "fund-member.html"
 
 
-
-class MemberDetail(View)  :
-    template_name = 'member-profile.html' 
+class Members(AdminBase,View) :
+    template_name = 'members.html'
     model = get_user_model()
 
     def get(self,request,*args,**kwargs) :
-        try :
-            user = self.model.objects.get(username = kwargs['username'])
-        except :
-            return HttpResponse('invalid  request')    
+        members = self.model.objects.exclude(
+            user_wallet__isnull = True
+        ).order_by('-name','-username')
         return render(request,self.template_name,locals())
 
+
+
+class MemberDetail(DetailView)  :
+    template_name = 'member-profile.html' 
+    model = get_user_model()
+    context_object_name = "member"
 
 
 class MemberEdit(UpdateView) :

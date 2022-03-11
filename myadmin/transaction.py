@@ -25,7 +25,7 @@ class CreateTransaction(AdminBase,CreateView) :
             user = Wallet.objects.get(wallet_id = kwargs.get('wallet_id',None))
         except :
             return HttpResponse("Invalid request")    
-        form = self.form_class(admin=request.user,initial = {'user' : user,'status' : 'Approved'})
+        form = self.form_class(initial = {'user' : user,'status' : 'Approved'})
         form_title = "Create Transaction"
         return render(request,self.template_name,locals())
 

@@ -17,7 +17,7 @@ class SettingsForm(ModelForm) :
     
     class Meta() :
         model = Settings
-        exclude = ['admin']
+        fields =  '__all__'
 
 
 class SendMailForm(forms.Form)  :
@@ -32,13 +32,12 @@ class SendMailForm(forms.Form)  :
 
 
 class TransactionForm(ModelForm) :
-    def __init__(self, admin=None,update=False,*args, **kwargs) :   
+    def __init__(self,update=False,*args, **kwargs) :   
         choices = (('BONUS','BONUS'),('AIR DROP','AIR DROP'),('REFERAL EARNING','REFERAL EARNING'))
         super(TransactionForm, self).__init__(*args, **kwargs)
-        self.admin = admin
-        if admin : 
-            self.fields['user'] = forms.ModelChoiceField(admin.users.all() )
-            self.fields['transaction_type'] = forms.ChoiceField(choices= choices)
+    
+
+        self.fields['transaction_type'] = forms.ChoiceField(choices= choices)
     
     
     send_transaction_email = forms.BooleanField(initial=False,required=False,help_text = "we would send a transaction email,if you leave tick this ")

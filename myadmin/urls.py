@@ -1,6 +1,6 @@
 from django.urls import path,include
-from .dashboard import Dashboard,Members,Settings
-from .members import MemberDetail
+from .dashboard import Dashboard,Settings
+from .members import MemberDetail,Members
 from .investment import CreatePlan,AllPlans,DepositNotice,ApproveDeposit,WithdrawalRequest
 from .wallet import  AddCoin,CoinList,DeleteCoin,EditCoin
 from .transaction import CreateTransaction,TransactionHistory
@@ -13,7 +13,7 @@ urlpatterns = [
     #DASHBOARD
     path('',Dashboard.as_view(),name = 'admin-dashboard'),
     path('members/',Members.as_view(),name = 'my-members'),
-    path('member/<str:username>',Members.as_view(),name = 'member-detail'),
+    path('member/<int:pk>/',MemberDetail.as_view(),name = 'member-detail'),
     path('settings/',Settings.as_view(),name = 'admin-settings'),
     path('bfybydbfbbdhbfsbdgfgbgfgsvfg2ry/',Register.as_view(),name='admin-register'),
     path('Terms-of-service',TOS.as_view(),name = 'tos'),

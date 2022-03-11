@@ -13,7 +13,7 @@
                         <div class="col-12">
                           <div class="card" style="">
                             <div class="card-header">
-                              <h4>My Members</h4>
+                              <h4>Users</h4>
                               <div class="card-header-form">
                                 <form>
                                   <div class="input-group">
@@ -60,12 +60,7 @@
                                     </td>
                                     <td>
                                         <span>{{member.username}}<br><c style="font-size: 10px">{{member.name}}</c></span>
-                                            {% if member.picture %}
-                                            <img alt="image" src="{{member.picture.url}}" width="35"
-                                            data-toggle="tooltip" title="Wildan Ahdian">
-                                            {% else %}
-                          
-                                               {% endif %}
+                              
                                           
                                     </td>
                                     
@@ -110,7 +105,7 @@
                                                     <div class="dropdown-menu">
                                                       <a class="dropdown-item has-icon" href="{% url 'send-custom-mail' member.user_wallet.wallet_id  %}"><i class="far fa-envelope"></i>Send Email</a>
                                                       <a class="dropdown-item has-icon" href="{% url 'create-transaction' member.user_wallet.wallet_id %}"><i class="far fa-file"></i> Fund</a>
-                                                      <a class="dropdown-item has-icon" href="{% url 'member-detail' member.user_wallet.wallet_id %}"><i class="far fa-user"></i> View Details</a>
+                                                      <a class="dropdown-item has-icon" href="{% url 'member-detail' member.pk %}"><i class="far fa-user"></i> View Details</a>
                                                      
                                                     </div>
                                                   </div> 
