@@ -74,6 +74,10 @@ class Investment(models.Model) :
     class Meta() :
         ordering = ['-plan_start']
 
+    def days_to_seconds(self,days) :
+        return days * 24 * 60 * 60
+
+
 
     def save(self,*args,**kwargs) :
         if not self.pk : 
@@ -102,9 +106,9 @@ class Investment(models.Model) :
             #calcculate what the balance should be for the plan
             today = timezone.now()   
             curr_diff = today - self.plan_start
-            curr_diff_in_seconds = curr_diff.seconds
+            curr_diff_in_seconds = curr_diff.total_seconds()
             total_diff = self.plan_end - self.plan_start
-            total_diff_in_seconds = total_diff.seconds
+            total_diff_in_seconds = total_diff.total_seconds()
             earning  = (curr_diff_in_seconds/total_diff_in_seconds ) * self.expected_earning
             
             #bal = self.amount + extra
@@ -118,9 +122,9 @@ class Investment(models.Model) :
         if self.is_active :
             today = timezone.now()   
             curr_diff = today - self.plan_start
-            curr_diff_in_seconds = curr_diff.seconds
+            curr_diff_in_seconds = curr_diff.total_seconds()
             total_diff = self.plan_end - self.plan_start
-            total_diff_in_seconds = total_diff.seconds
+            total_diff_in_seconds = total_diff.total_seconds()
             progress = (curr_diff_in_seconds/total_diff_in_seconds )* 100
             #in terms of overshoot
             return min(progress,100)
