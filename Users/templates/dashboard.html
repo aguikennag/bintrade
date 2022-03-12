@@ -13,13 +13,13 @@
                             <div class="tile-bubbles"></div>
                             <h6 class="tile-title">WALLET BALANCE</h6>
                             <ul class="tile-info-list">
-                                <li><span>${{user.user_wallet.current_balance}}</span></li>
+                                <li><span>${{user.user_wallet.current_balance|intcomma}}</span></li>
                               
                             </ul>
                             <div  class="tile-title">
                                 Available Balance : 
                                 <span style="">
-                                    ${{user.user_wallet.available_balance}}
+                                    ${{user.user_wallet.available_balance|intcomma
                                 </span><br>
                                 
                                 {% if pending_deposit %}
@@ -72,14 +72,14 @@
                 <div>
                     <h3 class=""><span style="font-size: 15px;color:inherit">Plan </span>-> {{investment.plan}}</h3>
                     <p>
-                        <span>Capital  -${{investment.amount}}</span> 
+                        <span>Capital  -${{investment.amount|intcomma}}</span> 
                         <!--span style="float: right;">Started on -{{investment.plan_start.date}}</span-->
                     </p>
                      
               
                     <ul class="progress-info">
-                        <li><span>Earned -</span> ${{investment.current_earning}}</li>
-                        <li><span>Expected -</span> ${{investment.expected_earning}}</li>
+                        <li><span>Earned -</span> ${{investment.current_earning|intcomma}}</li>
+                        <li><span>Expected -</span> ${{investment.expected_earning|intcomma}}</li>
                     </ul>
                     <div class="progress-bar">
                     
