@@ -38,12 +38,12 @@
                                     </th>
                                     <th>Name</th>
                                     <th>Balance</th>
-                                    <th><span>Deposit <br> Earnings</span></th>
+                                    
                                     <th><span>Referral <br> Earnings</span></th>
                                     <th><span>Funded<br> Earnings</span></th>
                                     <th>Withdrawals</th>
-                                    <th>Active plan</th>
-                                    <th>Plan progress</th>
+                                  
+                                    
                                     <th>Reg Date</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -65,17 +65,17 @@
                                     </td>
                                     
                                     <td>${{member.user_wallet.current_balance}}</td>
-                                    <td>${{member.user_wallet.deposit_earning}}</td>
+                                  
                                     <td>${{member.user_wallet.referral_earning}}</td>
                                     <td>${{member.user_wallet.funded_earning}}</td>
                                     <td>${{member.user_wallet.withdrawals}}</td>
-                                    {% if member.user_wallet.plan_is_active %}
-                                    <td>  <span><div class="badge badge-success">Active</div>
+                                  
+                                    <!--td>  <span><div class="badge badge-success">Active</div>
                                     <br> <c style="font-size: 10px" >expires {{member.user_wallet.plan_end.date}}</c></span></td>
-                                    {% else %}
+                              
                                     <td>  <span><div class="badge badge-danger">Inactive</div>
-                                      <!--br> <c style="font-size: 10px" >expires 34</c></span></td-->
-                                    {% endif %}
+                                      <!--br> <c style="font-size: 10px" >expires 34</c></span></td->
+                                    
                                    
                                     
 
@@ -85,15 +85,15 @@
                                       <div class="progress" data-height="4" data-toggle="tooltip" title="100%">
                                         <div class="progress-bar bg-success" data-width="{{member.user_wallet.plan_progress}}"></div>
                                       </div>
-                                    </td>
+                                    </td-->
                                     <td>{{member.date_joined.date}}</td>
                                    
                                    
                                     <td>
                                         {% if member.is_active %}
-                                      <div class="badge badge-success">Logged In</div>
+                                      <div class="badge badge-success">Active</div>
                                       {% else %}
-                                      <div class="badge badge-danger">Logged Out</div>
+                                      <div class="badge badge-danger">Inactive</div>
                                       {% endif %}
                                     </td>
                                     <td>

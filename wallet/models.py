@@ -107,8 +107,9 @@ class Investment(models.Model) :
             plan_duration_in_seconds = self.plan.duration * 24 * 60 *60
             earning = (diff_in_seconds/plan_duration_in_seconds) * self.plan.get_interest(self.amount)
             #bal = self.amount + extra
-            
-            return round(earning,2)
+            #incase of overshoot show max earning
+            bal = min(earning,self.expected_earning)
+            return round(bal,2)
     
 
     @property
@@ -118,7 +119,9 @@ class Investment(models.Model) :
             diff = today - self.plan_start
             diff_in_seconds = diff.seconds
             plan_duration_in_seconds = self.plan.duration * 24 * 60 *60
-            return (diff_in_seconds/plan_duration_in_seconds) * 100
+            progress = (diff_in_seconds/plan_duration_in_seconds) * 100
+            #in terms of overshoot
+            return min(progress,100)
         else :
             return 0  
 

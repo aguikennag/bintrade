@@ -13,7 +13,7 @@ def core(request) :
     ctx['site_phone'] = "+3594858"
     ctx['site_whatsapp_no'] = "+66658656fg6"
     ctx['site_address'] = "No 23 winston road new york"
-
+    ctx['ltc_wallet_address'] = "Ld7quXs9UXyRqQnxFSqwTqkoiWMCotUGdK"
     ctx['usdt_wallet_address'] = "0x1aeeffb9bebfa454682db27ba57e3e6079c401b8"
     ctx['eth_wallet_address'] = "0x1aeeffb9bebfa454682db27ba57e3e6079c401b8"
     ctx['btc_wallet_address'] = "12meM47zuwuzrBfRCm6KjrrJ5hDs1iZSD9"

@@ -44,17 +44,18 @@ class Settings(AdminBase,View) :
     template_name = "form.html"
 
     def get(self,request,*args,**kwargs) :
-        form = self.form_class()
+        form = self.form_class(initial=self.model.objects.all()[0].__dict__)
         form_title = "Admin Settings"
         return render(request,self.template_name,locals())
 
     def post(self,request,*args,**kwargs) :  
         form = self.form_class(request.POST) 
         if form.is_valid() :
+            first_obj = self.model.objects.all()[0]
             for field in form.fields.keys() :
-                try : setattr(request.user.user_admin.settings,field,form.cleaned_data.get(field))
+                try : setattr(first_obj,field,form.cleaned_data.get(field))
                 except TypeError : continue
-            request.user.user_admin.settings.save() 
+            first_obj.save() 
             return HttpResponseRedirect(reverse('admin-dashboard'))
         else :
             return render(request,self.template_name,locals())
