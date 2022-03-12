@@ -21,15 +21,15 @@ class Deposit(LoginRequiredMixin,View)  :
 
 
     def get(self,request,*args,**kwargs) :
-        if self.model.objects.filter(user= request.user,is_active = True).exists():
-            return HttpResponse("You still have a pending deposit, please wait for approval")
+        #if self.model.objects.filter(user= request.user,is_active = True).exists():
+            #return HttpResponse("You still have a pending deposit, please wait for approval")
         
         form = self.form_class    
         return render(request,self.template_name,locals())
 
     def post(self,request,*args,**kwargs) :
-        if self.model.objects.filter(user= request.user,is_active = True).exists():
-            return HttpResponse("You still have a pending deposit, please wait for approval")
+        #if self.model.objects.filter(user= request.user,is_active = True).exists():
+            #return HttpResponse("You still have a pending deposit, please wait for approval")
         form = self.form_class(request.POST,request.FILES)
 
         if form.is_valid() :

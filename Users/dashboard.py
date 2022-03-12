@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy,reverse
 from django.forms.models import model_to_dict
 from wallet.models import Wallet,WithdrawalApplication as WA,Transaction as TR
-
+from django.db.models import Sum
 
 
 class Dashboard(LoginRequiredMixin,TemplateView) :
@@ -15,7 +15,9 @@ class Dashboard(LoginRequiredMixin,TemplateView) :
 
     def get_context_data(self,*args,**kwargs) :
         ctx = super(Dashboard,self).get_context_data(*args,**kwargs)  
-        try : ctx['pending_deposit'] = self.request.user.user_pending_deposit.amount
+        try : ctx['pending_deposit'] = self.request.user.user_pending_deposit.all().aggregate(
+            total = Sum("amount")
+        )['total']
         except : pass
         ctx['recent_transactions'] = TR.objects.filter(user=self.request.user)[:6]
         init = self.request.user.username[0] 
@@ -24,6 +26,7 @@ class Dashboard(LoginRequiredMixin,TemplateView) :
         return ctx
 
     def get(self,request,*args,**kwargs)   :
+        request.user.handle_due_investments()
         #if request.user.user_wallet.plan_is_active and request.user.user_wallet.plan_is_due :
             #request.user.user_wallet.on_plan_complete()
         return render(request,self.template_name,self.get_context_data())    

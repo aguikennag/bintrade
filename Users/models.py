@@ -1,4 +1,5 @@
 from email.policy import default
+from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models   import AbstractUser
 from django.utils.text import  slugify
@@ -46,6 +47,17 @@ class User(AbstractUser) :
     _wallet_address = models.CharField(max_length=40,null  = True,help_text = "BEP20 address")
     
     email_verified = models.BooleanField(default= False)
+
+    def handle_due_investments(self) :
+        due_investments = self.investment.filter(
+            is_active = True,
+            plan_end__lte = timezone.now()
+        ) 
+        
+        for investment in due_investments :
+            investment.on_plan_complete()
+            
+
 
     @property
     def unique_id(self) :

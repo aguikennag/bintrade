@@ -101,11 +101,12 @@ class Investment(models.Model) :
         else :
             #calcculate what the balance should be for the plan
             today = timezone.now()   
-            diff = today - self.plan_start
-        
-            diff_in_seconds = diff.seconds
-            plan_duration_in_seconds = self.plan.duration * 24 * 60 *60
-            earning = (diff_in_seconds/plan_duration_in_seconds) * self.plan.get_interest(self.amount)
+            curr_diff = today - self.plan_start
+            curr_diff_in_seconds = curr_diff.seconds
+            total_diff = self.plan_end - self.plan_start
+            total_diff_in_seconds = total_diff.seconds
+            earning  = (curr_diff_in_seconds/total_diff_in_seconds ) * self.expected_earning
+            
             #bal = self.amount + extra
             #incase of overshoot show max earning
             bal = min(earning,self.expected_earning)
@@ -116,21 +117,23 @@ class Investment(models.Model) :
     def plan_progress(self) :
         if self.is_active :
             today = timezone.now()   
-            diff = today - self.plan_start
-            diff_in_seconds = diff.seconds
-            plan_duration_in_seconds = self.plan.duration * 24 * 60 *60
-            progress = (diff_in_seconds/plan_duration_in_seconds) * 100
+            curr_diff = today - self.plan_start
+            curr_diff_in_seconds = curr_diff.seconds
+            total_diff = self.plan_end - self.plan_start
+            total_diff_in_seconds = total_diff.seconds
+            progress = (curr_diff_in_seconds/total_diff_in_seconds )* 100
             #in terms of overshoot
             return min(progress,100)
         else :
             return 0  
 
-    @property
+    
     def on_plan_complete(self)  :
+    
         #deactivate plan
         self.is_active = False
         #move to wallet
-        self.user.user_wallet.amount += self.amount + self.expected_earning
+        self.user.user_wallet.credit(self.amount)
         self.user.user_wallet.save()
         self.save()
     
@@ -153,10 +156,12 @@ class Wallet(models.Model) :
 
     def debit(self,amount) :
         self.initial_balance -= amount
+        #send mail
         self.save()
 
     def credit(self,amount) :
         self.initial_balance += amount
+        #send mail
         self.save()
     
     @property
@@ -233,7 +238,7 @@ class PendingDeposit(models.Model)    :
         ext = file_name.split(".")[1]
         return "{}/deposits/{}.{}".format(instance.user.username,instance.pk,ext)
 
-    user  = models.OneToOneField(get_user_model(),on_delete = models.CASCADE,related_name = 'user_pending_deposit')
+    user  = models.ForeignKey(get_user_model(),on_delete = models.CASCADE,related_name = 'user_pending_deposit')
     amount = models.PositiveIntegerField(null = False)
     is_active = models.BooleanField(default = True)
     is_declined = models.BooleanField(default = False)

@@ -19,7 +19,7 @@
                             <div  class="tile-title">
                                 Available Balance : 
                                 <span style="">
-                                    +${{user.user_wallet.available_balance}}
+                                    ${{user.user_wallet.available_balance}}
                                 </span><br>
                                 
                                 {% if pending_deposit %}
@@ -71,8 +71,11 @@
                 {% for investment in user.active_investments %}
                 <div>
                     <h3 class=""><span style="font-size: 15px;color:inherit">Plan </span>-> {{investment.plan}}</h3>
-   
-                        <span>Capital  -</span> ${{investment.amount}}
+                    <p>
+                        <span>Capital  -${{investment.amount}}</span> 
+                        <span style="float: right;">Started on -{{investment.plan_start.date}}</span>
+                    </p>
+                     
               
                     <ul class="progress-info">
                         <li><span>Earned -</span> ${{investment.current_earning}}</li>
