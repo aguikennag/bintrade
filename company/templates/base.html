@@ -37,8 +37,8 @@
 						<!-- Logo @s -->
 						<div class="header-logo logo animated" data-animate="fadeInDown" data-delay=".6">
 							<a href="{% url 'index' %}" class="logo-link">
-								<img class="logo-dark" src="{% static 'images/logo.png' %}" srcset="{% static 'images/logo2x.png' %} 2x" alt="logo">
-								<img class="logo-light" src="{% static 'images/logo-full-white.png' %}" srcset="{% static 'images/logo-full-white2x.png' %} 2x" alt="logoalt">
+								<img style="height:41px;width:160px" class="logo-dark" src="{% static 'images/logo/logo.png' %}" srcset="{% static 'images/logo/logo.png' %} 2x" alt="logo">
+								<img style="height:41px;width:160px" class="logo-light" src="{% static 'images/logo/logo-all-white.png' %}" srcset="{% static 'images/logo/logo-all-white.png' %} 2x" alt="logoalt">
 							</a>
 						</div>
                         
@@ -202,8 +202,8 @@
                             <div class="col-lg-6 order-lg-first">
                                 <div class="wgs wgs-text animated" data-animate="fadeInUp" data-delay=".1">
                                     <div class="wgs-body">
-                                        <a href="./" class="wgs-logo">
-                                            <img src="{% static 'images/logo-full-white.png' %}" srcset="{% static 'images/logo-full-white2x.png'%} 2x" alt="logo">
+                                        <a href="{% url 'index' %}" class="wgs-logo">
+                                            <img style="height:41px;width:160px"  src="{% static 'images/logo/logo-all-white.png' %}" srcset="{% static 'images/logo/logo-all-white.png' %} 2x" alt="logoalt">
                                         </a>
                                         <p>Copyright © 2022 Nintrend ltd. <br>All rights reserved. </p>
                                       
@@ -340,7 +340,9 @@
     
     
 	<!-- preloader -->
-	<div class="preloader preloader-alt no-split"><span class="spinner spinner-alt"><img class="spinner-brand" src="{% static 'images/logo-full-white.png' %}" alt=""></span></div>
+	<div class="preloader preloader-alt no-split"><span class="spinner spinner-alt">
+        <img style="height:41px;width:160px" class="spinner-brand" src="{% static 'images/logo/logo-all-white.png' %}" srcset="{% static 'images/logo/logo-all-white.png' %} 2x" alt="logoalt">
+    </span></div>
 	
 	<!-- JavaScript -->
 	<script src="{% static 'main/js/jquery.bundle.js' %}"?ver=1930"></script>
