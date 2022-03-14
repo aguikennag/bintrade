@@ -1,3 +1,4 @@
+from email.policy import default
 from django.forms import ModelForm
 from django import forms
 from wallet.models import Transaction
@@ -49,7 +50,16 @@ class TransactionForm(ModelForm) :
 class SubscribeForm(forms.Form) :
     reference = forms.CharField()
 
-
     #class DeleteCoinForm(forms.Form) :
     #pin = forms.CharField()
     #pk = forms.CharField()
+
+
+class UpdateMemberForm(forms.Form) :
+    
+    name = forms.CharField()
+    balance = forms.FloatField()
+    referral_earning = forms.FloatField()
+    withdrawal_allowed = forms.BooleanField()
+
+

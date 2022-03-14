@@ -15,25 +15,23 @@
                         <div class="card author-box">
                             <div class="card-body">
                                 <div class="author-box-center">
-                                  {% if user.passport %}
-                                    <img style="width:40%;height:40%" alt="image" src="{{user.passport.url}}">
-                                  {% else %} 
-                                  <img style="width:40%;height:40%" alt="image" src="{% static 'dashboard/img/users/user-1.png' %}">
+                                  {% if user.picture %}
+                                    <img style="width:80px;height:80px;border-radius: 50%;" alt="image" src="{{user.picture.url}}">
+                                  
                                   {% endif %}
                                     <div class="clearfix"></div><br>
                                         <div class="author-box-name">
                                            {{user}}
                                         </div>
                                         <div class="author-box-job" style="font-size:19px">
-                                          Account number : <b>{{user.account_number}}</b><br>
-                                          Account Type : <b>{{user.account_type}}</b>
+                                    
                                         </div>
                                     </div>
 
                                 <div class="text-center">
                                     <div class="author-box-description">
                                         <p>
-                                            
+                                           <b>Current Total Earning : ${{total_earning}}</b> 
                                         </p>
                                     </div>
                                 </div>
@@ -44,12 +42,12 @@
                     </div>        
               <div class="col-12 col-md-12 col-lg-7">
                     <div class="card">
-                            <form style="margin:15px" class="needs-validation" novalidate="" method="POST">
+                            <form style="margin:15px" action="" class="needs-validation" novalidate="" method="POST">
                              {% csrf_token %}
                              {{form|crispy}}
-                              <!--div class="card-footer text-right">
+                              <div class="card-footer text-right">
                                 <button class="btn btn-primary">Update</button>
-                              </div-->
+                              </div>
                             </form>
                           </div>
               </div>

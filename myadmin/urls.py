@@ -15,11 +15,10 @@ urlpatterns = [
     path('members/',Members.as_view(),name = 'my-members'),
     path('member/<int:pk>/',MemberDetail.as_view(),name = 'member-detail'),
     path('settings/',Settings.as_view(),name = 'admin-settings'),
-    path('bfybydbfbbdhbfsbdgfgbgfgsvfg2ry/',Register.as_view(),name='admin-register'),
     path('Terms-of-service',TOS.as_view(),name = 'tos'),
 
     #MEMBERS
-    path('member/<str:username>/',MemberDetail.as_view(),name = 'member-detail'),
+    path('member/<int:pk>/',MemberDetail.as_view(),name = 'member-detail'),
     
 
 

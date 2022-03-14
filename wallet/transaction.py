@@ -123,10 +123,15 @@ class Withdrawal(LoginRequiredMixin,View)  :
 
     def withdrawal_allowed(self) :
         try :
-            withdrawal_allowed = AdminSetting.objects.all()[0].enable_withdrawal
-        except : withdrawal_allowed = False
-        return withdrawal_allowed
-
+            #check general
+            general_withdrawal_allowed = AdminSetting.objects.all()[0].enable_withdrawal
+            if general_withdrawal_allowed :
+                #check for the particular user
+                return self.request.user.user_wallet.withdrawal_allowed
+            else : return False    
+        except : 
+            return False
+        
     def get(self,request,*args,**kwargs) :  
         withdrawal_allowed = self.withdrawal_allowed()
         return render(request,self.template_name,locals())

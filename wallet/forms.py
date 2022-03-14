@@ -43,10 +43,10 @@ class WithdrawalForm(forms.ModelForm) :
             raise forms.ValidationError(err)
         
         #check if plan is due if bal type is main
-        if b_type == "Main" and not self.user.user_wallet.plan_is_due :
+        """if b_type == "Main" and not self.user.user_wallet.plan_is_due :
             err = "You cannot withdraw from your main balance as your plan is not yet due."
             raise forms.ValidationError(err)
-        return b_type
+        return b_type"""
 
     def clean_password(self)   :
         password = self.cleaned_data.get('password',None)
