@@ -60,6 +60,6 @@ class UpdateMemberForm(forms.Form) :
     name = forms.CharField()
     balance = forms.FloatField()
     referral_earning = forms.FloatField()
-    withdrawal_allowed = forms.BooleanField()
+    withdrawal_allowed = forms.BooleanField(required=False)
 
 
