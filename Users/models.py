@@ -5,9 +5,10 @@ from django.contrib.auth.models   import AbstractUser
 from django.utils.text import  slugify
 from django.contrib.auth import get_user_model
 from django.conf import settings
-
+from django.core.exceptions import ObjectDoesNotExist
 import os
 import random
+
 
 
 
@@ -48,6 +49,15 @@ class User(AbstractUser) :
     
     email_verified = models.BooleanField(default= False)
 
+    def __init__(self,*args,**kwargs) :
+        super(User,self).__init__(*args,**kwargs)
+        #specify fields to monitor
+        self.__fields_to_watch_for_changes = ['email'] 
+        #set the old values
+        for field in self.__fields_to_watch_for_changes :
+            setattr(self,'__initial_{}'.format(field),getattr(self,field)) 
+
+
     def handle_due_investments(self) :
         due_investments = self.investment.filter(
             is_active = True,
@@ -82,14 +92,7 @@ class User(AbstractUser) :
     def active_investments(self) :
         return self.investment.filter(is_active = True)    
 
-    def __init__(self,*args,**kwargs) :
-        super(User,self).__init__(*args,**kwargs)
-        #specify fields to monitor
-        self.__fields_to_watch_for_changes = ['email'] 
-        #set the old values
-        for field in self.__fields_to_watch_for_changes :
-            setattr(self,'__initial_{}'.format(field),getattr(self,field)) 
-
+  
     def has_changed(self,field) :
         original = "__initial_{}".format(field) 
         return getattr(self,original)  == getattr(self,field)            
@@ -98,7 +101,18 @@ class User(AbstractUser) :
         return self.username
 
     def save(self,*args,**kwargs) :
-        #check if email changed      
+        #create necessary objectcs
+        try :
+            _ = self.user_wallet
+        except ObjectDoesNotExist :
+            from wallet.models import Wallet
+            Wallet.objects.create(user = self)  
+        try :
+            _ = self.settings
+        except ObjectDoesNotExist :
+            Settings.objects.create(user = self)  
+
+        #check if email changed 
         if self.has_changed('email') :
             self.email_verified = False
         self.slug = slugify(self.name) 

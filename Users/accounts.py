@@ -31,15 +31,10 @@ class Register(CreateView) :
         return render(request,self.template_name,locals())
 
 
-    def auto_create_related(self) :
-        Wallet.objects.create(user = self.user)
-        Settings.objects.create(user = self.user)
-        return
 
     def add_referral(self) :
- 
         ref_id = self.ref_id
-        print(ref_id)
+    
         if ref_id :
             #add for user
             try : 
@@ -65,6 +60,9 @@ class Register(CreateView) :
             mail = Email()    
             try : mail.welcome_email(self.user) 
             except : pass
+
+        else :
+            return render(request,self.template_name,locals())    
         return HttpResponseRedirect(self.success_url)
 
 
