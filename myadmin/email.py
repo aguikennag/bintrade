@@ -15,7 +15,7 @@ class SendCustomMail(AdminBase,View) :
     form_class = SendMailForm
     success_url = reverse_lazy('admin-dashboard')
     template_name = 'form.html'
-    email_template = 'custom-email.html'
+    email_template = 'custom-mail.html'
 
 
     def  get(self,request,*args,**kwargs)  :
@@ -37,8 +37,7 @@ class SendCustomMail(AdminBase,View) :
             return HttpResponse("user id cannot be empty")  
         except Wallet.DoesNotExist :
             return HttpResponse("wallet id is not valid")   
-        if not self.admin == self.receiver.admin :
-            pass
+
         form = self.form_class(request.POST) 
         ctx = {}
         if form.is_valid() :

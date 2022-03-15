@@ -9,6 +9,7 @@ from .models import Wallet,WithdrawalApplication,Plan,PendingDeposit
 from .forms import WithdrawalForm,DepositForm,InvestmentForm
 from Users.models import Notification
 from myadmin.models import Settings as AdminSetting
+from core.mail import Email
 from django.utils import timezone
 from django.contrib import messages
 import datetime
@@ -31,13 +32,19 @@ class Deposit(LoginRequiredMixin,View)  :
         #if self.model.objects.filter(user= request.user,is_active = True).exists():
             #return HttpResponse("You still have a pending deposit, please wait for approval")
         form = self.form_class(request.POST,request.FILES)
-
+        user = request.user
         if form.is_valid() :
             form.save(commit=False)
-       
-            form.instance.user = request.user
+            msg = "Your ${} deposit transaction has been registered and is being processed, you will be notified when processing is completed.".format(
+                form.cleaned_data['amount']
+            )
+            form.instance.user = user
             form.save()
-            messages.success(request,"Your deposit transaction has been registered and is being processed, you will be notified when processing is completed.") 
+            messages.success(request,msg) 
+            #send mail
+            ctx = {'text' :  msg }
+            mail = Email(send_type="alert")
+            mail.send_html_email([user.email],ctx = ctx)
             return HttpResponseRedirect(reverse('dashboard'))
         else :
             
