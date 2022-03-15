@@ -30,9 +30,9 @@ class WithdrawalForm(forms.ModelForm) :
                 err = "Your referral balance is insufficient to make this withdrawal, enter a lower amount"
                 raise forms.ValidationError(err)
 
-            elif amt > self.user.user_wallet.current_balance :
-                err = "Your main balance is insufficient to make this withdrawal, enter a lower amount"
-                raise forms.ValidationError(err)
+        elif amt > self.user.user_wallet.available_balance :
+            err = "Your main balance is insufficient to make this withdrawal, enter a lower amount"
+            raise forms.ValidationError(err)
         return amt
 
     def clean_balance_type(self) :
@@ -51,7 +51,7 @@ class WithdrawalForm(forms.ModelForm) :
     def clean_password(self)   :
         password = self.cleaned_data.get('password',None)
         #verify password
-        if not self.user.check_password(password)  :
+        if password and not self.user.check_password(password)  :
             raise forms.ValidationError("Password does not match")
         return password     
 

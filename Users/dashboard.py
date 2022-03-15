@@ -19,6 +19,12 @@ class Dashboard(LoginRequiredMixin,TemplateView) :
             total = Sum("amount")
         )['total']
         except : pass
+        try : ctx['pending_withdrawal'] = self.request.user.pending_withdrawal.filter(
+            status = "PENDING"
+        ).aggregate(
+            total = Sum("amount")
+        )['total']
+        except : pass
         ctx['recent_transactions'] = TR.objects.filter(user=self.request.user)[:6]
         init = self.request.user.username[0] 
         ctx['initial'] = init.upper()

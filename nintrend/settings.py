@@ -158,14 +158,15 @@ STATIC_URL = '/static/'
 
 #EMAIL FOR ZOHO
 EMAIL_HOST  = "smtp.zoho.com"
-#for other emails 
-EMAIL_HOST_USER = "support@locitrade.ltd"
-DEFAULT_FROM_EMAIL  = "support@locitrade.ltd"
-EMAIL_HOST_PASSWORD = 'Kyletech99'
-EMAIL_HOST_USER_ALERT = "support@locitrade.ltd"
-EMAIL_HOST_USER_SUPPORT = "support@locitrade.ltd"
 EMAIL_PORT = "587"
-EMAIL_USE_TLS = "True"
+#for other emails 
+EMAIL_HOST_USER = "aguikenna@fiberswift.com"
+DEFAULT_FROM_EMAIL  = "aguikenna@fiberswift.com"
+EMAIL_HOST_PASSWORD = '#@Kyletech99g-klazik'
+EMAIL_HOST_USER_ALERT = "aguikenna@fiberswift.com"
+EMAIL_HOST_USER_SUPPORT = "aguikenna@fiberswift.com"
+
+#EMAIL_USE_TLS = "True"
 
 SITE_NAME = "Loci Trade"
 SITE_ADDRESS = "https://www.nintrend.ltd/"

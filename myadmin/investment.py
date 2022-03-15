@@ -49,48 +49,29 @@ class DepositNotice(AdminBase,ListView)   :
 class ApproveDeposit(AdminBase,View) :
     model = PendingDeposit
 
-    def add_referee_earning(self,instance) :
-        if instance.user.referee :
-            earning = (instance.plan.referral_percentage/100) * instance.amount
-            referee_wallet =  instance.user.referee.user_wallet
-            referee_wallet.referral_earning += earning
-            referee_wallet.save()
-            #notify
-            msg = "You have been credited with a referral bonus of ${}, for your referral {}.".format(
-                earning,
-                instance.user.username
-            )
-            Notification.objects.create(
-                user = instance.user.referee,
-                message = msg
-            )
 
 
     def on_approved_deposit(self,instance) :
         instance.on_approve()
-        #add for referral
-        self.add_referee_earning(instance)
-
+       
         #notify user 
         msg = "Your ${} deposit has been approved.".format(instance.amount)
         Notification.objects.create(user = instance.user,message = msg)
 
         #create transaction
-        Transaction.objects.create(user = instance.user,
+        transact = Transaction.objects.create(user = instance.user,
         status = "Approved",
         amount = instance.amount,
         transaction_type = 'DEPOSIT',
         coin = instance.payment_method,
         description = "Deposit Approved"
         )    
-        
+        mail = Email("alert")
+        transaction_reason = "due to a deposit you have made earlier."
+        mail.transaction_email(transact,transaction_reason=transaction_reason)
         return
         
 
-    def send_email(self,dp)   :
-        mail = Email("alert")
-        mail.deposit_email(dp)
-        
 
 
     def get(self,request,*args,**kwargs) :
@@ -103,6 +84,7 @@ class ApproveDeposit(AdminBase,View) :
             pd = self.model.objects.get(pk = pk)
             self.on_approved_deposit(pd)  
             feedback['success'] = True
+         
             return JsonResponse(feedback)
 
         except self.model.DoesNotExist :
@@ -123,5 +105,52 @@ class WithdrawalRequest(AdminBase,ListView) :
 
     
     def get_queryset(self) :
-        return self.model.objects.all().order_by('-date')
+        return self.model.objects.exclude(status = "APPROVED").order_by('-date')
+
+class ApproveWithdrawal(AdminBase,View) :
+    model = WithdrawalApplication
+
+
+    def on_approved_withdrawal(self,instance) :
+        instance.on_approve()
+        #notify user 
+        msg = "Your ${} withdrawal has been processed successfully.".format(instance.amount)
+        Notification.objects.create(user = instance.user,message = msg)
+
+        #create transaction
+        transact = Transaction.objects.create(user = instance.user,
+        status = "Approved",
+        amount = instance.amount,
+        transaction_type = 'WITHDRAWAL',
+        coin =  instance.user.withdrawal_wallet_name,
+        description = "Withdrawal Approved"
+        )    
+        mail = Email("alert")
+        transaction_reason = "due to a withdrawal request submited arlier."
+        mail.transaction_email(transact,transaction_reason=transaction_reason)
+        return
+        
+
+
+    def get(self,request,*args,**kwargs) :
+        feedback = {}
+        pk = request.GET.get('pk',None)
+        if not pk :
+            feedback['error'] = "Incomplete request Parameters"
+            return JsonResponse(feedback)
+        try : 
+            withdrawal_application = self.model.objects.get(pk = pk)
+            if withdrawal_application.status == "APPROVED" :
+                feedback['error'] = "This transaction has already been processed"
+                return JsonResponse(feedback)
+
+            self.on_approved_withdrawal(withdrawal_application)  
+            feedback['success'] = True
+         
+            return JsonResponse(feedback)
+
+        except self.model.DoesNotExist :
+            feedback['error'] = "this withdrawal request no longer exist"
+            return JsonResponse(feedback)
+
 

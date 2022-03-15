@@ -26,8 +26,6 @@ class SendCustomMail(AdminBase,View) :
         form_title = 'Send Custom Email'
         return render(request,self.template_name,locals())
 
-           
-           
 
 
     def  post(self,request,*args,**kwargs)  :
@@ -48,7 +46,7 @@ class SendCustomMail(AdminBase,View) :
             ctx['subject'] = sub
             ctx['site_name'] = settings.SITE_NAME
             ctx['client'] = self.receiver
-            mail.send_html_email(["geeetech.inc@gmail.com"],sub,self.email_template,ctx)
+            mail.send_html_email([ self.receiver.user.email],sub,self.email_template,ctx)
             return HttpResponseRedirect(self.success_url)
 
         else : 

@@ -78,13 +78,13 @@
                                   
                                     <td>{{deposit.date}}</td>
                                   
-                                    <td id="action-cell">
+                                    <td id="action-cell{{deposit.pk}}">
                                             <div class="dropdown d-inline">
                                                     <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton2"
                                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                       Action
                                                     </button>
-                                                    <div class="dropdown-menu">
+                                                    <div class="dropdown-menu deposit-action">
                                                       <a action_url="{% url 'approve-deposit' %}" id ="approve-deposit" pk="{{deposit.pk}}" class="dropdown-item has-icon" href="#"><i class="far fa-envelope"></i>Approve</a>
                                                       <!--a id ="disapprove-button" class="dropdown-item has-icon" href="#"><i class="far fa-envelope"></i>Disapprove</a-->
                                                      
@@ -113,7 +113,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 style="color:black" class="modal-title" id="approve-pop-up-modal-title"></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close close-modal" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -136,7 +136,7 @@
 
 {% block js %}
 <script> 
-    $(".dropdown-menu a").click(function(){
+    $(".deposit-action a").click(function(){
         var pk = $(this).attr("pk")
         var action_url = $(this).attr("action_url")
         $('#approve-pop-up-modal-title').html('Confirm')
@@ -160,8 +160,8 @@
             success : function(data){
            
                 if(data.success){
-                  $("#approve-deposit-modal").attr("hidden","")
-                  $("#action-cell").html("<button class='btn btn-success'>Approved</button>");
+                  $(".close-modal").trigger("click")
+                  $("#action-cell" + pk).html("<button class='btn btn-success'>Approved</button>");
                 }
                 
                 else if(data.error){

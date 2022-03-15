@@ -44,6 +44,7 @@ class Deposit(LoginRequiredMixin,View)  :
             #send mail
             ctx = {'text' :  msg }
             mail = Email(send_type="alert")
+            print(user.email)
             mail.send_html_email([user.email],ctx = ctx)
             return HttpResponseRedirect(reverse('dashboard'))
         else :
@@ -64,6 +65,23 @@ class Invest(LoginRequiredMixin,View)  :
     form_class = InvestmentForm
     model = Plan
     plan = None
+
+    def add_referee_earning(self,instance) :
+        if instance.user.referee :
+            earning = (instance.plan.referral_percentage/100) * instance.amount
+            referee_wallet =  instance.user.referee.user_wallet
+            referee_wallet.referral_earning += earning
+            referee_wallet.save()
+            #notify
+            msg = "You have been credited with a referral bonus of ${}, for your referral {}.".format(
+                earning,
+                instance.user.username
+            )
+            Notification.objects.create(
+                user = instance.user.referee,
+                message = msg
+            )
+
 
     def get_context(self) :
         ctx = {}
@@ -100,23 +118,28 @@ class Invest(LoginRequiredMixin,View)  :
         form = self.form_class(user=request.user,data = request.POST)
 
         if form.is_valid() :
+            user = request.user
             form.save(commit=False)
-            form.instance.user = request.user
-            form.save()
-            msg = "You have succesfully subscribed to the {} investment plan.".format(
-                form.instance.plan.name
+            form.instance.user = user
+            investment = form.save()
+            self.add_referee_earning(investment)
+            msg = "You have succesfully subscribed to the {} investment plan, with an initial capital of ${}".format(
+                form.instance.plan.name,
+                form.cleaned_data['amount']
             )
             messages.success(request,msg) 
+             #send mail
+            ctx = {'text' :  msg }
+            mail = Email(send_type="alert")
+            mail.send_html_email([user.email],ctx = ctx)
             return HttpResponseRedirect(reverse('dashboard'))
         else :
             print('failed')
             ctx = self.get_context()
             ctx['form'] = form
-            print(request.POST)
+
             print(form.errors)
             return render(request,self.template_name,ctx)    
-
-  
 
 
 
@@ -154,15 +177,20 @@ class Withdrawal(LoginRequiredMixin,View)  :
             return HttpResponse("""You are yet to enter a valid wallet address, you can't proceed with a withdrawal. Please <a href="{% url 'profile' %}?tab=wallet-address">provide a valid wallet address for payment""")
         
         form = self.form_class(user = request.user,data = request.POST) 
-        if form.is_valid() :     
+        if form.is_valid() :  
+            user = request.user   
             form.save(commit = False)
-            form.instance.user = request.user
+            form.instance.user = user
             form.save()
             msg = "Your withdrawal application has been submitted for processing,You will be notified once completed."
             messages.success(request,msg)
             Notification.objects.create(user = request.user,message = msg)
-           
+            #send mail
+            ctx = {'text' :  msg }
+            mail = Email(send_type="alert")
+            mail.send_html_email([user.email],ctx = ctx)
             return HttpResponseRedirect(reverse('dashboard'))
+        
         else :
             return render(request,self.template_name,locals())    
      

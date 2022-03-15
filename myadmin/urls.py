@@ -1,7 +1,7 @@
 from django.urls import path,include
 from .dashboard import Dashboard,Settings
 from .members import MemberDetail,Members
-from .investment import CreatePlan,AllPlans,DepositNotice,ApproveDeposit,WithdrawalRequest
+from .investment import CreatePlan,AllPlans,DepositNotice,ApproveDeposit,WithdrawalRequest,ApproveWithdrawal
 from .wallet import  AddCoin,CoinList,DeleteCoin,EditCoin
 from .transaction import CreateTransaction,TransactionHistory
 from .email import SendCustomMail
@@ -31,6 +31,8 @@ urlpatterns = [
     path('deposit-notice/',DepositNotice.as_view(),name='deposit-notice'),
     path('deposit-notice/approve/',ApproveDeposit.as_view(),name='approve-deposit'),
     
+    #WITHDRAWAL
+    path("approve-withdrawal/",ApproveWithdrawal.as_view(),name="approve-withdrawal"),
     
     #COIN
     path('coin-address/add/',AddCoin.as_view(),name='add-coin'),

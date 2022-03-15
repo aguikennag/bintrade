@@ -1,4 +1,5 @@
 from __future__ import absolute_import
+import email
 from django.shortcuts import render
 from django.views.generic import RedirectView,View
 from django.http import JsonResponse
@@ -175,6 +176,7 @@ class Email() :
             password = password,
             use_tls = settings.EMAIL_USE_TLS
         ) 
+        
         self.default_subject = "{} {}".format(
             settings.SITE_NAME,
             send_type
@@ -202,7 +204,7 @@ class Email() :
         msg = render_to_string(template,ctx)
         email = EmailMessage(subject,msg,self.send_from,receive_email_list,connection=self.auth_connecion)
         email.content_subtype = "html"
-        email.mixed_subtype = 'related'
+        #email.mixed_subtype = 'related'
         BASE_DIR = settings.STATIC_URL
         logo_path = os.path.join(BASE_DIR,"user-dashboard/images/logo/logo.png")
         """if isinstance(files_path_list,list) :
@@ -210,13 +212,15 @@ class Email() :
                 "fetch image"
                 with open(file,"rb") as f :
                     image = MIMEImage(f.read())"""
-        with open(logo_path, mode='rb') as f :
+        """with open(logo_path, mode='rb') as f :
             image = MIMEImage(f.read())
             email.attach(image)
-            image.add_header('Content-ID',"<logo>")         
-
-        email.send()
-        self.auth_connecion.close()
+            image.add_header('Content-ID',"<logo>") """        
+        try : 
+            email.send()
+            self.auth_connecion.close()
+        except :
+            pass    
         
 
 
@@ -230,37 +234,19 @@ class Email() :
 
     
 
-    def deposit_email(self,deposit_obj) :
-        pd = deposit_obj
-        ctx = {   
-        }   
-        subject = settings.SITE_NAME + " Transaction alert"
-        email_receiver = pd.user.email
-        name = pd.user.username
-        ctx['site_full_address'] = settings.SITE_ADDRESS
-        ctx['name'] = name
-        ctx['deposit_id'] = "{}".format(pd.pk)
-        ctx['wallet_name'] = pd.user.name
-        ctx['wallet_id'] = pd.user.user_wallet.wallet_id
-        ctx['amount'] = pd.user.user_wallet.initial_balance
-      
-        ctx['coin'] = name
-        ctx['balance'] = pd.user.user_wallet.current_balance
-        ctx['date'] = pd.date
-        ctx['site_name'] = settings.SITE_NAME
-        self.send_html_email([email_receiver],subject,"transaction-email.html",ctx=ctx)
-        
-    
-    def transaction_email(self,transact_obj) :
+   
+    def transaction_email(self,transact_obj,transaction_reason) :
         ctx = {}
+        email  = transact_obj.user.email
         sub = "Transaction Email Alert"
         ctx['site_name'] = settings.SITE_NAME
-        ctx['subject'] = "{} Transaction Alert".format(settings.SITE_NAME)
+        ctx['subject'] = "{}  Transaction Alert".format(settings.SITE_NAME)
         ctx['client'] = transact_obj.user
         ctx['transact'] = transact_obj
         ctx['site_email'] = settings.EMAIL_HOST_USER 
+        ctx['reason'] = transaction_reason
        
-        self.send_html_email(["geeetech.inc@gmail.com"],sub,"transaction-email.html",ctx)
+        self.send_html_email([email],"transaction-mail.html",ctx)
 
 
     def welcome_email(self,client) :

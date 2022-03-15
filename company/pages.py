@@ -9,7 +9,7 @@ from .forms import ContactForm
 
 
 class Index(TemplateView) :
-    template_name = 'transaction-mail.html'
+    template_name = 'index.html'
 
     def get_context_data(self,*args,**kwargs) : 
         context = super(Index,self).get_context_data(*args,**kwargs) 

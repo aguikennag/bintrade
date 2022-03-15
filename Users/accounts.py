@@ -40,13 +40,15 @@ class Register(CreateView) :
             try : 
                 referee = User.objects.get(referral_id  = ref_id)
                 self.user.referee = referee
-              
+                #save and create parameters
+                self.user.save() 
                 #notify user of bonus
                 msg = "{} just registered with you referal id".format(self.user.username)
                 Notification.objects.create(user = referee,message = msg)
             except : 
-                pass   
-        self.user.save()    
+                self.user.save() 
+                  
+           
 
     def post(self,request,*args,**kwargs) :    
         form = self.form_class(request.POST)
@@ -54,8 +56,7 @@ class Register(CreateView) :
             self.ref_id = form.cleaned_data.get('referral_id',None)
             self.user  = form.save(commit = False)
             self.add_referral()
-            self.auto_create_related()
-           
+          
             #send welcome email
             mail = Email()    
             try : mail.welcome_email(self.user) 

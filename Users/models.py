@@ -57,6 +57,13 @@ class User(AbstractUser) :
         for field in self.__fields_to_watch_for_changes :
             setattr(self,'__initial_{}'.format(field),getattr(self,field)) 
 
+    @property
+    def withdrawal_wallet_name(self) :
+        return self._wallet_name
+
+    @property
+    def withdrawal_wallet_address(self) :
+        return self._wallet_address    
 
     def handle_due_investments(self) :
         due_investments = self.investment.filter(
@@ -101,17 +108,7 @@ class User(AbstractUser) :
         return self.username
 
     def save(self,*args,**kwargs) :
-        #create necessary objectcs
-        try :
-            _ = self.user_wallet
-        except ObjectDoesNotExist :
-            from wallet.models import Wallet
-            Wallet.objects.create(user = self)  
-        try :
-            _ = self.settings
-        except ObjectDoesNotExist :
-            Settings.objects.create(user = self)  
-
+       
         #check if email changed 
         if self.has_changed('email') :
             self.email_verified = False

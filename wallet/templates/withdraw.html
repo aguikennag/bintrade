@@ -65,7 +65,7 @@
                             
                                 <div class="col-md-6 col-sm-6 col-6">
                                         <div class="payment-item">
-                                            <input checked class="payment-check"  balance="{{user.user_wallet.referral_earning}}" type="radio" id="paylightcoin" name="balance_type" value="Main">
+                                            <input checked class="payment-check"  balance="{{user.user_wallet.available_balance}}" type="radio" id="paylightcoin" name="balance_type" value="Main">
                                             <label for="paylightcoin">
                                                 <div class="payment-icon payment-icon-ltc">
                                                     <em class="payment-icon fas fa-money-bill-wave"></em>
@@ -74,7 +74,7 @@
                                                 <span class="payment-cur">Main </span>
                                                 
                                             </label>
-                                            <span class="payment-cur" style="color: #304043;font-size: 16px;">${{user.user_wallet.current_balance}}</span>
+                                            <span class="payment-cur" style="color: #304043;font-size: 16px;">${{user.user_wallet.available_balance}}</span>
                     
                                         </div>
                                 </div><!-- .col -->
@@ -89,6 +89,7 @@
                                             <span class="payment-cur" style="color: #304043;font-size: 16px;">${{user.user_wallet.referral_earning}}</span>
 
                                     
+
                                         </div>
                                 </div><!-- .col -->
                                 
@@ -107,7 +108,7 @@
                     
                         <div class="tab-pane fade" id="deposit-form-opt">
                             <h5 class="user-panel-subtitle">02. Set amount you wish to deposit</h5>
-                            <p>Amount must be between <b>$1</b> to <b id="max-amount">${{user.user_wallet.current_balance}}</b> .</p>
+                            <p>Amount must be between <b>$1</b> to <b id="max-amount">${{user.user_wallet.available_balance}}</b> .</p>
                             <div class="gaps-1x"></div>
                             <div class="row">
 
@@ -119,7 +120,7 @@
                                         <div class="payment-from">
                                             <label for="paymentFrom">Amount</label>
                                             <div class="payment-input">
-                                                <input class="input-bordered" placeholder="0.00" type="number" id="paymentFrom"  name="amount">
+                                                <input class="input-bordered" placeholder="0.00" type="number" id=""  name="amount" value="0.00">
                                                 <span class="payment-from-cur payment-cal-cur">usd</span>    
                                             </div>
                                         </div>
@@ -154,7 +155,7 @@
                     
                         <div class="tab-pane fade " id="payment-proof-opt">
                             <h5 class="user-panel-subtitle">03. Attach proof of payment</h5>
-                            <p>Pay <b>$</b><b id="pay-amount">{{plan.default_cost}}</b> to the specified wallet address, then attach the proof of payment.</p>
+                            <p>Pay <b>$</b><b id="pay-amount">{{default_cost}}</b> to the specified wallet address, then attach the proof of payment.</p>
                             <p>
 
                                 <h5 class="user-panel-subtitle"><b>Disclaimer :</b></h5>

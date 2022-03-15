@@ -180,10 +180,17 @@ class Wallet(models.Model) :
             current_interests += inv.current_earning 
         return capitals + current_interests
     
+    @property
+    def get_pending_withdrawal_debits(self) :
+        return self.user.pending_withdrawal.filter(
+            status = "PENDING"
+        ).aggregate(
+            total_pending_debits = Sum("amount")
+        )['total_pending_debits'] or 0.00
     
     @property
     def current_balance(self) :
-        return  round(self.initial_balance + self.get_active_investment_balance + self.funded_earning - self.withdrawals,2)
+        return  round(self.initial_balance + self.get_active_investment_balance + self.funded_earning - self.get_pending_withdrawal_debits,2)
 
     @property
     def available_balance(self) :
@@ -274,8 +281,8 @@ class PendingDeposit(models.Model)    :
 
 class WithdrawalApplication(models.Model) :
     balance_type_choices = (('Referral','Referral'),('Main','Main'))
-    status = (('PENDING','PENDING'),('PROCESSING','PROCESSING'),('APPROVED','APPROVED'),('DECLINED','DECLINED'))
-    user  = models.OneToOneField(get_user_model(),on_delete = models.CASCADE,related_name = 'pending_withdrawal')
+    status = (('PENDING','PENDING'),('APPROVED','APPROVED'),('DECLINED','DECLINED'))
+    user  = models.ForeignKey(get_user_model(),on_delete = models.CASCADE,related_name = 'pending_withdrawal')
     amount = models.FloatField()  #in $
     balance_type = models.CharField(max_length=10,choices = balance_type_choices)
     status = models.CharField(max_length= 20,choices = status,default = 'PENDING')
@@ -287,7 +294,13 @@ class WithdrawalApplication(models.Model) :
         return self.user.username
 
     def save(self,*args,**kwargs) :
+        #debit user balance
+      
         super(WithdrawalApplication,self).save(*args,**kwargs)         
     
-
+    def on_approve(self) :
+        self.status = "APPROVED"
+        self.user.user_wallet.debit(self.amount)
+        self.save()
+ 
  
