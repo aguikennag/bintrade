@@ -100,7 +100,7 @@ class Settings(models.Model)  :
     enable_social_links = models.BooleanField(default = False)
     enable_registration_emails = models.BooleanField(default = False,help_text ="send emails to users upon registration") 
     enable_withdrawal = models.BooleanField(default=False)
-
+    approve_investment = models.BooleanField(default=False)
     def __str__(self) :
         return "control-site"
         

@@ -9,10 +9,11 @@
                 <div class="nk-blocks d-flex justify-content-center">
                     <div class="ath-container m-0">
                         <div class="ath-body">
-                            <h5 class="ath-heading title">Sign Up<small class="tc-default">Create New ICOX Account</small></h5>
+                            <h5 class="ath-heading title">Sign Up<small class="tc-default">Create New {{site_name_verbose}} Account</small></h5>
                             <form action="" method="POST">
                                 {% csrf_token %}
                                 {{form|crispy}}
+
                                 <!--div class="field-item">
                                     <div class="field-wrap">
                                         <input type="text" class="input-bordered" placeholder="Your Name">

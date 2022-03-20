@@ -123,10 +123,19 @@ class Invest(LoginRequiredMixin,View)  :
             form.instance.user = user
             investment = form.save()
             self.add_referee_earning(investment)
-            msg = "You have succesfully subscribed to the {} investment plan, with an initial capital of ${}".format(
-                form.instance.plan.name,
-                form.cleaned_data['amount']
-            )
+
+            if investment.approve_investments() :
+                msg = "You have succesfully subscribed to the {} investment plan (pending approval), with an initial capital of ${}".format(
+                    form.instance.plan.name,
+                    form.cleaned_data['amount']
+                )
+            
+            else :
+                msg = "You have succesfully subscribed to the {} investment plan, with an initial capital of ${}".format(
+                    form.instance.plan.name,
+                    form.cleaned_data['amount']
+                )
+
             messages.success(request,msg) 
              #send mail
             ctx = {'text' :  msg }

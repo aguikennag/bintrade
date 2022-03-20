@@ -97,7 +97,10 @@ class User(AbstractUser) :
 
     @property
     def active_investments(self) :
-        return self.investment.filter(is_active = True)    
+        return self.investment.filter(
+            is_active = True,
+            is_approved = True
+            )    
 
   
     def has_changed(self,field) :

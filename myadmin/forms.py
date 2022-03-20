@@ -26,8 +26,9 @@ class SendMailForm(forms.Form)  :
     def __init__(self,*args, **kwargs) :  
         """ admin is a user instance of the admin"""
         super(SendMailForm,self).__init__(*args, **kwargs)
-
-    #users  = forms.ModelMultipleChoiceField(queryset=myadmin.users.all(),help_text="You can select one or multiple users")
+    
+    name = forms.CharField(required=False)
+    email  = forms.EmailField(required=True)
     subject = forms.CharField(required = True,help_text="topic of email") 
     message = forms.CharField(required = True,widget=forms.Textarea)        
 

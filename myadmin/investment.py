@@ -7,7 +7,7 @@ from django.http import HttpResponse,HttpResponseRedirect,JsonResponse
 from django.utils import timezone
 
 from core.mail import Email
-from wallet.models import Plan,Transaction,PendingDeposit,WithdrawalApplication
+from wallet.models import Investment, Plan,Transaction,PendingDeposit,WithdrawalApplication
 from Users.models import Notification
 from .dashboard import AdminBase
 
@@ -107,6 +107,7 @@ class WithdrawalRequest(AdminBase,ListView) :
     def get_queryset(self) :
         return self.model.objects.exclude(status = "APPROVED").order_by('-date')
 
+
 class ApproveWithdrawal(AdminBase,View) :
     model = WithdrawalApplication
 
@@ -130,8 +131,6 @@ class ApproveWithdrawal(AdminBase,View) :
         mail.transaction_email(transact,transaction_reason=transaction_reason)
         return
         
-
-
     def get(self,request,*args,**kwargs) :
         feedback = {}
         pk = request.GET.get('pk',None)
@@ -152,5 +151,60 @@ class ApproveWithdrawal(AdminBase,View) :
         except self.model.DoesNotExist :
             feedback['error'] = "this withdrawal request no longer exist"
             return JsonResponse(feedback)
+
+
+
+
+class InvestmentNotice(AdminBase,ListView) :
+    model = Investment
+    template_name = 'investment-notice.html'
+    context_object_name = 'investments'
+
+    
+    def get_queryset(self) :
+        return self.model.objects.exclude(is_approved = True).order_by('-date')
+
+
+
+class ApproveInvestment(View) :
+    model = Investment
+    
+    def on_approved_investment(self) :
+        instance = self.pending_investment
+        instance.on_approve()
+        #notify user 
+        msg = "Your ${} investment has been processed successfully.".format(instance.amount)
+        Notification.objects.create(user = instance.user,message = msg)
+  
+        mail = Email("alert")
+        ctx = {}
+        ctx['name'] = instance.user.name
+        ctx['text'] = msg
+        subject = "Investment processed"
+        mail.send_html_email([instance.user.email],subject = subject,ctx=ctx)
+        return
+        
+    def get(self,request,*args,**kwargs) :
+        feedback = {}
+        pk = request.GET.get('pk',None)
+        if not pk :
+            feedback['error'] = "Incomplete request Parameters"
+            return JsonResponse(feedback)
+        try : 
+            pending_investment = self.model.objects.get(pk = pk)
+            if pending_investment.is_approved :
+                feedback['error'] = "This transaction has already been processed"
+                return JsonResponse(feedback)
+            self.pending_investment  = pending_investment
+            self.on_approved_investment()
+            feedback['success'] = True
+         
+            return JsonResponse(feedback)
+
+        except self.model.DoesNotExist :
+            feedback['error'] = "this investment no longer exist"
+            return JsonResponse(feedback)
+
+
 
 

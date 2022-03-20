@@ -6,7 +6,8 @@ def core(request) :
     host = request.get_host()
     #reg_link  = prepend + host + request.user.user_admin.reg_link
     ctx = {}
-
+    
+    ctx['site_name_verbose'] = "Nintrend"
     ctx['site_name'] = "Nintrend"
     ctx['support_email'] = "support@nintrend.ltd"
     ctx['site_email'] = "support@nintrend.ltd"

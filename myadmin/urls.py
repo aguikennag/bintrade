@@ -1,7 +1,17 @@
 from django.urls import path,include
 from .dashboard import Dashboard,Settings
 from .members import MemberDetail,Members
-from .investment import CreatePlan,AllPlans,DepositNotice,ApproveDeposit,WithdrawalRequest,ApproveWithdrawal
+from .investment import (
+    CreatePlan,
+    AllPlans,
+    DepositNotice,
+    ApproveDeposit,
+    WithdrawalRequest,
+    ApproveWithdrawal,
+    InvestmentNotice,
+    ApproveInvestment
+)
+
 from .wallet import  AddCoin,CoinList,DeleteCoin,EditCoin
 from .transaction import CreateTransaction,TransactionHistory
 from .email import SendCustomMail
@@ -31,6 +41,10 @@ urlpatterns = [
     path('deposit-notice/',DepositNotice.as_view(),name='deposit-notice'),
     path('deposit-notice/approve/',ApproveDeposit.as_view(),name='approve-deposit'),
     
+    #INVESTMENT
+    path('investment-notice/',InvestmentNotice.as_view(),name = 'investment-notice'),
+    path('approve-investment/',ApproveInvestment.as_view(),name = 'approve-investment'),
+    
     #WITHDRAWAL
     path("approve-withdrawal/",ApproveWithdrawal.as_view(),name="approve-withdrawal"),
     
@@ -46,7 +60,7 @@ urlpatterns = [
     path('withdrawals/',WithdrawalRequest.as_view(),name = 'withdrawals'),
 
     #EMAIL
-    path('mail/send-custom-email/<str:wallet_id>/',SendCustomMail.as_view(),name='send-custom-mail'),
+    path('mail/send-custom-email/',SendCustomMail.as_view(),name='send-custom-mail'),
     
     #SUBSCRIPTION
     path('subscribe/',Subscribe.as_view(),name='subscibe-admin')

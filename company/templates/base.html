@@ -51,7 +51,7 @@
                                 </div>
                             </a>
 						</div>
-
+                        {% if not is_registration_template %}
 						<!-- Menu @s -->
 						<div class="header-navbar animated" data-animate="fadeInDown" data-delay=".75">
 							<nav class="header-menu" id="header-menu">
@@ -59,23 +59,26 @@
 									<li class="menu-item"><a class="menu-link nav-link" href="#header">Home</a></li>
 									<li class="menu-item"><a class="menu-link nav-link" href="#about">About</a></li>
 									<li class="menu-item"><a class="menu-link nav-link" href="#features">Features</a></li>
-									<li class="menu-item"><a class="menu-link nav-link" href="#tokensale">Token Sale</a></li>
-									<li class="menu-item"><a class="menu-link nav-link" href="#roadmap">Roadmap</a></li>
+									<li class="menu-item"><a class="menu-link nav-link" href="#investment-plan">Investment Plans</a></li>
+									<li class="menu-item"><a class="menu-link nav-link" href="#products">What we offer</a></li>
+                                    <li class="menu-item"><a class="menu-link nav-link" href="#statistics">{{site_name}} Statistics</a></li>
 									<li class="menu-item has-sub">
 										<a class="menu-link nav-link menu-toggle" href="#">More</a>
 										<ul class="menu-sub menu-drop">
+ 
 											<li class="menu-item"><a class="menu-link nav-link" href="#team">Team</a></li>
                                             <li class="menu-item"><a class="menu-link nav-link" href="#faq">Faq</a></li>
 										</ul>
 									</li>
-									<li class="menu-item"><a class="menu-link nav-link" href="#contact">Contact</a></li>
+									<!--li class="menu-item"><a class="menu-link nav-link" href="#contact">Contact</a></li-->
 								</ul>
 								<!--ul class="menu-btns">
 									<li><a href="#" data-toggle="modal" data-target="#login-popup" class="btn btn-md btn-auto btn-grad no-change"><span>Login</span></a></li>
 								</ul-->
 							</nav>
 						</div><!-- .header-navbar @e -->
-					</div>                                                
+					     {% endif %}
+                    </div>                                                
 				</div>
 			</div><!-- .header-main @e -->
 

@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy,reverse
 from django.forms.models import model_to_dict
-from wallet.models import Wallet,WithdrawalApplication as WA,Transaction as TR
+from wallet.models import Investment, Wallet,WithdrawalApplication as WA,Transaction as TR
 from django.db.models import Sum
 
 
@@ -32,9 +32,11 @@ class Dashboard(LoginRequiredMixin,TemplateView) :
         return ctx
 
     def get(self,request,*args,**kwargs)   :
-        request.user.handle_due_investments()
+        user = request.user
+        user.handle_due_investments()
         #if request.user.user_wallet.plan_is_active and request.user.user_wallet.plan_is_due :
             #request.user.user_wallet.on_plan_complete()
+        
         return render(request,self.template_name,self.get_context_data())    
 
 

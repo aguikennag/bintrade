@@ -18,7 +18,7 @@ class Register(CreateView) :
 
     def get(self,request,*args,**kwargs) :
         initials = {}
-
+        is_registration_template = True
         if 'ref_id' in request.GET :     
             ref_id = request.GET['ref_id']  
             try : 

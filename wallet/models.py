@@ -5,7 +5,7 @@ from django.utils.text import slugify
 from django.utils import timezone
 from django.db.models import Sum
 from Users.models import Notification
-from myadmin.models import MyAdmin
+from myadmin.models import MyAdmin,Settings as AdminSetting
 import random
 import math
 import uuid
@@ -66,10 +66,14 @@ class Investment(models.Model) :
     #amount for the plan
     amount  = models.FloatField(default = 0.00)
     plan = models.ForeignKey(Plan,related_name = 'plan_investment',null = True,blank = True,on_delete = models.SET_NULL)
-    plan_start = models.DateTimeField()
-    plan_end = models.DateTimeField()
+    plan_start = models.DateTimeField(null = True)
+    plan_end = models.DateTimeField(null = True)
+
+    #date created
+    date  = models.DateTimeField(auto_now_add=True)
     expected_earning = models.FloatField(default = 0.00,blank = True) #at the end of the plan
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
+    is_approved  =  models.BooleanField(default=False)
     
     class Meta() :
         ordering = ['-plan_start']
@@ -77,18 +81,38 @@ class Investment(models.Model) :
     def days_to_seconds(self,days) :
         return days * 24 * 60 * 60
 
-
+    def approve_investments(self) :
+        #checks the state of admin settings for approving
+        #investments
+        try :
+            _setting = AdminSetting.objects.all()[0]
+            return _setting.approve_investment
+        except :
+            return False
 
     def save(self,*args,**kwargs) :
         if not self.pk : 
             self.expected_earning = self.plan.get_interest(self.amount)
-            self.plan_start  = timezone.now()
-            self.plan_end = timezone.now() + timezone.timedelta(days=self.plan.duration)
-
-        #deduct from balance
-        self.user.user_wallet.debit(self.amount)
+             #check if admnin wants to be approving investmets
+            if not self.approve_investments() :
+                self.plan_start  = timezone.now()
+                self.plan_end = timezone.now() + timezone.timedelta(days=self.plan.duration)
+            else : 
+                #dont start the plan, start on approval
+                pass
+            #deduct from balance for the plan
+            self.user.user_wallet.debit(self.amount)
         
         super(Investment,self).save(*args,**kwargs)
+    
+    def on_approve(self) :
+        #when admin approves am investment
+        if not self.is_approved :
+            self.plan_start  = timezone.now()
+            self.plan_end = timezone.now() + timezone.timedelta(days=self.plan.duration)
+            self.is_approved = True
+            self.is_active  = True
+            self.save()
 
 
     @property
@@ -143,7 +167,10 @@ class Investment(models.Model) :
     
     def __str__(self) :
         return "{}-{}".format(self.user.username,self.plan)
+    
 
+    class Meta() :
+        ordering = ['date']
 
 class Wallet(models.Model) :
 
@@ -276,7 +303,8 @@ class PendingDeposit(models.Model)    :
     def save(self,*args,**kwargs) :
         super(PendingDeposit,self).save(*args,**kwargs)    
 
-
+    class Meta() :
+        ordering = ['-date']
 
 
 class WithdrawalApplication(models.Model) :

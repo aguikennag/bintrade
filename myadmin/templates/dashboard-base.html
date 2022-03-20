@@ -273,7 +273,7 @@
             <a style="padding-left:10px" href="#" class="menu-toggle nav-link has-dropdown"><i class="fas fa-arrow-up"></i><span>Deposits</span></a>
             <ul class="dropdown-menu">
               <li><a class="nav-link"href="{% url 'deposit-notice' %}">Deposit Notice</a></li>
-           
+              <li><a class="nav-link"href="{% url 'investment-notice' %}">Investment Notice</a></li>
             </ul>
         </li>
 
@@ -301,6 +301,14 @@
               <li><a class="nav-link"href="{% url 'my-members' %}">All Members</a></li>
             </ul>
         </li>
+        
+        <li class="dropdown" style="padding-left:0px">
+          <a style="padding-left:10px" href="#" class="menu-toggle nav-link has-dropdown"><i class="far fa-envelope"></i><span>Email</span></a>
+          <ul class="dropdown-menu">
+           
+            <li><a class="nav-link"href="{% url 'send-custom-mail' %}">Send Mail</a></li>
+          </ul>
+      </li>
 
         <!--li class="dropdown" style="padding-left:0px">
             <a style="padding-left:10px" href="#" class="menu-toggle nav-link has-dropdown"><i class="fas fa-file"></i><span>Investment plans</span></a>
