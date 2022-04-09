@@ -5,11 +5,13 @@ from django.contrib.auth.mixins import UserPassesTestMixin,LoginRequiredMixin
 from django.shortcuts import render 
 from django.http import HttpResponse,HttpResponseRedirect,JsonResponse
 from django.utils import timezone
+from django.conf import settings
 
 from core.mail import Email
 from wallet.models import Investment, Plan,Transaction,PendingDeposit,WithdrawalApplication
 from Users.models import Notification
 from .dashboard import AdminBase
+import uuid
 
 
 
@@ -67,8 +69,8 @@ class ApproveDeposit(AdminBase,View) :
         description = "Deposit Approved"
         )    
         mail = Email("alert")
-        transaction_reason = "due to a deposit you have made earlier."
-        mail.transaction_email(transact,transaction_reason=transaction_reason)
+        mail.send_deposit_mail(instance)
+        
         return
         
 
@@ -119,16 +121,17 @@ class ApproveWithdrawal(AdminBase,View) :
         Notification.objects.create(user = instance.user,message = msg)
 
         #create transaction
-        transact = Transaction.objects.create(user = instance.user,
+        transact = Transaction.objects.create(
+            user = instance.user,
         status = "Approved",
         amount = instance.amount,
         transaction_type = 'WITHDRAWAL',
         coin =  instance.user.withdrawal_wallet_name,
         description = "Withdrawal Approved"
+       
         )    
         mail = Email("alert")
-        transaction_reason = "due to a withdrawal request submited arlier."
-        mail.transaction_email(transact,transaction_reason=transaction_reason)
+        mail.send_withdrawal_mail(instance)
         return
         
     def get(self,request,*args,**kwargs) :
@@ -170,18 +173,13 @@ class ApproveInvestment(View) :
     model = Investment
     
     def on_approved_investment(self) :
-        instance = self.pending_investment
-        instance.on_approve()
+        pi = self.pending_investment
+        instance =   pi.on_approve()
         #notify user 
         msg = "Your ${} investment has been processed successfully.".format(instance.amount)
         Notification.objects.create(user = instance.user,message = msg)
-  
         mail = Email("alert")
-        ctx = {}
-        ctx['name'] = instance.user.name
-        ctx['text'] = msg
-        subject = "Investment processed"
-        mail.send_html_email([instance.user.email],subject = subject,ctx=ctx)
+        mail.send_investment_mail(instance)
         return
         
     def get(self,request,*args,**kwargs) :
@@ -191,6 +189,7 @@ class ApproveInvestment(View) :
             feedback['error'] = "Incomplete request Parameters"
             return JsonResponse(feedback)
         try : 
+            
             pending_investment = self.model.objects.get(pk = pk)
             if pending_investment.is_approved :
                 feedback['error'] = "This transaction has already been processed"

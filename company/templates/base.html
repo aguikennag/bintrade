@@ -20,18 +20,46 @@
 {% block css %}
 {% endblock %}
 
+<style>
+    #google_translate_element select{
+ background:#f6edfd;
+ color:#415076;
+ border: none;
+ border-radius:3px;
+ padding:6px 8px
+ }
+ .goog-logo-link{
+   display:none!important;
+  }
+ .goog-te-gadget{
+ color:transparent!important;
+    display:none!important;
+ } 
+ .goog-te-banner-frame{
+
+ height: 0px;
+ }
+
+
+ 
+ #goog-gt-tt, .goog-te-balloon-frame{display: none !important;height: 0px;}
+.goog-text-highlight { background: none !important; box-shadow: none !important;}
+</style>
+
 
 </head>
 
 
-    <body class="nk-body body-wider bg-light mode-onepage" >
-
+    <body class="nk-body body-wider bg-light mode-onepage" style="font-size:16px ;">
+        
 	<div class="nk-wrap" style="">
-
+        
 		<header class="nk-header page-header is-transparent is-sticky is-shrink" id="header">
-		    <!-- Header @s -->
-         
+		    
+            <!-- Header @s -->
+            
 			<div class="header-main">
+                
 				<div class="header-container container">
 					<div class="header-wrap">
 						<!-- Logo @s -->
@@ -53,23 +81,28 @@
 						</div>
                         {% if not is_registration_template %}
 						<!-- Menu @s -->
-						<div class="header-navbar animated" data-animate="fadeInDown" data-delay=".75">
-							<nav class="header-menu" id="header-menu">
+						<div class="header-navbar animated" style="padding: 0px;" data-animate="fadeInDown" data-delay=".75">
+							<nav class="header-menu" id="header-menu" >
 								<ul class="menu">
 									<li class="menu-item"><a class="menu-link nav-link" href="#header">Home</a></li>
 									<li class="menu-item"><a class="menu-link nav-link" href="#about">About</a></li>
 									<li class="menu-item"><a class="menu-link nav-link" href="#features">Features</a></li>
 									<li class="menu-item"><a class="menu-link nav-link" href="#investment-plan">Investment Plans</a></li>
 									<li class="menu-item"><a class="menu-link nav-link" href="#products">What we offer</a></li>
-                                    <li class="menu-item"><a class="menu-link nav-link" href="#statistics">{{site_name}} Statistics</a></li>
+                                    <li class="menu-item"><a class="menu-link nav-link" href="#statistics">Statistics</a></li>
 									<li class="menu-item has-sub">
 										<a class="menu-link nav-link menu-toggle" href="#">More</a>
 										<ul class="menu-sub menu-drop">
  
-											<li class="menu-item"><a class="menu-link nav-link" href="#team">Team</a></li>
+											<!--li class="menu-item"><a class="menu-link nav-link" href="#team">Team</a></li-->
                                             <li class="menu-item"><a class="menu-link nav-link" href="#faq">Faq</a></li>
 										</ul>
 									</li>
+                                    <li class="menu-item">
+                                        <span id="google_translate_element" style="">
+                                        </span>
+									</li>
+                                    
 									<!--li class="menu-item"><a class="menu-link nav-link" href="#contact">Contact</a></li-->
 								</ul>
 								<!--ul class="menu-btns">
@@ -346,6 +379,14 @@
 	<div class="preloader preloader-alt no-split"><span class="spinner spinner-alt">
         <img style="height:41px;width:160px" class="spinner-brand" src="{% static 'images/logo/logo-all-white.png' %}" srcset="{% static 'images/logo/logo-all-white.png' %} 2x" alt="logoalt">
     </span></div>
+	
+    <script type="text/javascript">
+		function googleTranslateElementInit() {
+		  new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+		}
+	</script>
+		
+	<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 	
 	<!-- JavaScript -->
 	<script src="{% static 'main/js/jquery.bundle.js' %}"?ver=1930"></script>

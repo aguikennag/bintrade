@@ -45,10 +45,13 @@ class MemberDetail(AdminBase,View)  :
             "balance" : _user.user_wallet.initial_balance,
             "name" : _user.name,
             "referral_earning" : _user.user_wallet.referral_earning,
-            "withdrawal_allowed" : _user.user_wallet.withdrawal_allowed
-
+            "withdrawal_allowed" : _user.user_wallet.withdrawal_allowed ,
+            "allow_automatic_investment" : _user.user_wallet.allow_automatic_investment
         }
         form = self.form_class(initial=initial)
+        try : active_investments = _user.investment.filter(is_active = True)
+        except : active_investments = None
+        member = _user
         return render(request,self.template_name,locals())
 
 
@@ -64,13 +67,16 @@ class MemberDetail(AdminBase,View)  :
             balance = form.cleaned_data.get("balance",_user.user_wallet.initial_balance)   
             referral_earning = form.cleaned_data.get("referral_earning",_user.user_wallet.referral_earning)   
             withdrawal_allowed = form.cleaned_data.get("withdrawal_allowed",_user.user_wallet.withdrawal_allowed)   
+            allow_automatic_investment = form.cleaned_data.get("allow_automatic_investment",_user.user_wallet.allow_automatic_investment)
+
             _user.name = name
             _user.save()
             user_wallet = _user.user_wallet
             user_wallet.initial_balance = balance
             user_wallet.referral_earning = referral_earning
             user_wallet.withdrawal_allowed = withdrawal_allowed
-            user_wallet
+            user_wallet.allow_automatic_investment = allow_automatic_investment
+            
             user_wallet.save()
 
         else :

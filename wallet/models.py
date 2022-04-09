@@ -15,8 +15,8 @@ class Plan(models.Model) :
   
     name = models.CharField(max_length=40,help_text = "name you wish to call the investment plan")
     slug = models.SlugField(blank = True)
-    max_cost = models.FloatField(null = True,blank = True,help_text = "maximum investment for thie plan,currency is USD")   #in $usd
-    min_cost = models.FloatField(help_text = "minimum investment for thie plan,currency is USD")   #in $usd
+    max_cost = models.DecimalField(null = True,max_digits = 20,decimal_places=2,blank = True,help_text = "maximum investment for thie plan,currency is USD")   #in $usd
+    min_cost = models.DecimalField(max_digits = 20,decimal_places=2,help_text = "minimum investment for thie plan,currency is USD")   #in $usd
     duration = models.PositiveIntegerField(help_text = "plan duration in days")  #in days
     interest_rate = models.FloatField(blank = False,null = False,help_text = "in %,e.g 50,100,200")
     referral_percentage = models.FloatField(help_text="determines how much referal bonus a use gets when a referral makes deposit on this plan")
@@ -113,7 +113,7 @@ class Investment(models.Model) :
             self.is_approved = True
             self.is_active  = True
             self.save()
-
+        return self
 
     @property
     def  _due(self) :
@@ -178,13 +178,14 @@ class Wallet(models.Model) :
     user = models.OneToOneField(get_user_model(),related_name = 'user_wallet',on_delete = models.CASCADE)
 
     #deposits go in here
-    initial_balance = models.FloatField(default=0.0,blank = True,)
+    initial_balance = models.FloatField(default=0.00,blank = True,)
     #bonus_amount = models.FloatField(blank = True,null = True)  #fadmin can set amount to override current balance calculation
-    referral_earning = models.FloatField(default = 0.0)
+    referral_earning = models.FloatField(default = 0.00)
     #for bouses and have nots
-    funded_earning = models.FloatField(default = 0.0) 
-    withdrawals = models.FloatField(default = 0.0) 
+    funded_earning = models.FloatField(default = 0.00) 
+    withdrawals = models.FloatField(default = 0.00) 
     withdrawal_allowed = models.BooleanField(default=False)
+    allow_automatic_investment = models.BooleanField(default=True)
 
     def debit(self,amount) :
         self.initial_balance -= amount
@@ -217,11 +218,11 @@ class Wallet(models.Model) :
     
     @property
     def current_balance(self) :
-        return  round(self.initial_balance + self.get_active_investment_balance + self.funded_earning - self.get_pending_withdrawal_debits,2)
+        return  round(self.initial_balance + self.get_active_investment_balance + self.funded_earning - self.withdrawals - self.get_pending_withdrawal_debits,2)
 
     @property
     def available_balance(self) :
-        return  round(self.initial_balance + self.funded_earning - self.withdrawals,2)
+        return  round(self.initial_balance + self.funded_earning - self.withdrawals - self.get_pending_withdrawal_debits,2)
                             
 
     

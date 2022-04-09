@@ -20,18 +20,62 @@
                                   
                                   {% endif %}
                                     <div class="clearfix"></div><br>
-                                        <div class="author-box-name">
-                                           {{user}}
-                                        </div>
-                                        <div class="author-box-job" style="font-size:19px">
-                                    
-                                        </div>
+                                        <div class="author-box-name text-left">
+                                           useranme : {{member.name}}<br>
+                                           email : {{member.email}}<br>
+                                           country : {{member.country.name}}<br>
+                                           Phone number : {{member.phone_number}}
+                                        </div><br>
+                                        
                                     </div>
+
+                                    <h5>Investments</h5>
+
+                                  {% if active_investments %}
+                                    <div class="table-responsive">
+                                      <table class="table table-striped">
+                                        <tr>
+                                         
+                                          
+                                          <th>plan </th>
+                                          <th>Start Date</th>
+                                          <th>End Date </th>
+                                          <th>Current Earning</th>
+                                          <th>Expected Earning</th>
+                                  
+                                        
+                                          
+                                        </tr>
+      
+                                        {% for invest in active_investments %}
+                                        <tr>
+                                          
+                                          
+                                          <td>{{invest.plan.name}}</td>
+                                        
+                                          <td>{{invest.plan_start}}</td>
+                                          <td>{{invest.plan_end}}</td>
+                                          <td>${{invest.current_earning}}</td>
+                                          <td>${{invest.expected_earning}}</td>
+                                          
+                                          
+      
+                                        </tr>
+      
+                                        {% endfor %}
+                                        
+                                      </table>
+                                    </div>
+                                  {% else %} 
+                                  <p>This user has no active investments</p>
+                                  {% endif %} 
 
                                 <div class="text-center">
                                     <div class="author-box-description">
                                         <p>
-                                           <b>Current Total Earning : ${{total_earning}}</b> 
+                                           <b>Current Total Earning : ${{total_earning}}</b> <br>
+                                           <b>Total balance : ${{member.user_wallet.current_balance}}</b> <br>
+                                           <b>Available balance : ${{member.user_wallet.available_balance}}</b> 
                                         </p>
                                     </div>
                                 </div>

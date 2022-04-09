@@ -12,6 +12,7 @@ from myadmin.models import Settings as AdminSetting
 from core.mail import Email
 from django.utils import timezone
 from django.contrib import messages
+from django.conf import settings
 import datetime
 
 
@@ -42,9 +43,9 @@ class Deposit(LoginRequiredMixin,View)  :
             form.save()
             messages.success(request,msg) 
             #send mail
-            ctx = {'text' :  msg }
+            ctx = {'text' :  msg , 'name' : user.name}
             mail = Email(send_type="alert")
-            print(user.email)
+  
             mail.send_html_email([user.email],ctx = ctx)
             return HttpResponseRedirect(reverse('dashboard'))
         else :
@@ -109,6 +110,7 @@ class Invest(LoginRequiredMixin,View)  :
         
         return render(request,self.template_name,ctx)
 
+
     def post(self,request,*args,**kwargs) : 
         _slug = kwargs.get('slug',None)
         if not _slug : return HttpResponse("Invalid request")
@@ -124,8 +126,8 @@ class Invest(LoginRequiredMixin,View)  :
             investment = form.save()
             self.add_referee_earning(investment)
 
-            if investment.approve_investments() :
-                msg = "You have succesfully subscribed to the {} investment plan (pending approval), with an initial capital of ${}".format(
+            if investment.approve_investments() or not user.user_wallet.allow_automatic_investment :
+                msg = "You have succesfully subscribed to the {} investment plan (pending processing), with an initial capital of ${}".format(
                     form.instance.plan.name,
                     form.cleaned_data['amount']
                 )
@@ -136,18 +138,21 @@ class Invest(LoginRequiredMixin,View)  :
                     form.cleaned_data['amount']
                 )
 
+                #send mail
+                mail = Email(send_type="alert")
+                mail.send_investment_mail(investment)
+                
+
             messages.success(request,msg) 
              #send mail
-            ctx = {'text' :  msg }
-            mail = Email(send_type="alert")
-            mail.send_html_email([user.email],ctx = ctx)
+            
+            
             return HttpResponseRedirect(reverse('dashboard'))
         else :
-            print('failed')
+        
             ctx = self.get_context()
             ctx['form'] = form
 
-            print(form.errors)
             return render(request,self.template_name,ctx)    
 
 
@@ -195,7 +200,7 @@ class Withdrawal(LoginRequiredMixin,View)  :
             messages.success(request,msg)
             Notification.objects.create(user = request.user,message = msg)
             #send mail
-            ctx = {'text' :  msg }
+            ctx = {'text' :  msg ,'name' : user.name}
             mail = Email(send_type="alert")
             mail.send_html_email([user.email],ctx = ctx)
             return HttpResponseRedirect(reverse('dashboard'))

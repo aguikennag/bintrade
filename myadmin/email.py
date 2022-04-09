@@ -40,8 +40,9 @@ class SendCustomMail(AdminBase,View) :
             mail = Email(send_type="support")
             ctx['text'] = message
             ctx['subject'] = subject
-            ctx['site_name'] = settings.SITE_NAME
-            if name : ctx["name"] = name
+           
+            if name : 
+                ctx["name"] = name
             mail.send_html_email([email],subject=subject,ctx = ctx)
             return HttpResponseRedirect(self.success_url)
 
