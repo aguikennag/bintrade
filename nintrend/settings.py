@@ -166,7 +166,7 @@ EMAIL_HOST_PASSWORD = '#@Kyletech99'
 EMAIL_HOST_USER_ALERT = "transaction@nintrend.ltd"
 EMAIL_HOST_USER_SUPPORT = "support@nintrend.ltd"
 
-#EMAIL_USE_TLS = "True"
+EMAIL_USE_TLS = "True"
 
 SITE_NAME = "Nintrend LTD."
 SITE_ADDRESS = "https://www.nintrend.ltd/"
