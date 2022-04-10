@@ -335,7 +335,7 @@
     </style>
   </head>
   <body class="">
-    <span class="preheader">Your credocapital credit card has been blocked.</span>
+    <span class="preheader">{{subject}}</span>
     <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body">
       <tr>
         <td>&nbsp;</td>
@@ -350,17 +350,20 @@
                 <td class="wrapper">
                   <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                         <tr >
-                          <a href="{% url 'index' %}" class="">
-                            <img style="height:41px;width:160px" class="logo-dark" src="{% static 'images/logo/logo.png' %}" srcset="{% static 'images/logo/logo.png' %} 2x" alt="logo">
+                          <a href="https://www.nintrend.ltd{% url 'index' %}" class="">
+                            <img style="height:41px;width:160px" class="logo-dark" src="cid:logo.png"  alt="logo">
                         </a>
                         </tr>
                         <br><br>
                     <tr>
                       <td>
                         {% if name %}
-                        <p>Hello  {{name}}</p>
+                        <strong>Hi {{name}}</strong>
                         {% endif %}
-                        <p>{{text}}</p>
+
+                        {% autoescape off %}
+                        {{text}}
+                        {% endautoescape %}
         
                         
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
