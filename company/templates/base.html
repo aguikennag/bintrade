@@ -21,6 +21,27 @@
 {% endblock %}
 
 <style>
+    .nk-footer {
+  background-image: url("{% static 'images/bg/bg-b.jpg' %}");
+
+}
+
+    .overlay {
+  position: relative; /* Sit on top of the page content */
+  display: block; /* Hidden by default */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  opacity:0.9;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.8); /* Black background with opacity */
+  z-index: 1; /* Specify a stack order in case you're using a different order for other elements */
+   /* Add a pointer on hover */
+}
+
+
     #google_translate_element select{
  background:#f6edfd;
  color:#415076;
@@ -120,7 +141,7 @@
         {% block content %}{% endblock %}
     
        
-		<footer class="nk-footer bg-theme-grad">
+		<footer class="nk-footer bg-theme-gra overlay" >
 			<!--section class="section no-pdy section-contact bg-transparent" id="contact">
 			
 				<div class="container">
@@ -206,7 +227,8 @@
 				<div class="nk-ovm ovm-top ovm-h-60 bg-light"></div><!-- .nk-ovm ->
 			</section-->
 			<!-- // -->
-			<section class="section section-footer tc-light bg-transparent">
+
+			<section class="section section-footer tc-light overlay">
 			
 				<div class="container">
 				    <!-- Block @s -->
@@ -392,7 +414,17 @@
 	<script src="{% static 'main/js/jquery.bundle.js' %}"?ver=1930"></script>
 	<script src="{% static 'main/js/scripts.js' %}"?ver=1930"></script>
 	<script src="{% static 'main/js/charts.js' %}""></script>
-    <script src="//code.tidio.co/n6uf3yr0cxzap1cxfyfib4pwymzuwo54.js" async></script>
+    <!-- Smartsupp Live Chat script -->
+<script type="text/javascript">
+    var _smartsupp = _smartsupp || {};
+    _smartsupp.key = '3757d7b545c0712370d306f964f593dfc49820e5';
+    window.smartsupp||(function(d) {
+      var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+      s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+      c.type='text/javascript';c.charset='utf-8';c.async=true;
+      c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
+    })(document);
+    </script>
     {% block js %}{% endblock %}
 </body>
 </html>
