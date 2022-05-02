@@ -41,12 +41,11 @@ class Register(CreateView) :
                 referee = User.objects.get(referral_id  = ref_id)
                 self.user.referee = referee
                 #save and create parameters
-                self.user.save() 
                 #notify user of bonus
                 msg = "{} just registered with you referal id".format(self.user.username)
                 Notification.objects.create(user = referee,message = msg)
-            except : 
-                self.user.save() 
+            except : pass
+        self.user.save() 
                   
            
 

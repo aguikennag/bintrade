@@ -40,9 +40,34 @@ class UserCreateForm(UserCreationForm) :
         super(UserCreateForm,self).__init__(*args,**kwargs)
         self.fields['email'].required = True
 
+    def clean_password1(self) :
+        password1 = self.cleaned_data.get("password1")
+
+        if not password1 : 
+            raise forms.ValidationError("password cannot be empty") 
+
+        if len(password1) < 4 : 
+            raise forms.ValidationError("password is too short, must be atleast 4 characters")
+        
+        return password1
+
+    def clean_password2(self) :
+        
+        password1  = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
+
+        if not password1 or not password2 : 
+            raise forms.ValidationError("password cannot be empty") 
+
+        if password1 !=  password2  : 
+            raise forms.ValidationError("password must match ")
+        
+        return password2    
+
     class Meta(UserCreationForm.Meta) :
         model = User
         fields = UserCreationForm.Meta.fields + ('name','username','email','phone_number','country')
+    
 
 
 class ProfileForm(ModelForm) :
