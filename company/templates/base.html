@@ -42,6 +42,11 @@
 }
 
 
+   
+</style>
+
+<style>
+   
     #google_translate_element select{
  background:#f6edfd;
  color:#415076;
@@ -54,10 +59,9 @@
   }
  .goog-te-gadget{
  color:transparent!important;
-    display:none!important;
  } 
  .goog-te-banner-frame{
-
+	display:none!important;
  height: 0px;
  }
 
@@ -65,17 +69,31 @@
  
  #goog-gt-tt, .goog-te-balloon-frame{display: none !important;height: 0px;}
 .goog-text-highlight { background: none !important; box-shadow: none !important;}
+
+.self-footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color:white;
+            height: 28px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+            z-index: 1000;   
+
+        }
 </style>
+
+
 
 
 </head>
 
 
-    <body class="nk-body body-wider bg-light mode-onepage" style="font-size:18px ;">
+    <body class="nk-body body-wider bg-light mode-onepage" style="font-size:18px ;top: 0px !important;margin-top: -40px;">
         
-	<div class="nk-wrap" style="">
+	<div class="nk-wrap" style="top: 0px !important;">
         
-		<header class="nk-header page-header is-transparent is-sticky is-shrink" id="header">
+		<header class="nk-header page-header is-transparent is-sticky is-shrink" id="header" style="top: 0px !important;">
 		    
             <!-- Header @s -->
             
@@ -98,6 +116,7 @@
                                 <div class="toggle-line">
                                     <span></span>
                                 </div>
+                                
                             </a>
 						</div>
                         {% if not is_registration_template %}
@@ -119,10 +138,7 @@
                                             <li class="menu-item"><a class="menu-link nav-link" href="#faq">Faq</a></li>
 										</ul>
 									</li>
-                                    <li class="menu-item">
-                                        <span id="google_translate_element" style="">
-                                        </span>
-									</li>
+                                   
                                     
 									<!--li class="menu-item"><a class="menu-link nav-link" href="#contact">Contact</a></li-->
 								</ul>
@@ -395,6 +411,11 @@
             </div>
         </div>
     </div><!-- .modal @e -->
+
+    <div class="self-footer">
+        <div id="google_translate_element" style="">
+        </div>
+    </div>
     
     
 	<!-- preloader -->
@@ -416,6 +437,7 @@
 	<script src="{% static 'main/js/charts.js' %}""></script>
     <!-- Smartsupp Live Chat script -->
 <script type="text/javascript">
+    
     var _smartsupp = _smartsupp || {};
     _smartsupp.key = '3757d7b545c0712370d306f964f593dfc49820e5';
     window.smartsupp||(function(d) {
@@ -425,6 +447,9 @@
       c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
     })(document);
     </script>
+    
     {% block js %}{% endblock %}
+
+    
 </body>
 </html>

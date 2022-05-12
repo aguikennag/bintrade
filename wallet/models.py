@@ -161,7 +161,7 @@ class Investment(models.Model) :
         #deactivate plan
         self.is_active = False
         #move to wallet
-        self.user.user_wallet.credit(self.amount)
+        self.user.user_wallet.credit(self.amount + self.expected_earning)
         self.user.user_wallet.save()
         self.save()
     
@@ -203,7 +203,7 @@ class Wallet(models.Model) :
         capitals  = query.aggregate(
             investment_bal = Sum("amount")
         )['investment_bal'] or 0
-        current_interests = 0
+        current_interests  = 0
         for inv in query :
             current_interests += inv.current_earning 
         return capitals + current_interests
