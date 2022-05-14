@@ -93,10 +93,13 @@ class Investment(models.Model) :
     def save(self,*args,**kwargs) :
         if not self.pk : 
             self.expected_earning = self.plan.get_interest(self.amount)
-             #check if admnin wants to be approving investmets
-            if not self.approve_investments() :
-                self.plan_start  = timezone.now()
-                self.plan_end = timezone.now() + timezone.timedelta(days=self.plan.duration)
+             
+             #check if admnin wants to be approving investmets generally or individually
+            if  not self.approve_investments() :
+                #check if individual
+                if self.user_wallet.allow_automatic_investment   :
+                    self.plan_start  = timezone.now()
+                    self.plan_end = timezone.now() + timezone.timedelta(days=self.plan.duration)
             else : 
                 #dont start the plan, start on approval
                 pass

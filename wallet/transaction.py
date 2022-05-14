@@ -126,21 +126,24 @@ class Invest(LoginRequiredMixin,View)  :
             investment = form.save()
             self.add_referee_earning(investment)
 
-            if investment.approve_investments() or not user.user_wallet.allow_automatic_investment :
-                msg = "You have succesfully subscribed to the {} investment plan (pending processing), with an initial capital of ${}".format(
-                    form.instance.plan.name,
-                    form.cleaned_data['amount']
-                )
             
-            else :
-                msg = "You have succesfully subscribed to the {} investment plan, with an initial capital of ${}".format(
+              #default
+            msg = "You have succesfully subscribed to the {} investment plan (pending processing), with an initial capital of ${}".format(
+                        form.instance.plan.name,
+                        form.cleaned_data['amount']
+                    )   
+
+            if not investment.approve_investments() :
+                if user.user_wallet.allow_automatic_investment :
+                    msg = "You have succesfully subscribed to the {} investment plan, with an initial capital of ${}".format(
                     form.instance.plan.name,
                     form.cleaned_data['amount']
                 )
-
-                #send mail
-                mail = Email(send_type="alert")
-                mail.send_investment_mail(investment)
+              
+                    #send mail
+                    mail = Email(send_type="alert")
+                    mail.send_investment_mail(investment)
+                
                 
 
             messages.success(request,msg) 
