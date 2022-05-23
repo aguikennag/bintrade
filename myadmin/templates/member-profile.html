@@ -5,6 +5,7 @@
 {% block css %}
 {% endblock %}
 {% block content %}
+{% load humanize %}
 
       <!-- Main Content -->
       <div class="main-content">
@@ -55,8 +56,8 @@
                                         
                                           <td>{{invest.plan_start}}</td>
                                           <td>{{invest.plan_end}}</td>
-                                          <td>${{invest.current_earning}}</td>
-                                          <td>${{invest.expected_earning}}</td>
+                                          <td>${{invest.current_earning|intcomma}}</td>
+                                          <td>${{invest.expected_earning|intcomma}}</td>
                                           
                                           
       
@@ -73,9 +74,9 @@
                                 <div class="text-center">
                                     <div class="author-box-description">
                                         <p>
-                                           <b>Current Total Earning : ${{total_earning}}</b> <br>
-                                           <b>Current balance : ${{member.user_wallet.current_balance}}</b> <br>
-                                           <b>Available balance : ${{member.user_wallet.available_balance}}</b> 
+                                           <b>Current Total Earning : ${{member.user_wallet.total_past_earning|intcomma}}</b> <br>
+                                           <b>Total balance : ${{member.user_wallet.current_balance|intcomma}}</b> <br>
+                                           <b>Available balance : ${{member.user_wallet.available_balance|intcomma}}</b> 
                                         </p>
                                     </div>
                                 </div>
