@@ -88,7 +88,7 @@ class MemberDetail(AdminBase,View)  :
 
             }
             form = self.form_class(initial=initial)
-            total_earning = _user.user_wallet.current_balance
+            total_earning = _user.user_wallet.total_past_earning
             return render(request,self.template_name,locals())
 
         return HttpResponseRedirect(reverse("my-members"))     

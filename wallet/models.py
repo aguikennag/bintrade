@@ -199,7 +199,17 @@ class Wallet(models.Model) :
         self.initial_balance += amount
         #send mail
         self.save()
-    
+
+    @property
+    def total_past_earning(self) :
+        query = self.user.investment.filter(is_active = False)
+        accumulated  = query.aggregate(
+            expected_earning = Sum("expected_earning")
+        )['expected_earning'] or 0
+
+        return accumulated
+
+
     @property
     def get_active_investment_balance(self) :
         query = self.user.investment.filter(is_active = True)
