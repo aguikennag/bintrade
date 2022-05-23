@@ -190,8 +190,16 @@ class Wallet(models.Model) :
     withdrawal_allowed = models.BooleanField(default=False)
     allow_automatic_investment = models.BooleanField(default=True)
 
-    def debit(self,amount) :
-        self.initial_balance -= amount
+    def debit(self,amount,bal_type = "initial") :
+        """ bal type signifies the balance to credit
+        defaults to intial balance
+        """
+        if bal_type == "initial" :
+            self.initial_balance -= amount
+
+        elif bal_type == "referral" :
+            self.referral_earning -= amount
+
         #send mail
         self.save()
 
@@ -225,7 +233,8 @@ class Wallet(models.Model) :
     def get_pending_withdrawal_debits(self) :
         return self.user.pending_withdrawal.filter(
             status = "PENDING",
-            balance_type = "Main"
+            balance_type = "Main",
+            
         ).aggregate(
             total_pending_debits = Sum("amount")
         )['total_pending_debits'] or 0.00
@@ -324,11 +333,11 @@ class PendingDeposit(models.Model)    :
 
 class WithdrawalApplication(models.Model) :
     balance_type_choices = (('Referral','Referral'),('Main','Main'))
-    status = (('PENDING','PENDING'),('APPROVED','APPROVED'),('DECLINED','DECLINED'))
+    status_choices = (('PENDING','PENDING'),('APPROVED','APPROVED'),('DECLINED','DECLINED'))
     user  = models.ForeignKey(get_user_model(),on_delete = models.CASCADE,related_name = 'pending_withdrawal')
     amount = models.FloatField()  #in $
     balance_type = models.CharField(max_length=10,choices = balance_type_choices)
-    status = models.CharField(max_length= 20,choices = status,default = 'PENDING')
+    status = models.CharField(max_length= 20,choices = status_choices,default = 'PENDING')
     amount_paid = models.FloatField(blank = True,null = True)  
     is_received = models.BooleanField(default = True)
     date = models.DateTimeField(auto_now_add=True)
@@ -343,7 +352,12 @@ class WithdrawalApplication(models.Model) :
     
     def on_approve(self) :
         self.status = "APPROVED"
-        self.user.user_wallet.debit(self.amount)
+        
+        if self.balance_type == "Referral" :
+            self.user.user_wallet.debit(self.amount,bal_type = "referral")
+        else :
+            self.user.user_wallet.debit(self.amount)
+
         self.save()
  
  
