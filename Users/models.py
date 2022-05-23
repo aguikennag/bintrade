@@ -49,6 +49,9 @@ class User(AbstractUser) :
     
     email_verified = models.BooleanField(default= False)
 
+    class Meta() :
+        ordering = ['date_joined']
+
     def __init__(self,*args,**kwargs) :
         super(User,self).__init__(*args,**kwargs)
         #specify fields to monitor

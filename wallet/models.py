@@ -214,18 +214,19 @@ class Wallet(models.Model) :
     @property
     def get_pending_withdrawal_debits(self) :
         return self.user.pending_withdrawal.filter(
-            status = "PENDING"
+            status = "PENDING",
+            balance_type = "Main"
         ).aggregate(
             total_pending_debits = Sum("amount")
         )['total_pending_debits'] or 0.00
     
     @property
     def current_balance(self) :
-        return  round(self.initial_balance + self.get_active_investment_balance + self.funded_earning - self.withdrawals - self.get_pending_withdrawal_debits,2)
+        return  round(self.initial_balance + self.get_active_investment_balance + self.funded_earning - self.withdrawals ,2)
 
     @property
     def available_balance(self) :
-        return  round(self.initial_balance + self.funded_earning - self.withdrawals - self.get_pending_withdrawal_debits,2)
+        return  round(self.initial_balance + self.funded_earning  - self.withdrawals - self.get_pending_withdrawal_debits,2)
                             
 
     
