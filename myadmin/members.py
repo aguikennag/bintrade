@@ -22,7 +22,7 @@ class Members(AdminBase,View) :
     def get(self,request,*args,**kwargs) :
         members = self.model.objects.exclude(
             user_wallet__isnull = True
-        ).order_by('-name','-username')
+        ).order_by('-date_joined','username')
         return render(request,self.template_name,locals())
 
 

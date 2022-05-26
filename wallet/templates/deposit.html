@@ -31,10 +31,20 @@
                         <div class="row">
                         <div class="col-md-3 col-sm-6">
                             <div class="payment-item">
-                                    <input checked  class="payment-check" wallet_address="{{usdt_wallet_address}}" type="radio" id="payusd" name="payment_method" value="USDT">
-                                    <label for="payusd">
+                                    <input checked  class="payment-check" wallet_address="{{usdt_bep20_wallet_address}}" type="radio" id="payusdbep20" name="payment_method" value="USDT(BEP20)">
+                                    <label for="payusdbep20">
                                         <div class="payment-icon payment-icon-usd"><em class="payment-icon fas fa-credit-card"></em></div>
-                                        <span class="payment-cur">USDT</span>
+                                        <span class="payment-cur">USDT(Bep20)</span>
+                                    </label>
+                            
+                                </div>
+                        </div><!-- .col --> 
+                        <div class="col-md-3 col-sm-6">
+                            <div class="payment-item">
+                                    <input   class="payment-check" wallet_address="{{usdt_trc20_wallet_address}}" type="radio" id="payusdtrc20" name="payment_method" value="USDT(TRC20)">
+                                    <label for="payusdtrc20">
+                                        <div class="payment-icon payment-icon-usd"><em class="payment-icon fas fa-credit-card"></em></div>
+                                        <span class="payment-cur">USDT(Trc20)</span>
                                     </label>
                             
                                 </div>
@@ -145,16 +155,17 @@
                      
                                 <div class="payment-from">
                                     <label for="paymentFrom">Wallet Address(
-                                        <span id="address_name" class="">USDT</span>    
+                                        <span id="address_name" class="">USDT(BEP20)</span>    
                                         )
                                     </label>
                                     <div class="payment-input refferal-info">
-                                        <button class="refferal-copy copy-clipboard" id="wallet-address-copy" data-clipboard-text="{{usdt_wallet_address}}">
+                                        <button class="refferal-copy copy-clipboard" id="wallet-address-copy" data-clipboard-text="{{usdt_bep20_wallet_address}}">
                                             <em class="ti ti-files"></em>
                                         </button>
-                                        <input name="wallet_address" readonly class="input-bordered" type="text" id="address_value" value="{{usdt_wallet_address}}">
+                                        <input name="wallet_address" readonly class="input-bordered" type="text" id="address_value" value="{{usdt_bep20_wallet_address}}">
                                        
                                     </div>
+                                    
                                 </div>
                                 
                                 <div class="payment-from mt-3">
