@@ -295,7 +295,7 @@ class Transaction(models.Model) :
 
 
 class PendingDeposit(models.Model)    :
-    method_choices = (("USDT","USDT"),("ETH","ETH"),("BTC","BTC"),("LTC","LTC"))
+    method_choices = (("USDT(BEP20)","USDT(BEP20)"),("USDT(TRC20)","USDT(TRC20)"),("ETH","ETH"),("BTC","BTC"),("LTC","LTC"))
 
     def get_path(instance,file_name) :
         ext = file_name.split(".")[1]
@@ -307,7 +307,7 @@ class PendingDeposit(models.Model)    :
     is_declined = models.BooleanField(default = False)
     #reason for declining
     decline_reason = models.TextField(null = True)
-    payment_method = models.CharField(max_length=10,choices = method_choices)
+    payment_method = models.CharField(max_length=20,choices = method_choices)
     payment_proof = models.FileField(upload_to=get_path)
     date = models.DateTimeField(auto_now_add=True)
    
