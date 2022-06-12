@@ -97,7 +97,7 @@ class Investment(models.Model) :
              #check if admnin wants to be approving investmets generally or individually
             if  not self.approve_investments() :
                 #check if individual
-                if self.user_wallet.allow_automatic_investment   :
+                if self.user.user_wallet.allow_automatic_investment   :
                     self.plan_start  = timezone.now()
                     self.plan_end = timezone.now() + timezone.timedelta(days=self.plan.duration)
             else : 
