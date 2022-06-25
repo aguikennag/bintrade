@@ -169,6 +169,12 @@ class KYC(models.Model) :
     
     date = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self) : 
+        return self.user.username
+
+    class Meta() :
+        ordering = ['-date']    
+
 
 
 class Notification(models.Model) :

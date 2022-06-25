@@ -81,7 +81,7 @@ class KYC(LoginRequiredMixin,View) :
                 {"success" : True,
                 "success_url" : reverse("dashboard") 
                 }
-            )
+             )
 
         else :
             return JsonResponse(
