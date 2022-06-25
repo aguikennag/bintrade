@@ -265,7 +265,7 @@
         Dropzone.autoDiscover = false;
 		$upload_zone.each(function(){
 			var $self = $(this);
-			$self.addClass('dropzone').dropzone({ url: "/file/post" });
+			//$self.addClass('dropzone').dropzone({ url: "/file/post" });
 		});
 	}
 

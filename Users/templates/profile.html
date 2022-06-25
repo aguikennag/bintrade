@@ -5,29 +5,31 @@
 {% block content %}
 <div class="user-content">
     <div class="user-panel">
-        {% if not user.email_verified %}
         <h2 class="user-panel-title">Account Center</h2>
-        <div class="alert-box alert-primary">
+        {% if not user.email_verified %}
+
+        <!--div class="alert-box alert-primary">
             <div class="alert-txt"><em class="ti ti-alert"></em>Confirm your email address</div>
             <a id="verify-email-click" class="btn btn-sm btn-primary" style="color: white;">Verify</a>
         </div><!-- .alert-box -->
         {% endif %}
         <ul class="nav nav-tabs nav-tabs-line" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="personal-data-tab" data-toggle="tab" href="#personal-data">Personal Data</a>
+                <a class="nav-link active" id="personal-data-tab" data-toggle="tab" href="#personal-data">Personal
+                    Data</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="wallet-address-tab" data-toggle="tab" href="#wallet-address">Wallet Address</a>
             </li>
-            <li class="nav-item">
+            <!--li class="nav-item">
                 <a class="nav-link"  id="verify-email-tab" data-toggle="tab" href="#verify-email">Verify Email</a>
-            </li>
+            </li-->
         </ul><!-- .nav-tabs-line -->
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="personal-data">
                 <form action="{% url 'profile' %}" method="POST">
-                   {% csrf_token %}
-                   {{form|crispy}}
+                    {% csrf_token %}
+                    {{form|crispy}}
                     <div class="gaps-1x"></div><!-- 10px gap -->
                     <div class="d-sm-flex justify-content-between align-items-center">
                         <button class="btn btn-primary">Update</button>
@@ -37,7 +39,8 @@
                 </form><!-- form -->
             </div><!-- .tab-pane -->
             <div class="tab-pane fade" id="wallet-address">
-                <p>In order to withdraw your funds from your {{site_name}} wallet to your personal wallet, you need to enter a valid wallet address.</p>
+                <p>In order to withdraw your funds from your {{site_name}} wallet to your personal wallet, you need to
+                    enter a valid wallet address.</p>
                 <form action="{% url 'wallet_update' %}" method="POST">
                     {% csrf_token %}
                     {{wallet_form|crispy}}
@@ -45,33 +48,35 @@
                     <div class="note note-plane note-danger">
                         <em class="fas fa-info-circle"></em>
                         <h4>Disclaimer :</h4>
-                        <p>{{site_name}} will not be held responsible for incorrect wallet addresses or any loss that may occur as a result. Please ensure you enter the right wallet address details.</p>
+                        <p>{{site_name}} will not be held responsible for incorrect wallet addresses or any loss that
+                            may occur as a result. Please ensure you enter the right wallet address details.</p>
                     </div>
                     <div class="gaps-3x"></div>
                     <div class="gaps-1x"></div><!-- 10px gap -->
                     <div class="d-sm-flex justify-content-between align-items-center">
                         <button class="btn btn-primary">Update</button>
                         <div class="gaps-2x d-sm-none"></div>
-                      
+
                     </div>
                 </form><!-- form -->
             </div><!-- .tab-pane -->
             <div class="tab-pane fade" id="verify-email">
-              
+
                 <form action="{% url 'verify-email' %}" method="POST">
                     {% csrf_token %}
                     {{verify_email_form|crispy}}
                     {{otp_form|crispy}}
-              
+
                     <div class="gaps-1x"></div><!-- 10px gap -->
                     <div class="d-sm-flex justify-content-between align-items-center">
                         <button type="submit" style="float: right;" class="btn btn-primary px-2 py-1">verify</button>
-                        <button type="button" style="color:#6fc6df;background-color: white;border: 0px;" class="btn btn-primary px-2 py-1">send code</button>
-              
-                      
+                        <button type="button" style="color:#6fc6df;background-color: white;border: 0px;"
+                            class="btn btn-primary px-2 py-1">send code</button>
+
+
                     </div>
                 </form><!-- form -->
-  
+
             </div><!-- .tab-pane -->
         </div><!-- .tab-content -->
     </div><!-- .user-panel -->
@@ -80,13 +85,13 @@
 
 {% block js %}
 <script>
-$(document).ready(function(){
-    var tab = "{{tab}}"
-    $("#" + tab + "-tab").trigger("click")
-})
+    $(document).ready(function () {
+        var tab = "{{tab}}"
+        $("#" + tab + "-tab").trigger("click")
+    })
 
-$("#verify-email-click").click(function(){
-    $("#verify-email-tab").trigger("click")
-})
+    $("#verify-email-click").click(function () {
+        $("#verify-email-tab").trigger("click")
+    })
 </script>
 {% endblock %}

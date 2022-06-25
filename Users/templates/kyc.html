@@ -3,8 +3,10 @@
 
 {% block content %}
 <div class="user-content">
+    <h4>VIP KYC VERIFICATION</h4>
     <div class="user-kyc">
-        <form action="#">
+        <form action="{% url 'kyc' %}" method="POST" enctype="multipart/form-data" id="kycForm">
+            {% csrf_token %}
             <div class="from-step">
                 <div class="from-step-item">
                     <div class="from-step-heading">
@@ -12,46 +14,68 @@
                         <div class="from-step-head">
                             <h4>Step 1 : Personal Details</h4>
                             <p>Simple personal information, required for identification</p>
+
                         </div>
                     </div>
                     <div class="from-step-content">
                         <div class="note note-md note-info note-plane">
-                            <em class="fas fa-info-circle"></em> 
-                            <p>Please carefully fill out the form with your personal details. Your can’t edit these details once you submitted the form.</p>
+                            <em class="fas fa-info-circle"></em>
+                            <p>Please carefully fill out the form with your personal details. Your can’t edit these
+                                details once you submitted the form.</p>
+                            <em class="fas fa-info-circle"></em>
+                            <p>The processing fee for this application is $1,210.</p>
                         </div>
                         <div class="gaps-2x"></div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="input-item input-with-label">
                                     <label for="first-name" class="input-item-label">First Name</label>
-                                    <input class="input-bordered" type="text" id="first-name" name="first-name">
+                                    <span input-name="first_name" class="field-error"></span>
+                                    <input required value="{{data.first_name}}" class="input-bordered" type="text"
+                                        id="first-name" name="first_name">
                                 </div><!-- .input-item -->
                             </div><!-- .col -->
                             <div class="col-md-6">
                                 <div class="input-item input-with-label">
                                     <label for="last-name" class="input-item-label">Last Name</label>
-                                    <input class="input-bordered" type="text" id="last-name" name="last-name">
+                                    <span input-name="last_name" class="field-error"></span>
+                                    <input required value="{{data.last_name}}" class="input-bordered" type="text"
+                                        id="last-name" name="last_name">
                                 </div><!-- .input-item -->
                             </div><!-- .col -->
                             <div class="col-md-6">
                                 <div class="input-item input-with-label">
                                     <label for="email-address" class="input-item-label">Email Address</label>
-                                    <input class="input-bordered" type="text" id="email-address" name="email-address">
+                                    <span input-name="email" class="field-error"></span>
+                                    <input required value="{{data.email}}" class="input-bordered" type="text"
+                                        id="email-address" name="email">
                                 </div><!-- .input-item -->
                             </div><!-- .col -->
                             <div class="col-md-6">
                                 <div class="input-item input-with-label">
                                     <label for="phone-number" class="input-item-label">Phone Number</label>
-                                    <input class="input-bordered" type="text" id="phone-number" name="phone-number">
+                                    <span input-name="phone_number" class="field-error"></span>
+                                    <input required value="{{data.phone_number}}" class="input-bordered" type="text"
+                                        id="phone-number" name="phone_number">
                                 </div><!-- .input-item -->
                             </div><!-- .col -->
                             <div class="col-md-6">
                                 <div class="input-item input-with-label">
                                     <label for="date-of-birth" class="input-item-label">Date of Birth</label>
-                                    <input class="input-bordered date-picker" type="text" id="date-of-birth" name="date-of-birth">
+                                    <span input-name="dob" class="field-error"></span>
+                                    <input required value="{{data.dob}}" class="input-bordered date-picker" type="text"
+                                        id="date-of-birth" name="dob">
                                 </div><!-- .input-item -->
                             </div><!-- .col -->
                             <div class="col-md-6">
+                                <div class="input-item input-with-label">
+                                    <label for="phone-number" class="input-item-label">Nationality</label>
+                                    <span input-name="nationality" class="field-error"></span>
+                                    <input required value="{{data.nationality}}" class="input-bordered" type="text"
+                                        id="nation" name="nationality">
+                                </div><!-- .input-item -->
+                            </div><!-- .col -->
+                            <!--div class="col-md-6">
                                 <div class="input-item input-with-label">
                                     <label for="nationality" class="input-item-label">Nationality</label>
                                     <select class="country-select" name="Nationality" id="Nationality">
@@ -62,37 +86,40 @@
                                         <option value="cr">Czech Republic</option>
                                         <option value="cb">Colombia</option>
                                     </select>
-                                </div><!-- .input-item -->
-                            </div><!-- .col -->
+                                </div><!-- .input-item ->
+                            </div-->
+                            <!-- .col -->
                             <div class="col-md-6">
                                 <div class="input-item input-with-label">
-                                    <label for="address-line-1" class="input-item-label">Address Line 1</label>
-                                    <input class="input-bordered" type="text" id="address-line-1" name="address-line-1">
+                                    <label for="address-line-1" class="input-item-label">Address </label>
+                                    <span input-name="address" class="field-error"></span>
+                                    <input required value="{{data.address}}" class="input-bordered" type="text"
+                                        id="address-line-1" name="address">
                                 </div><!-- .input-item -->
                             </div><!-- .col -->
-                            <div class="col-md-6">
+                            <!--div class="col-md-6">
                                 <div class="input-item input-with-label">
                                     <label for="address-line-2" class="input-item-label">Address Line 2 <span>(optional)</span></label>
                                     <input class="input-bordered" type="text" id="address-line-2" name="address-line-2">
-                                </div><!-- .input-item -->
-                            </div><!-- .col -->
+                                </div><!-- .input-item ->
+                            </div><!-- .col ->
                             <div class="col-md-6">
                                 <div class="input-item input-with-label">
                                     <label for="email-address" class="input-item-label">City of Residence</label>
                                     <input class="input-bordered" type="text" id="email-address" name="email-address">
-                                </div><!-- .input-item -->
-                            </div><!-- .col -->
+                                </div><!-- .input-item ->
+                            </div><!-- .col ->
                             <div class="col-md-6">
                                 <div class="input-item input-with-label">
                                     <label for="phone-number" class="input-item-label">Zip Code</label>
                                     <input class="input-bordered" type="text" id="phone-number" name="phone-number">
-                                </div><!-- .input-item -->
+                                </div><!-- .input-item ->
                             </div><!-- .col -->
-                            <div class="col-md-6">
+                            <!--div class="col-md-6">
                                 <div class="input-item input-with-label">
                                     <label for="phone-number" class="input-item-label">Telegram Username <span>(optional)</span></label>
                                     <input class="input-bordered" type="text" id="phone-number" name="phone-number">
-                                </div><!-- .input-item -->
+                                </div><!-- .input-item ->
                             </div><!-- .col -->
                         </div><!-- .row -->
                     </div><!-- .from-step-content -->
@@ -107,7 +134,7 @@
                     </div>
                     <div class="from-step-content">
                         <div class="note note-md note-info note-plane">
-                            <em class="fas fa-info-circle"></em> 
+                            <em class="fas fa-info-circle"></em>
                             <p>Please upload any of the following personal document.</p>
                         </div>
                         <div class="gaps-2x"></div>
@@ -142,9 +169,10 @@
                         </ul><!-- .nav-tabs-line -->
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="passport">
-                                <h5 class="kyc-upload-title">To avoid delays when verifying account, Please make sure bellow:</h5>
+                                <h5 class="kyc-upload-title">To avoid delays when verifying account, Please make sure
+                                    bellow:</h5>
                                 <ul class="kyc-upload-list">
-                                    <li>Chosen credential must not be expaired.</li>
+                                    <li>Chosen credential must not be expired.</li>
                                     <li>Document should be good condition and clearly visible.</li>
                                     <li>Make sure that there is no light glare on the card.</li>
                                 </ul>
@@ -152,7 +180,9 @@
                                 <span class="upload-title">Upload Here Your Passport Copy</span>
                                 <div class="row align-items-center">
                                     <div class="col-8">
-                                        <div class="upload-box">
+                                        <span input-name="passport" class="field-error"></span>
+                                        <input name="passport" type="file">
+                                        <!--div class="upload-box">
                                             <div class="upload-zone">
                                                 <div class="dz-message" data-dz-message>
                                                     <span class="dz-message-text">Drag and drop file</span>
@@ -160,18 +190,20 @@
                                                     <button class="btn btn-primary">SELECT</button>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div-->
                                     </div>
                                     <div class="col-4">
                                         <div class="kyc-upload-img">
-                                            <img src="{% static 'user-dashboard/images/vector-passport.png' %}" alt="vector">
+                                            <img src="{% static 'user-dashboard/images/vector-passport.png' %}"
+                                                alt="vector">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="gaps-1x"></div>
                             </div>
                             <div class="tab-pane fade" id="national-card">
-                                <h5 class="kyc-upload-title">To avoid delays when verifying account, Please make sure bellow:</h5>
+                                <h5 class="kyc-upload-title">To avoid delays when verifying account, Please make sure
+                                    bellow:</h5>
                                 <ul class="kyc-upload-list">
                                     <li>Chosen credential must not be expaired.</li>
                                     <li>Document should be good condition and clearly visible.</li>
@@ -181,7 +213,10 @@
                                 <span class="upload-title">Upload Here Your National id Front Side</span>
                                 <div class="row align-items-center">
                                     <div class="col-8">
-                                        <div class="upload-box">
+                                        <span input-name="national_id_front" class="field-error"></span>
+                                        <input name="national_id_front" type="file">
+
+                                        <!--div class="upload-box">
                                             <div class="upload-zone">
                                                 <div class="dz-message" data-dz-message>
                                                     <span class="dz-message-text">Drag and drop file</span>
@@ -189,11 +224,12 @@
                                                     <button class="btn btn-primary">SELECT</button>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div-->
                                     </div>
                                     <div class="col-4">
                                         <div class="kyc-upload-img">
-                                            <img src="{% static 'user-dashboard/images/vector-id-front.png' %}" alt="vector">
+                                            <img src="{% static 'user-dashboard/images/vector-id-front.png' %}"
+                                                alt="vector">
                                         </div>
                                     </div>
                                 </div>
@@ -201,7 +237,9 @@
                                 <span class="upload-title">Upload Here Your National id Back Side</span>
                                 <div class="row align-items-center">
                                     <div class="col-8">
-                                        <div class="upload-box">
+                                        <span input-name="national_id_back" class="field-error"></span>
+                                        <input name="national_id_back" type="file">
+                                        <!--div class="upload-box">
                                             <div class="upload-zone">
                                                 <div class="dz-message" data-dz-message>
                                                     <span class="dz-message-text">Drag and drop file</span>
@@ -209,20 +247,22 @@
                                                     <button class="btn btn-primary">SELECT</button>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div-->
                                     </div>
                                     <div class="col-4">
                                         <div class="kyc-upload-img">
-                                            <img src="{% static 'user-dashboard/images/vector-id-back.png' %}" alt="vector">
+                                            <img src="{% static 'user-dashboard/images/vector-id-back.png' %}"
+                                                alt="vector">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="gaps-1x"></div>
                             </div>
                             <div class="tab-pane fade" id="driver-licence">
-                                <h5 class="kyc-upload-title">To avoid delays when verifying account, Please make sure bellow:</h5>
+                                <h5 class="kyc-upload-title">To avoid delays when verifying account, Please make sure
+                                    bellow:</h5>
                                 <ul class="kyc-upload-list">
-                                    <li>Chosen credential must not be expaired.</li>
+                                    <li>Chosen credential must not be expired.</li>
                                     <li>Document should be good condition and clearly visible.</li>
                                     <li>Make sure that there is no light glare on the card.</li>
                                 </ul>
@@ -230,7 +270,9 @@
                                 <span class="upload-title">Upload Here Your Driving Licence Copy</span>
                                 <div class="row align-items-center">
                                     <div class="col-8">
-                                        <div class="upload-box">
+                                        <span input-name="driving_license" class="field-error"></span>
+                                        <input name="driving_license" type="file">
+                                        <!--div class="upload-box">
                                             <div class="upload-zone">
                                                 <div class="dz-message" data-dz-message>
                                                     <span class="dz-message-text">Drag and drop file</span>
@@ -238,11 +280,12 @@
                                                     <button class="btn btn-primary">SELECT</button>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div-->
                                     </div>
                                     <div class="col-4">
                                         <div class="kyc-upload-img">
-                                            <img src="{% static 'user-dashboard/images/vector-licence.png' %}" alt="vector">
+                                            <img src="{% static 'user-dashboard/images/vector-licence.png' %}"
+                                                alt="vector">
                                         </div>
                                     </div>
                                 </div>
@@ -252,7 +295,7 @@
                         <div class="gaps-2x"></div>
                     </div><!-- .from-step-content -->
                 </div><!-- .from-step-item -->
-                <div class="from-step-item">
+                <!--div class="from-step-item">
                     <div class="from-step-heading">
                         <div class="from-step-number">03</div>
                         <div class="from-step-head">
@@ -275,21 +318,32 @@
                                         <option value="dac">DashCoin</option>
                                         <option value="bic">BitCoin</option>
                                     </select>
-                                </div><!-- .input-item -->
-                            </div><!-- .col -->
-                        </div><!-- .row -->
+                                </div><!-- .input-item ->
+                            </div><!-- .col ->
+                        </div><!-- .row ->
                         <div class="input-item input-with-label">
                             <label for="token-address" class="input-item-label">Enter your wallet address</label>
                             <input class="input-bordered" type="text" id="token-address" name="token-address" value="0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae">
                             <span class="input-note">Note: Address should be ERC20-compliant. Make sure that you hold this wallet private key.</span>
-                        </div><!-- .input-item -->
-                        <div class="gaps-2x"></div><!-- 20px gap -->
-                        <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#kycConfirm">Submit Details</a>
-                        <div class="gaps-2x"></div><!-- 20px gap -->
+                        </div><!-- .input-item ->
+                        <div class="gaps-2x"></div><!-- 20px gap ->
+                      
+                        <div class="gaps-2x"></div><!-- 20px gap ->
+
+
                     </div><!-- .from-step-content -->
-                </div><!-- .from-step-item -->
-            </div><!-- .from-step -->
-        </form>
-    </div><!-- .user-kyc -->
+            </div><!-- .from-step-item -->
+            <center>
+                <button type="submit" class="btn btn-primary mb-3">Submit Details</button>
+            </center>
+    </div><!-- .from-step -->
+
+
+    </form>
+</div><!-- .user-kyc -->
 </div><!-- .user-content -->
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'user-dashboard/js/kyc.js' %}"></script>
 {% endblock %}

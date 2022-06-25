@@ -9,11 +9,16 @@ from django.forms.models import model_to_dict
 from wallet.models import Investment, Wallet,WithdrawalApplication as WA,Transaction as TR
 from django.db.models import Sum
 
+from .forms import KycForm
+from .models import KYC
+from django.http import JsonResponse,HttpResponse
+
 
 class Dashboard(LoginRequiredMixin,TemplateView) :
     template_name = 'dashboard.html'
 
     def get_context_data(self,*args,**kwargs) :
+     
         ctx = super(Dashboard,self).get_context_data(*args,**kwargs)  
         try : ctx['pending_deposit'] = self.request.user.user_pending_deposit.all().aggregate(
             total = Sum("amount")
@@ -52,9 +57,40 @@ class Transaction(LoginRequiredMixin,ListView) :
 
 class KYC(LoginRequiredMixin,View) :
     template_name = "kyc.html"
+    form_class = KycForm
+    model = KYC
 
     def get(self,request,*args,**kwargs) :
+        if self.model.objects.filter(user = request.user,is_accepted = False).exists() :
+            return HttpResponse("You already have a pending kyc request, and it's been processed.")
+        data = model_to_dict(request.user)
+        name = data.get("name")
+        if name and name != "" : 
+            data['first_name'] = name.split()[0]
+            data['last_name'] = name.split()[1]
         return render(request,self.template_name,locals())
+
+    def post(self,request,*args,**kwargs)    :
+        if self.model.objects.filter(user = request.user,is_accepted = False).exists() :
+            return HttpResponse("You already have a pending kyc request, and it's been processed.")
+        form = self.form_class(request.POST,request.FILES)
+        if form.is_valid() :
+            form.instance.user = request.user
+            form.save()
+            return JsonResponse(
+                {"success" : True,
+                "success_url" : reverse("dashboard") 
+                }
+            )
+
+        else :
+            return JsonResponse(
+                {"error" : True,
+                "error_response" : form.errors.as_json()
+                }
+            )    
+
+
     
 
 class Referral (LoginRequiredMixin,TemplateView) :

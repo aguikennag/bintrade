@@ -48,6 +48,7 @@ class User(AbstractUser) :
     _wallet_address = models.CharField(max_length=100,null  = True,help_text = "BEP20 address")
     
     email_verified = models.BooleanField(default= False)
+    kyc_verified = models.BooleanField(default=False)
 
     class Meta() :
         ordering = ['date_joined']
@@ -104,7 +105,7 @@ class User(AbstractUser) :
             is_active = True,
             is_approved = True
             )    
-
+  
   
     def has_changed(self,field) :
         original = "__initial_{}".format(field) 
@@ -154,9 +155,20 @@ class WalletAddress(models.Model)  :
 
 
 class KYC(models.Model) :
-    user = models.ForeignKey(get_user_model(),related_name = 'kyc',on_delete = models.CASCADE)
-    is_verified = models.BooleanField(default=False)
+    user = models.OneToOneField(get_user_model(),related_name = 'kyc',on_delete = models.CASCADE)
+    is_accepted = models.BooleanField(default=False)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    phone_number = models.CharField(max_length = 30,blank = False,null = False)
+    address = models.CharField(max_length=100)
+    nationality  = models.CharField(max_length=100)
+    passport = models.FileField(upload_to="kyc/passport/",blank=True)
+    national_id_front = models.FileField(upload_to="kyc/national_id_front/",blank=True)
+    national_id_back = models.FileField(upload_to="kyc/national_id_back/",blank=True)
+    driving_license = models.FileField(upload_to="kyc/driving_license/",blank=True)
+    
     date = models.DateTimeField(auto_now_add=True)
+
 
 
 class Notification(models.Model) :
@@ -173,3 +185,7 @@ class NewsLaterSubscriber(models.Model) :
 
     def __str__(self)  :
         return self.email
+
+
+
+

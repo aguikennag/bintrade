@@ -3,7 +3,7 @@ import email
 from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm,UserChangeForm
-from .models import User,NewsLaterSubscriber,Settings
+from .models import User,NewsLaterSubscriber,Settings,KYC
 
 
 class SettingForm(ModelForm) :
@@ -92,3 +92,11 @@ class SubscribeForm(forms.ModelForm)  :
         if self.Meta.model.objects.filter(email = email).exists() :
             raise forms.ValidationError("You have already subscribed !")
         return email
+
+
+class KycForm(forms.ModelForm) :
+
+
+    class Meta() :
+        model = KYC
+        exclude = ['user','is_accepted','date']

@@ -6,5 +6,6 @@ admin.site.register(User)
 admin.site.register(Country)
 admin.site.register(NewsLaterSubscriber)
 admin.site.register(Settings)
+admin.site.register(KYC)
 
 
