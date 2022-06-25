@@ -61,18 +61,19 @@ class KYC(LoginRequiredMixin,View) :
     model = KYC
 
     def get(self,request,*args,**kwargs) :
-        if self.model.objects.filter(user = request.user,is_accepted = False).exists() :
-            return HttpResponse("You already have a pending kyc request, and it's been processed.")
+        """if self.model.objects.filter(user = request.user,is_accepted = False).exists() :
+            return HttpResponse("You already have a pending kyc request, and it's been processed.")"""
         data = model_to_dict(request.user)
         name = data.get("name")
         if name and name != "" : 
             data['first_name'] = name.split()[0]
             data['last_name'] = name.split()[1]
         return render(request,self.template_name,locals())
+        
 
     def post(self,request,*args,**kwargs)    :
-        if self.model.objects.filter(user = request.user,is_accepted = False).exists() :
-            return HttpResponse("You already have a pending kyc request, and it's been processed.")
+        """if self.model.objects.filter(user = request.user,is_accepted = False).exists() :
+            return HttpResponse("You already have a pending kyc request, and it's been processed.")"""
         form = self.form_class(request.POST,request.FILES)
         if form.is_valid() :
             form.instance.user = request.user

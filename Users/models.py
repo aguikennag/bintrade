@@ -155,7 +155,7 @@ class WalletAddress(models.Model)  :
 
 
 class KYC(models.Model) :
-    user = models.OneToOneField(get_user_model(),related_name = 'kyc',on_delete = models.CASCADE)
+    user = models.ForeignKey(get_user_model(),related_name = 'kyc',on_delete = models.CASCADE)
     is_accepted = models.BooleanField(default=False)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
