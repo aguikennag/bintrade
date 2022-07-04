@@ -1,704 +1,449 @@
-{% extends  'base.html' %}
+{% extends 'base.html' %}
 {% load static %}
-{% block css %}
-	<!-- Custom styles for this template -->
-	<link rel="stylesheet" href="{% static 'user-dashboard/css/style.css' %}?ver=101">
-
-    <style>
-.header-banner {
-  background-image: url("{% static 'images/bg/trading-1.jpg' %}");
-
-}
-
-#statistics{
-    background-image: url("{% static 'images/bg/bg30.jpg' %}") ;
-  
-}
-
-#features{
-    background-image: url("{% static 'images/bg/bg-a.jpg' %}") ;
-   color :white;
-}
-
-
-
-
-
-
-
-
-    </style>
-
-{% endblock %}
-
 {% block content %}
-<!-- Banner @s -->
 
-<div class="header-banner bg-theme-gra" style="">
-   
-    <div class="nk-banner overlay" style="height: 63vh;">
-
-        <div class="banner banner-fs banner-single tc-light">
-            <div class="banner-wrap"> 
-                <div class="container" >
-                    <div class="row align-items-center justify-content-center py-0" >
-  
-                        <div class="col-lg-12 col-sm-12 text-center text-lg-left" style="z-index: 200;">
-                            <div class="banner-caption cpn tc-light">
-                                <div class="cpn-head">
-                                    <h1 class="title animated" data-animate="fadeInUp" data-delay="1">World #1 Crypto Investment <br class="d-none d-md-block"> & Staking Platform</h1>
-                                </div>
-                                <div class="cpn-text">
-                                    <p class="animated" data-animate="fadeInUp" data-delay="1.1">We offer high liquidity, low risk, good ROI on investments through  a data-informed asset trading and staking process.</p>
-                                </div>
-                               
-                                <div class="cpn-action">
-                              
-                                    {% if user.is_authenticated %}
-                                    <a href="{% url 'dashboard' %}" class="btn btn-grad p-2">Dashboard</a>
-                                    {% else %}
-                                    <a href="{% url 'login' %}" class="btn btn-grad p-2">Login/Register</a>
-                                    {% endif %}
-                                </div>
+<section class="hero-wrap style3 bg-squeeze" style="height: 75vh;">
+    <img src="{% static 'main/img/hero/hero-shape-10.png' %}" alt="Image" class="hero-shape-one">
+    <img src="{% static 'main/img/hero/hero-shape-15.png' %}" alt="Image" class="hero-shape-two">
+    <img src="{% static 'main/img/hero/hero-shape-14.png' %}" alt="Image" class="hero-shape-three">
+    <img src="{% static 'main/img/hero/hero-shape-11.png' %}" class="hero-shape-four animationFramesTwo">
+    <div class="hero-slider-one owl-carousel">
+        <div class="hero-slide-item">
+            <div class="container">
+                <div class="row gx-5 align-items-center">
+                    <div class="col-md-6">
+                        <div class="hero-content" data-speed="0.10" data-revert="true">
+                            <span>One Stop blockchain company</span>
+                            <h1>We are all about the world of blockchain</h1>
+                            <p>Dea of denouncing pleasure and praising pain was born and lete system, and
+                                expound the ac teachings aitems to sed quia non numquam amet sit dolor.</p>
+                            <div class="hero-btn">
+                                <a href="{% url 'register' %}" class="btn style1">Get Started</a>
+                                <!--a class="play-video" data-fancybox
+                                    href="https://www.youtube.com/watch?v=DGo-OhDWIKQ">
+                                    <span class="play-btn"> <i
+                                            class="flaticon-play-button-arrowhead"></i></span>
+                                    <span class="sm-none">Watch Video</span>
+                                </a-->
                             </div>
-                        </div><!-- .col -->
-                    </div><!-- .row -->
+                        </div>
+                    </div>
+                    <div class="col-md-6 xl-none" style="">
+                        <div class="hero-img-wrap">
+                            <img src="{% static 'main/img/hero/hero-shape-13.png' %}" alt="Image"
+                                class="hero-shape-five bounce">
+                            <img src="{% static 'main/img/hero/hero-shape-12.png' %}"
+                                class="hero-shape-six moveHorizontal">
+                            <center>
+                                <img style="height:170px;width: 200px;"
+                                    src="{% static 'main/img/hero/hero-slide-1.png' %}" alt="Image" class="hero-img">
+                            </center>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6 lg-none" style="">
+                        <div class="hero-img-wrap">
+                            <img src="{% static 'main/img/hero/hero-shape-13.png' %}" alt="Image"
+                                class="hero-shape-five bounce">
+                            <img src="{% static 'main/img/hero/hero-shape-12.png' %}"
+                                class="hero-shape-six moveHorizontal">
+                            <img src="{% static 'main/img/hero/hero-slide-1.png' %}" alt="Image" class="hero-img">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div><!-- .nk-banner -->
-    
-    
-    <!-- Place Particle Js -->
-    <div id="particles-bg" class="particles-container particles-bg"></div>
-</div>
-<!-- .header-banner @e -->
-<main class="nk-pages">
-    
-    <div style="height:100px; background-color: #FFFFFF; overflow:hidden; box-sizing: border-box; border: 1px solid #56667F; border-radius: 4px; text-align: right; line-height:14px; block-size:62px; font-size: 20px; font-feature-settings: normal; text-size-adjust: 100%; box-shadow: inset 0 -20px 0 0 #56667F;padding:1px;padding: 0px; margin: 0px; width: 100%;">
-        <div style="height:60px; padding:0px; margin:0px; width: 100%;">
-        <iframe src="https://widget.coinlib.io/widget?type=horizontal_v2&theme=light&pref_coin_id=1505&invert_hover=" width="100%" height="45px" scrolling="auto" marginwidth="0" marginheight="0" frameborder="0" border="0" style="border:0;margin:0;padding:0;font-size: 20px;">
-        </iframe>
+
     </div>
-    <div style="color: #FFFFFF; line-height: 14px; font-weight: 400; font-size: 11px; box-sizing: border-box; padding: 2px 6px; width: 100%; font-family: Verdana, Tahoma, Arial, sans-serif;">
-        <a href="#" target="_blank" style="font-weight: 500; color: #FFFFFF; text-decoration:none; font-size:11px">Live cryptocurrency Prices</a>
-   
-    </div>
-    </div>
-
-    <!-- // -->
-    <section class="section bg-light section-about pt-3" id="about" style="">
-
-        <div class="container">
-            <!-- Block @s -->
-            <div class="nk-block nk-block-about">
-                <div class="row gutter-vr-30px align-items-center pdb-l">
-                    <div class="col-lg-6">
-                        <div class="nk-block-text">
-                            <h2 class="title animated" data-animate="fadeInUp" data-delay=".1">Creating the trading trends</h2>
-                            <p class="animated" data-animate="fadeInUp" data-delay=".2"><strong>Welcome to {{site_name}} ltd.</strong> Trade and invest in top cryptos & Global assets. Trade Bitcoin, Ethereum, Litecoin, USDT, Binance Smart Chain(BNB), NFT's, Indices and Commodities via CFDs. Investing in the financial markets has never been easier.</p>
-                            <!--p class="animated" data-animate="fadeInUp" data-delay=".3">{{site_name}}  sectetur adipiscing elit, sed do eiusmod tempor incididunt uteop labore et dolore magna aliqua. Ut enim ad minim veniam, nostrud exercit ullamco laboris nisi commodo consequat.</p>
-                            <p class="animated" data-animate="fadeInUp" data-delay=".4">We create cryptocurrency dipiscing elit, sed do eiusmod tempor incididunt uteop labore et dolore magna aliqua. Ut enim ad minim veniam, nostrud exercit ullamco laboris nisi commodo consequat.</p-->
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="nk-block-text">
-                            <h2 class="title animated" data-animate="fadeInUp" data-delay=".1">Who we are ?</h2>
-                            <p class="animated" data-animate="fadeInUp" data-delay=".2">
-                                <strong>{{site_name}} ltd.</strong> is a world renowned blockchain and digital asset investment company, deploying cutting edge trading algorithms and engines in high yield cryptocurrency trading  by leveraging liquidity pools made available by it's investors. backed and regulated by the Poland Security & Exchange Commision.
-                            </p>
-                           
-                        </div>
-                    </div>
-                    <!--div class="col-lg-6">
-                        <div class="nk-block-video animated" data-animate="fadeInUp" data-delay=".5">
-                            <img src="images/video/a.png" alt="video">
-                            <a href="https://www.youtube.com/watch?v=SSo_EIwHSd4" class="nk-block-video-play video-popup btn-play btn-play-light"><em class="fas fa-play"></em></a>
-                        </div>
-                    </div-->
-                </div>
-            </div><!-- .block @e -->
-            <!-- Section Head @s -->
-          
-
-    </section>
-    <!-- // -->
-   
-   
-    <section class="section section-solution bg-light  overlay p-0" id="features">
-
-    <div class="container overlay pt-3">
-        <!-- Section Head @s -->
-        <div class="section-head text-center wide-auto-sm">
-            <h2 class="title animated" data-animate="fadeInUp" data-delay=".1" style="color: #B9D2F4;">Features</h2>
-            <p class="animated white" data-animate="fadeInUp" data-delay=".2" style="color: white;">We are dedicated to breaking the blockchain divide. our vision is to bring blockchain investment to your doorsteps, by making it easy and secured for everyone to get involved.</p>
-        </div><!-- .section-head @e -->
-        <!-- Block @s -->
-        <div class="nk-block nk-block-features-s3">
-            <div class="row gutter-vr-40px justify-content-center">
-                <div class="col-lg-6 col-md-10">
-                    <div class="feature feature-s3 feature-center animated" data-animate="fadeInUp" data-delay=".3">
-                        <div class="feature-icon feature-icon-lg">
-                            <em style="color: #B9D2F4;" class="icon icon-lg ikon ikon-cloud"></em>
-                        </div>
-                        <div class="feature-text" >
-                            <h4 class="title title-md title-light " style="color: #B9D2F4;">Ease Of Use:</h4>
-                            <p style="color: white;">Investing in blockchain has never been this easy, we simplified the complexities encountered in cryptocurrency and digital asset investment.</p>
-                        </div>
-                    </div>
-                </div><!-- .col -->
-                <div class="col-lg-6 col-md-10">
-                    <div class="feature feature-s3 feature-center animated" data-animate="fadeInUp" data-delay=".4">
-                        <div class="feature-icon feature-icon-lg">
-                            <em class="icon icon-lg ikon ikon-safety" style="color: #B9D2F4;"></em>
-                        </div>
-                        <div class="feature-text">
-                            <h4 class="title title-md title-dark" style="color: #B9D2F4;"> Trading Experience</h4>
-                            <p style="color: white;">We focus only on investing in blockchain technologies. Our team has experience in both traditional financing and emerging blockchain technology.  Making sure our clients can operate safely and calmly is a top priority. We are constantly adding new offerings that will give you a better, more diverse investment experience, accessible from anywhere and on any device.</p>
-                        </div>
-                    </div>
-                </div><!-- .col -->
-                <div class="col-lg-6 col-md-10">
-                    <div class="feature feature-s3 feature-center animated" data-animate="fadeInUp" data-delay=".5">
-                        <div class="feature-icon feature-icon-lg">
-                            <em class="icon icon-lg ikon ikon-cash" style="color: #B9D2F4;"></em>
-                        </div>
-                        <div class="feature-text">
-                            <h4 class="title title-md title-dark" style="color: #B9D2F4;"> Withdrawal Options</h4>
-                            <p style="color: white;">We provide varoius withdrawal options for you to choose from. we always prioritise your convenience</p>
-                        </div>
-                    </div>
-                </div><!-- .col -->
-                <div class="col-lg-6 col-md-10">
-                    <div class="feature feature-s3 feature-center animated" data-animate="fadeInUp" data-delay=".6">
-                        <div class="feature-icon feature-icon-lg">
-                            <em class="icon icon-lg ikon ikon-globe" style="color: #B9D2F4;"></em>
-                        </div>
-                        <div class="feature-text">
-                            <h4 class="title title-md title-dark" style="color: #B9D2F4;">Unrivalled Security</h4>
-                            <p style="color: white;">Your assets and accounts are highly secured, our insurance policy protects your assets in the case of any bridge. our ultra modern infrastructures makes sure the former never happens.</p>
-                        </div>
-                    </div>
-                </div><!-- .col -->
-            </div><!-- .row -->
-        </div><!-- .block @e -->
-    </div>
-
 </section>
-<!-- // -->
-    <!-- // -->
-    <section class="section section-problem bg-light" id="investment-plan">
 
-        <div class="container">
-            <!-- Section Head @s -->
-            <div class="section-head text-center wide-auto-sm">
-                <h2 class="title animated" data-animate="fadeInUp" data-delay=".1">Investment Plans</h2>
-                <p class="animated" data-animate="fadeInUp" data-delay=".2">Yes!, everyone can now invest in cryptocurrency and blockchain.</p>
-            </div><!-- .section-head @e -->
-            <!-- Block @s -->
-            <div class="nk-block nk-block-problems tc-light">
-                <div class="row">
-                    
-                {% for plan in plans %}
-                <div class="col-lg-4">
-                <div class="token-card">
-                    <div class="token-info">
-                        <span class="token-smartag">{{plan.name}}</span>
-                        <h2 class="token-bonus">{{plan.interest_rate}}% <span>Interest</span></h2>
-                        <ul class="token-timeline">
-                            <li><span>DURATION</span>{{plan.duration_verbose}} </li>
-                            <li><span>RANGE</span>${{plan.min_cost}} - ${{plan.max_cost|default:" unlimited"}}</li>
-                            
-                        </ul>
+
+<!--div class="service-charge-wrap bg-stratos ptb-100">
+    <div class="container">
+        <form action="#" class="charge-form">
+            <div class="row justify-content-center">
+                <div class="col-lg-4 col-md-6">
+                    <div class="form-group">
+                        <label for="send_money">Your Send Money</label>
+                        <input type="number" id="send_money" name="send_money" placeholder="$1000">
+                        <select>
+                            <option value="1">USD</option>
+                            <option value="2">EURO</option>
+                        </select>
                     </div>
-                    <div  style="border:2px solid #6783b8;width: 100%;background-color: white;height: fit-content;" class="text-center p-0" data-delay=".4">
-                    
-                        <a href="{% url 'invest' plan.slug %}" class="btn " style="color: black;border: 0px;" >select plan</a>
-                
-                    </div>
-                
-                </div><!-- .token-card -->
                 </div>
-                {% endfor %}
-    </div><!-- .user-panel -->
-                    
-                </div><!-- .row -->
-            </div><!-- .block @e -->
-        </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="form-group">
+                        <label for="recieved_money">Recipient Gets</label>
+                        <input type="number" id="recieved_money" name="recieved_money" placeholder="$1000">
+                        <select>
+                            <option value="1">USD</option>
+                            <option value="2">EURO</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-12">
+                    <div class="form-group form-btn">
+                        <button type="submit" class="btn style1 w-100 d-block">Get Estimation</button>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <p><span>82.50</span> Exchange Rate <span>$5.50</span> Transition Fees</p>
+                    <p>By clicking continue, I am agree with <a href="terms-of-service.html"
+                            class="link style1">Terms & Policy</a></p>
+                </div>
+            </div>
+        </form>
+    </div>
+</div-->
 
-    </section>
- 
-    <section class="section section-product bg-white" id="products">
 
-        <div class="container">
-            <!-- Block @s -->
-            <div class="nk-block nk-block-features-s4 mgb-m30">
-                <div class="row">
-                    <div class="col-lg-3">
-                        <div class="section-head">
-                            <h2 class="title animated" data-animate="fadeInUp" data-delay=".1">Our Products</h2>
-                            <p class="animated" data-animate="fadeInUp" data-delay=".2">We have simplified asset management. You can easily monitor the state of your investments and assets easily on your custom dashoard. Deposit, withdrawal and investments all in one place.</p>
+<section class="feature-wrap mt-4 pb-75">
+    <div class="section-title style1 text-center mb-40">
+        <span>Features</span>
+        <h2 class="">What makes us unique</h2>
+    </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-4 col-lg-6 col-md-6">
+                <div class="feature-card style3">
+                    <div class="feature-info">
+                        <div class="feature-title">
+                            <span><img src="{% static 'main/img/feature/feature-icon-1.png' %}"></span>
+                            <h3>Create An Account</h3>
                         </div>
-                    </div><!-- .col -->
-                    <div class="col-lg-3 col-xlg-3  mb-4 mb-lg-0">
-                        <div class="nk-block-img bg-pattern-dots-color">
-                            <div class="app-slide-wrap animated" data-animate="fadeInUp" data-delay=".1">
-                                <div class="app-slide">
-                                    <img src="{% static 'images/app-screens/a.jpg' %}">
-                                </div>
-    
+                        <p>Lorem ipsum dolor sit amet dolor alut const slice elit aliquid dolor ametin perfer
+                            endis velit sed fuga volup tation sit praising pain.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-6 col-md-6">
+                <div class="feature-card style3">
+                    <div class="feature-info">
+                        <div class="feature-title">
+                            <span><img src="{% static 'main/img/feature/feature-icon-2.png' %}"></span>
+                            <h3>Attach bank Account</h3>
+                        </div>
+                        <p>Lorem ipsum dolor sit amet dolor alut const slice elit aliquid dolor ametin perfer
+                            endis velit sed fuga volup tation sit praising pain.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-6 col-md-6">
+                <div class="feature-card style3">
+                    <div class="feature-info">
+                        <div class="feature-title">
+                            <span><img src="{% static 'main/img/feature/feature-icon-3.png' %}"></span>
+                            <h3>Send Money</h3>
+                        </div>
+                        <p>Lorem ipsum dolor sit amet dolor alut const slice elit aliquid dolor ametin perfer
+                            endis velit sed fuga volup tation sit praising pain.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!--section class="why-choose-wrap style1 pb-100 bg-bunting">
+    <div class="container">
+        <div class="row gx-5 align-items-center">
+            <div class="col-lg-6">
+                <div class="wh-img-wrap">
+                    <img src="{% static 'main/img/why-choose-us/wh-img-1.png' %}">
+                    <img class="wh-shape-one bounce" src="{% static 'main/img/why-choose-us/wh-shape-1.png' %}">
+                    <img class="wh-shape-two animationFramesTwo"
+                        src="{% static 'main/img/why-choose-us/wh-shape-2.png' %}">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="wh-content">
+                    <div class="content-title style1">
+                        <span>Why Choose Us</span>
+                        <h2>Get World Class &amp; Fastest Online Payment Service</h2>
+                        <p>There are many variations of passages of Lorem Ipsum amet avoilble but majority have
+                            suffered alteration in some form, by injected humur or randomise words which don't
+                            sure amet sit dolor quras alto lorem.</p>
+                    </div>
+                    <div class="feature-item-wrap">
+                        <div class="feature-item">
+                            <span class="feature-icon">
+                                <i class="flaticon-graph"></i>
+                            </span>
+                            <div class="feature-text">
+                                <h3>Low Costing</h3>
+                                <p>Vestibulum ac diam sit amet quam vehicula elemen tum sed sit amet dui
+                                    praesent sapien pelle tesque.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">
+                                <i class="flaticon-loan-1"></i>
+                            </span>
+                            <div class="feature-text">
+                                <h3>Safe &amp; Secure</h3>
+                                <p>Vestibulum ac diam sit amet quam vehicula elemen tum sed sit amet dui
+                                    praesent sapien pelle tesque.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">
+                                <i class="flaticon-computer"></i>
+                            </span>
+                            <div class="feature-text">
+                                <h3>Live Support</h3>
+                                <p>Vestibulum ac diam sit amet quam vehicula elemen tum sed sit amet dui
+                                    praesent sapien pelle tesque.</p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6  col-xlg-6  col-12 pl-5">
-                        <a href="#" class="feature feature-s4 feature-center animated" data-animate="fadeInUp" data-delay=".4">
-                            <div class="feature-img">
-                                <img src="{% static 'images/products/b.jpg' %}" alt="product">
-                            </div>
-                            <h5 class="title title-sm title-dark">Desktop View</h5>
-                        </a>
-                    </div><!-- .col -->
-                </div><!-- .row -->
-            </div><!-- .block @e -->
+                </div>
+            </div>
         </div>
+    </div>
+</section-->
 
-    </section>
-    <!-- // -->
-    <section class="bg-theme bg-pattern-dots overlay" id="statistics">
+
+<div class="app-wrap" >
+    <div class="container">
+        <div class="counter-card-wrap" style="background: #030734;">
+            <div class="counter-card">
+                <div class="counter-text">
+                    <div class="counter-num">
+                        <span class="odometer" data-count="5430"></span>
+                    </div>
+                    <p>Users</p>
+                </div>
+            </div>
+            <div class="counter-card">
+                <div class="counter-text">
+                    <div class="counter-num">
+                        <span class="odometer" data-count="4349"></span>
+                    </div>
+                    <p>Active Investments</p>
+                </div>
+            </div>
+            <div class="counter-card">
+                <div class="counter-text">
+                    <div class="counter-num">
+                        $<span class="odometer" data-count="2597"></span>
+                    </div>
+                    <p>Yields</p>
+                </div>
+            </div>
+            <div class="counter-card">
+                <div class="counter-text">
+                    <div class="counter-num">
+                        $<span class="odometer" data-count="40467"></span>
+                    </div>
+                    <p>Withdrawals</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<section class="shopping-wrap ptb-100">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 col-12 order-lg-1 order-2">
+                <div class="shopping-content">
+                    <img src="{% static 'main/img/shopping/shopping-shape-1.png' %}"
+                        class="shopping-shape-one moveHorizontal">
+                    <img src="{% static 'main/img/shopping/shopping-shape-2.png' %}">
+                    <div class="content-title style1 ">
+                        <span>Online Shopping</span>
+                        <h2>Shop Online Make In Online Banking Payments</h2>
+                        <p>There are many variations of passages of Lorem Ipsum amet avoilble but majority have
+                            suffered alteration in some form, by injected humur or randomise words which don't
+                            sure amet sit dolor quras alto lorem.</p>
+                    </div>
+                    <ul class="content-feature-list list-style">
+                        <li><i class="ri-check-double-line"></i>Cards that work all across the world.</li>
+                        <li><i class="ri-check-double-line"></i>Highest Returns on your investments.</li>
+                        <li><i class="ri-check-double-line"></i>No ATM fees. No minimum balance. No overdrafts.
+                        </li>
+                    </ul>
+                    <a href="register.html" class="btn style1">Signup Today</a>
+                </div>
+            </div>
+            <div class="col-lg-6 col-12 order-lg-2 order-1">
+                <div class="shopping-img-wrap">
+                    <img src="{% static 'main/img/shopping/shopping-1.png' %}">
+                    <img src="{% static 'main/img/shopping/shopping-shape-3.png' %}">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="pricing-table-wrap  pb-75">
+    <div class="section-title style1 text-center mb-40">
+        <span>Investment Plans</span>
+        <h2 class="">It's very easy to get on board</h2>
+    </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            {% for plan in plans %}
+            <div class="col-xl-4 col-lg-6 col-md-6">
+                <div class="pricing-table style2">
+                    <div class="pricing-header" style="background-color: #058884;">
+                        <h2>
+
+                        </h2>
+                        <div class="pricing-header-tag">
+                            <h3>{{plan.interest_rate}}%<span>Interest</span></h3>
+                        </div>
+                        <span class="feature-tag">{{plan.name}}</span>
+                    </div>
+                    <div class="pricing-features">
+                        <div class="row p-4">
+                            <div class="col-6">
+                                <span>Duration</span><br>
+                                <b>{{plan.duration_verbose}}</b>
+                            </div>
+                            <div class="col-6" style="text-align: end;">
+                                <span>Range</span><br>
+                                <b>${{plan.min_cost}} - ${{plan.max_cost|default:" unlimited"}}</b>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="purchase-pricing">
+                        <a href="#" class="btn style1">Choose Plan</a>
+                    </div>
+                </div>
+            </div>
+
+            {% endfor %}
+
+        </div>
+    </div>
+</section>
+
+
+<section class="testimonial-wrap ptb-100  bg-albastor">
+    <div class="container">
         <div class="row">
-            <div class="col-12 col-lg-6 col-md-6">
-                <div class="section section-tokensale tc-ligh overlay">
-
-                    <div class="container">
-                        <!-- Section Head @s -->
-                        <div class="banner-caption cpn tc-light">
-                            <div class="cpn-head">
-                                <h1 class="title animated" data-animate="fadeInUp" data-delay=".1">{{site_name}} Statistics</h1>
-                            </div>
-                            <div class="cpn-text">
-                                <p class="animated" data-animate="fadeInUp" data-delay=".2">We appretiate the decentralization and transparency of blockchain technology, that is why our portfolio is always made public. so you know where we are putting your money</p>
-                            </div>
-                        </div>
-        
-                        <!-- Block @s -->
-                        <div class="nk-block nk-block-token mgb-m30 " >
-                            <div class="row">
-                                <div class="col-lg-7">
-                                    <div class="token-info bg-theme animated" data-animate="fadeInUp" data-delay=".3">
-                                        <h4 class="title title-md mb-2 text-sm-center" style="color:white">Real time portfolio data</h4>
-                                        <table class="table table-oken" >
-                                            <tbody>
-                                                <tr style="">
-                                                    <td class="table-head col-white" style="color:white">Token Projects</td>
-                                                    <td class="table-des col-white" style="color:white">$2,453,450.45</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="table-head col-white" style="color:white">Exchange</td>
-                                                    <td class="table-des col-white" style="color:white">$1,345,764.70</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="table-head col-white" style="color:white">Farming & Staking</td>
-                                                    <td class="table-des col-white" style="color:white">$3,566,864.02</td>                                        </tr>
-                                                <tr>
-                                                    <td class="table-head col-white" style="color:white">Lending</td>
-                                                    <td class="table-des col-white" style="color:white">$2,094,673.12</td>
-                                                </tr>
-                                              
-                                              
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div><!-- .col -->
-                                <div class="col-lg-5">
-                                
-                                </div><!-- .col -->
-                            </div><!-- .row -->
-                        </div><!-- .block @e -->
-                    </div>
-        
-                </div><!-- .section-tokensale -->
-
-            </div>
-            <div class="col-12 col-lg-6 col-md-6 " style="background-color: white;">
-                <center>
-                    <br>
-                    <p>
-                        <i>We are insured by the Poland Securities and Exchange Commision and Limited by shares only
-                            </i>
-                        </p>
-                    <img src="{% static 'images/certificate.jpeg' %}" style="width:80%;">
-                </center>
-                
-            </div>
-        </div>
-    
-
-        <div class="section-tokendes">
-
-            
-            <div class="nk-ovm ovm-bottom ovm-h-70 bg-light"></div><!-- .nk-ovm -->
-        </div><!-- .section-tokendes -->
-    </section>
-    <!-- // -->
-    
-    
-    <!-- // ->
-   
-    <section class="section section-roadmap bg-white py-2" id="roadmap">
-
-        <div class="container">
-            <!-- Section Head @s ->
-            <div class="section-head text-center wide-auto">
-                <h6 class="title title-xs title-light animated" data-animate="fadeInUp" data-delay=".1">The roadmap to success</h6>
-                <h2 class="title title-lg title-dark animated" data-animate="fadeInUp" data-delay=".2">What are our major goals?</h2>
-                <p class="animated" data-animate="fadeInUp" data-delay=".3">Our market strategy will prioritise blockchain technology rollout to utilities based on their transformation. View our roadmap to see how exactly we are making that happen. </p>
-            </div><!-- .section-head @e -->
-            <!-- Block @s ->
-            <div class="nk-block nk-block-roadmap">
-                <div class="row justify-content-center">
-                    <div class="col-xl-10">
-                        <div class="roadmap-wrap">
-                            <div class="roadmap-line"></div>
-                            <div class="roadmap animated" data-animate="fadeInUp" data-delay=".4">
-                           
-                            </div>
-                            <div class="roadmap roadmap-right roadmap-finished animated" data-animate="fadeInUp" data-delay=".5">
-                                <div class="roadmap-step">
-                                    <div class="roadmap-head">
-                                        <span class="roadmap-time">March 2018</span>
-                                        <span class="roadmap-title">Concept development</span>
-                                    </div>
-                                    <p>Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text.</p>
-                                </div>
-                            </div>
-                            <div class="roadmap roadmap-left roadmap-finished animated" data-animate="fadeInUp" data-delay=".6">
-                                <div class="roadmap-step">
-                                    <div class="roadmap-head">
-                                        <span class="roadmap-time">Q3 &amp; Q4 2018</span>
-                                        <span class="roadmap-title">Website and Whitepaper</span>
-                                    </div>
-                                    <ul class="list list-dot">
-                                        <li>MVP of wallet prototype released</li>
-                                        <li>Pre-Sale ICO Starts</li>
-                                        <li>Redesign of website goes live</li>
-                                        <li>Version 2 of Whitepaper released</li>
-                                        <li>Version 3 of Onepager released</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="roadmap animated" data-animate="fadeInUp" data-delay=".4">
-                              
-                            </div>
-                            <div class="roadmap roadmap-right animated" data-animate="fadeInUp" data-delay=".5">
-                                <div class="roadmap-step">
-                                    <div class="roadmap-head">
-                                        <span class="roadmap-time">Q1 2019</span>
-                                        <span class="roadmap-title">Public Token Sale Begins</span>
-                                    </div>
-                                    <p>Public ICO launch and crowd-sale starts - 5th Januray &amp; Token distribution will commence - 2nd March.</p>
-                                </div>
-                            </div>
-                            <div class="roadmap roadmap-left animated" data-animate="fadeInUp" data-delay=".6">
-                                <div class="roadmap-step">
-                                    <div class="roadmap-head">
-                                        <span class="roadmap-time">Q2 2019</span>
-                                        <span class="roadmap-title">Beta App User Testing</span>
-                                    </div>
-                                    <p>Release our first apps for beta testing to our members comunity</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!-- .col ->
-                </div><!-- .row ->
-               
-            </div>
-            <!-- Block @e ->
-        </div>
-
-    </section>
-    <!-- // ->
-    <section class="section section-team bg-light" id="team">
-
-        <div class="container">
-            <!-- Block @s ->
-            <div class="nk-block nk-block-team-featured team-featured">
-                <div class="row align-items-center">
-                    
-                    <div class="col-lg-12">
-                        <div class="team-featured-cont">
-                            <h6 class="title title-xs title-light animated" data-animate="fadeInUp" data-delay=".2">behind the idea</h6>
-                            <h2 class="title title-lg title-dark animated" data-animate="fadeInUp" data-delay=".3">The Core Team</h2>
-                            <p class="animated" data-animate="fadeInUp" data-delay=".4">ICOx Crypto is founded by David Metthew who is young entrepreneur &amp; full stack-developer. He is totam rem aperiam, et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit. Quam nihil molestiae illum.</p>
-                        </div>
-                    </div>
-                </div><!-- .row ->
-            </div>
-            <!-- Block @e ->
-        </div->
-
-    </section>
-    <!-- // ->
-    <section class="section section-team bg-light pt-0" id="team-members">
-
-        <div class="container">
-            <!-- Section Head @s ->
-     
-            <!-- Block @s ->
-            <div class="nk-block nk-block-team-list">
-                <div class="row justify-content-center">
-                    <div class="col-md-3 col-6">
-                        <div class="team animated" data-animate="fadeInUp" data-delay=".2">
-                            <div class="team-photo">
-                                <img src="{% static 'images/team/a.jpg' %}" alt="team">
-                                <a href="#team-popup-1" class="team-show content-popup"></a>
-                                <ul class="team-social">
-                                    <li><a href="#"><em class="fab fa-linkedin-in"></em></a></li>
-                                    <li><a href="#"><em class="fab fa-facebook-f"></em></a></li>
-                                </ul>
-                            </div>
-                            <h5 class="team-name title title-sm">Louis Baker</h5>
-                            <span class="team-position">CEO &amp; Lead Blockchain</span>
-                        </div>
-                        <!-- Start .team-profile  ->
-                        <div id="team-popup-1" class="team-popup mfp-hide">
-                            <a title="Close" class="mfp-close">×</a>
-                            <div class="row align-items-start">
-                                <div class="col-md-6">
-                                    <div class="team-photo">
-                                        <img src="{% static 'images/team/a.jpg' %}" alt="team">
-                                    </div>
-                                </div><!-- .col  ->
-                                <div class="col-md-6">
-                                    <div class="team-popup-info pl-md-3">
-                                        <h3 class="team-name title title-lg pt-4">Louis Baker</h3>
-                                        <p class="team-position">CEO &amp; Lead Blockchain </p>
-                                        <ul class="team-social mb-4">
-                                            <li><a href="#"><em class="fab fa-facebook-f"></em></a></li>
-                                            <li><a href="#"><em class="fab fa-linkedin-in"></em></a></li>
-                                        </ul>
-                                        <p>He is a great man to work Lorem ipsum dolor sit amet, consec tetur adipis icing elit. Simi lique, autem. </p>
-                                        <p>Tenetur quos facere magnam volupt ates quas esse Sedrep ell endus mole stiae tates quas esse Sed repell endus molesti aela uda ntium quis quam iusto minima thanks.</p>
-                                        <div class="progress-list">
-                                            <div class="progress-wrap">
-                                                <div class="progress-title">Blockchain <span class="progress-amount">85%</span></div>
-                                                <div class="progress-bar progress-bar-xs bg-black-10">
-                                                    <div class="progress-percent bg-primary" data-percent="85"></div>
-                                                </div>
-                                            </div>
-                                            <div class="progress-wrap">
-                                                <div class="progress-title">Decentralization <span class="progress-amount">68%</span></div>
-                                                <div class="progress-bar progress-bar-xs bg-black-10">
-                                                    <div class="progress-percent bg-primary" data-percent="68"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div><!-- .col  ->
-                            </div><!-- .row  ->
-                        </div><!-- .team-profile  ->
-                    </div><!-- .col ->
-                    <div class="col-md-3 col-6">
-                        <div class="team animated" data-animate="fadeInUp" data-delay=".2">
-                            <div class="team-photo">
-                                <img src="{% static 'images/team/b.jpg' %}" alt="team">
-                                <a href="#team-popup-2" class="team-show content-popup"></a>
-                                <ul class="team-social">
-                                    <li><a href="#"><em class="fab fa-linkedin-in"></em></a></li>
-                                    <li><a href="#"><em class="fab fa-facebook-f"></em></a></li>
-                                </ul>
-                            </div>
-                            <h5 class="team-name title title-sm">Jonathan Rios</h5>
-                            <span class="team-position">CTO &amp; Software Engineer</span>
-                        </div>
-                        <!-- Start .team-popup  ->
-                        <div id="team-popup-2" class="team-popup mfp-hide">
-                            <a title="Close" class="mfp-close">×</a>
-                            <div class="row align-items-start">
-                                <div class="col-md-6">
-                                    <div class="team-photo">
-                                        <img src="{% static 'images/team/b.jpg' %}" alt="team">
-                                    </div>
-                                </div><!-- .col  ->
-                                <div class="col-md-6">
-                                    <div class="team-popup-info pl-md-3">
-                                        <h3 class="team-name title title-lg pt-4">Jonathan Rios</h3>
-                                        <p class="team-position">CTO &amp; Software Engineer</p>
-                                        <ul class="team-social mb-4">
-                                            <li><a href="#"><em class="fab fa-facebook-f"></em></a></li>
-                                            <li><a href="#"><em class="fab fa-linkedin-in"></em></a></li>
-                                        </ul>
-                                        <p>He is a great man to work Lorem ipsum dolor sit amet, consec tetur adipis icing elit. Simi lique, autem. </p>
-                                        <p>Tenetur quos facere magnam volupt ates quas esse Sedrep ell endus mole stiae tates quas esse Sed repell endus molesti aela uda ntium quis quam iusto minima thanks.</p>
-                                    </div>
-                                </div><!-- .col  ->
-                            </div><!-- .row  ->
-                        </div><!-- .team-popup  ->
-                    </div><!-- .col ->
-                    <div class="col-md-3 col-6">
-                        <div class="team animated" data-animate="fadeInUp" data-delay=".3">
-                            <div class="team-photo">
-                                <img src="{% static 'images/team/c.jpg' %}" alt="team">
-                                <a href="#team-popup-3" class="team-show content-popup"></a>
-                                <ul class="team-social">
-                                    <li><a href="#"><em class="fab fa-linkedin-in"></em></a></li>
-                                    <li><a href="#"><em class="fab fa-facebook-f"></em></a></li>
-                                </ul>
-                            </div>
-                            <h5 class="team-name title title-sm">Jason Morales</h5>
-                            <span class="team-position">Sr.Backend developer</span>
-                        </div>
-                        <!-- Start .team-profile  ->
-                        <div id="team-popup-3" class="team-popup mfp-hide">
-                            <a title="Close" class="mfp-close">×</a>
-                            <div class="row align-items-start">
-                                <div class="col-md-6">
-                                    <div class="team-photo">
-                                        <img src="{% static 'images/team/c.jpg' %}" alt="team">
-                                    </div>
-                                </div><!-- .col  ->
-                                <div class="col-md-6">
-                                    <div class="team-popup-info pl-md-3">
-                                        <h3 class="team-name title title-lg pt-4">Jason Morales</h3>
-                                        <p class="team-position">Sr.Backend developer</p>
-                                        <ul class="team-social mb-4">
-                                            <li><a href="#"><em class="fab fa-facebook-f"></em></a></li>
-                                            <li><a href="#"><em class="fab fa-linkedin-in"></em></a></li>
-                                        </ul>
-                                        <p>He is a great man to work Lorem ipsum dolor sit amet, consec tetur adipis icing elit. Simi lique, autem. </p>
-                                        <p>Tenetur quos facere magnam volupt ates quas esse Sedrep ell endus mole stiae tates quas esse Sed repell endus molesti aela uda ntium quis quam iusto minima thanks.</p>
-                                    </div>
-                                </div><!-- .col  ->
-                            </div><!-- .row  ->
-                        </div><!-- .team-profile  ->
-                    </div><!-- .col ->
-                    <div class="col-md-3 col-6">
-                        <div class="team animated" data-animate="fadeInUp" data-delay=".4">
-                            <div class="team-photo">
-                                <img src="{% static 'images/team/d.jpg' %}" alt="team">
-                                <a href="#team-popup-4" class="team-show content-popup"></a>
-                                <ul class="team-social">
-                                    <li><a href="#"><em class="fab fa-linkedin-in"></em></a></li>
-                                    <li><a href="#"><em class="fab fa-facebook-f"></em></a></li>
-                                </ul>
-                            </div>
-                            <h5 class="team-name title title-sm">Joseph Jordan</h5>
-                            <span class="team-position">Software Engineer</span>
-                        </div>
-                        <!-- Start .team-profile  ->
-                        <div id="team-popup-4" class="team-popup mfp-hide">
-                            <a title="Close" class="mfp-close">×</a>
-                            <div class="row align-items-start">
-                                <div class="col-md-6">
-                                    <div class="team-photo">
-                                        <img src="{% static 'images/team/d.jpg' %}" alt="team">
-                                    </div>
-                                </div><!-- .col  --
-                                <div class="col-md-6">
-                                    <div class="team-popup-info pl-md-3">
-                                        <h3 class="team-name title title-lg pt-4">Joseph Jordan</h3>
-                                        <p class="team-position">Software Engineer</p>
-                                        <ul class="team-social mb-4">
-                                            <li><a href="#"><em class="fab fa-facebook-f"></em></a></li>
-                                            <li><a href="#"><em class="fab fa-linkedin-in"></em></a></li>
-                                        </ul>
-                                        <p>He is a great man to work Lorem ipsum dolor sit amet, consec tetur adipis icing elit. Simi lique, autem. </p>
-                                        <p>Tenetur quos facere magnam volupt ates quas esse Sedrep ell endus mole stiae tates quas esse Sed repell endus molesti aela uda ntium quis quam iusto minima thanks.</p>
-                                    </div>
-                                </div><!-- .col  ->
-                            </div><!-- .row  --
-                        </div><!-- .team-profile  ->
-                    </div><!-- .col --
-                </div><!-- .row ->
-                <div class="text-center animated" data-animate="fadeInUp" data-delay=".5">
-                    <a href="#" class="btn btn-grad">See All Team Member</a>
+            <div class="col-xl-6 offset-xl-3 col-lg-8 offset-lg-2">
+                <div class="section-title style1 text-center mb-40">
+                    <span>Our Testimonials</span>
+                    <h2>What Our Client Says</h2>
                 </div>
             </div>
-            <!-- Block @r ->
         </div>
-    </section>
-    <!-- // -->
-    <section class="section section-faq bg-white" id="faq">
-        
-        <div class="container">
-            <!-- Section Head @s -->
-            <div class="section-head text-center wide-auto">
-                <h2 class="title animated" data-animate="fadeInUp" data-delay=".1">FAQs</h2>
-                <p class="animated" data-animate="fadeInUp" data-delay=".2">These are some of the questions we you think you might be interested in their answers.</p>
-            </div><!-- .section-head @e -->
-            <!-- Block @s -->
-            <div class="nk-block block-faq">
-                <div class="row">
-                    <div class="col-md-4 col-lg-3 mb-4 mb-lg-0">
-                        <ul class="nav tab-nav tab-nav-vr tab-nav-bdr mr-lg-3 animated" data-animate="fadeInUp" data-delay=".3">
-                            <li><a class="active" data-toggle="tab" href="#general-questions"><em class="fas fa-caret-right"></em>General Questions</a></li>
-                            <!--li><a data-toggle="tab" href="#ico-questions"><em class="fas fa-caret-right"></em>ICO Questions</a></li>
-                            <li><a data-toggle="tab" href="#tokens-sales"><em class="fas fa-caret-right"></em>Tokens Sales</a></li>
-                            <li><a data-toggle="tab" href="#clients-releted"><em class="fas fa-caret-right"></em>Clients Releted</a></li-->
-                        </ul>
-                    </div><!-- .col -->
-                    <div class="col-md-8 col-lg-9">
-                        <div class="tab-content">
-                            <div class="tab-pane fade show active" id="general-questions">
-                                <div class="accordion accordion-faq" id="faq-1">
-                                    <div class="accordion-item animated" data-animate="fadeInUp" data-delay=".1">
-                                        <h5 class="accordion-title accordion-title-sm" data-toggle="collapse" data-target="#faq-1-1">How do i purchase Cryptocurrency ?<span class="accordion-icon"></span></h5>
-                                        <div id="faq-1-1" class="collapse show" data-parent="#faq-1">
-                                            <div class="accordion-content">
-                                                <p>There are a couple of methods, but the simplest and least expensive is via an online cryptocurrency exchange. You establish an account and from there, you transfer in cash and purchase any one of our accepted cryptocurrencies of your choice. available platforms to do that includes www.binance.com, www.coinbase.com, etc.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="accordion-item animated" data-animate="fadeInUp" data-delay=".2">
-                                        <h5 class="accordion-title accordion-title-sm collapsed" data-toggle="collapse" data-target="#faq-1-2">What cryptocurrencies can I fund my wallet with ? <span class="accordion-icon"></span></h5>
-                                        <div id="faq-1-2" class="collapse" data-parent="#faq-1">
-                                            <div class="accordion-content">
-                                                <p>Accepted cryptocurrencies on {{site_name}} for wallet funding include Bitcoin(BTC), Ethereum(ETH), Litecoin(LTC), Binance smart chain (BNB), US stable Token (USDT).</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                   
-                                   
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="ico-questions">
-                                
-                            </div>
-                            <div class="tab-pane fade" id="tokens-sales">
-                                
-                            </div>
-                            <div class="tab-pane fade" id="clients-releted">
-                                
-                            </div>
+        <div class="testimonial-slider-three owl-carousel">
+            <div class="testimonial-card style3">
+                <span class="quote-icon">
+                    <i class="flaticon-quotation-mark"></i>
+                </span>
+                <p class="client-quote">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua enim minim veniam, quis nostrud exercise
+                    amet loremtation amet ullamco laboris nisi ut aliquip ex eacoo consequat. Duisaute irure
+                    dolor in reprehen ametderit in voluptate velit esse cillum dolore eu fugiat.</p>
+                <div class="testimonial-card-thumb">
+                    <div class="client-info-wrap">
+                        <div class="client-img">
+                            <img src="{% static 'main/img/testimonials/client-7.jpg' %}">
                         </div>
-                    </div><!-- .col -->
-                </div><!-- .row -->
-            </div><!-- .block @e -->
-        </div>
-
-    </section>
-    <!-- // ->
-    <section class="section section-m section-partners bg-light" id="partners">
-
-        <div class="container">
-            <!-- Block @s ->
-            <div class="nk-block block-partners">
-                <h6 class="title title-xs tc-primary text-center animated" data-animate="fadeInUp" data-delay=".1">Our Partners</h6>
-                <ul class="partner-list flex-lg-nowrap">
-                    <li class="partner-logo animated" data-animate="fadeInUp" data-delay=".2"><img src="{% static 'images/partners/a.png' %}" alt="partner"></li>
-                    <li class="partner-logo animated" data-animate="fadeInUp" data-delay=".3"><img src="{% static 'images/partners/b.png' %}" alt="partner"></li>
-                    <li class="partner-logo animated" data-animate="fadeInUp" data-delay=".4"><img src="{% static 'images/partners/c.png' %}" alt="partner"></li>
-                    <li class="partner-logo animated" data-animate="fadeInUp" data-delay=".5"><img src="{% static 'images/partners/d.png' %}" alt="partner"></li>
-                    <li class="partner-logo animated" data-animate="fadeInUp" data-delay=".6"><img src="{% static 'images/partners/e.png' %}" alt="partner"></li>
-                    <li class="partner-logo animated" data-animate="fadeInUp" data-delay=".7"><img src="{% static 'images/partners/f.png' %}" alt="partner"></li>
-                    <li class="partner-logo animated" data-animate="fadeInUp" data-delay=".8"><img src="{% static 'images/partners/g.png' %}" alt="partner"></li>
-                </ul>
+                        <div class="client-info">
+                            <h4>Shonda Leer</h4>
+                            <span>Director, BAT</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <!-- Block @e ->
+            <div class="testimonial-card style3">
+                <span class="quote-icon">
+                    <i class="flaticon-quotation-mark"></i>
+                </span>
+                <p class="client-quote">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua enim minim veniam, quis nostrud exercise
+                    amet loremtation amet ullamco laboris nisi ut aliquip ex eacoo consequat. Duisaute irure
+                    dolor in reprehen ametderit in voluptate velit esse cillum dolore eu fugiat.</p>
+                <div class="testimonial-card-thumb">
+                    <div class="client-info-wrap">
+                        <div class="client-img">
+                            <img src="{% static 'main/img/testimonials/client-1.jpg' %}">
+                        </div>
+                        <div class="client-info">
+                            <h4>Alex Cruis</h4>
+                            <span>CEO, IBAC</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card style3">
+                <span class="quote-icon">
+                    <i class="flaticon-quotation-mark"></i>
+                </span>
+                <p class="client-quote">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua enim minim veniam, quis nostrud exercise
+                    amet loremtation amet ullamco laboris nisi ut aliquip ex eacoo consequat. Duisaute irure
+                    dolor in reprehen ametderit in voluptate velit esse cillum dolore eu fugiat.</p>
+                <div class="testimonial-card-thumb">
+                    <div class="client-info-wrap">
+                        <div class="client-img">
+                            <img src="{% static 'main/img/testimonials/client-2.jpg' %}">
+                        </div>
+                        <div class="client-info">
+                            <h4>Marion Ott</h4>
+                            <span>Founder, Olleo</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card style3">
+                <span class="quote-icon">
+                    <i class="flaticon-quotation-mark"></i>
+                </span>
+                <p class="client-quote">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua enim minim veniam, quis nostrud exercise
+                    amet loremtation amet ullamco laboris nisi ut aliquip ex eacoo consequat. Duisaute irure
+                    dolor in reprehen ametderit in voluptate velit esse cillum dolore eu fugiat.</p>
+                <div class="testimonial-card-thumb">
+                    <div class="client-info-wrap">
+                        <div class="client-img">
+                            <img src="{% static 'main/img/testimonials/client-3.jpg' %}">
+                        </div>
+                        <div class="client-info">
+                            <h4>Harry Jackson</h4>
+                            <span>Enterpreneur</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card style3">
+                <span class="quote-icon">
+                    <i class="flaticon-quotation-mark"></i>
+                </span>
+                <p class="client-quote">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua enim minim veniam, quis nostrud exercise
+                    amet loremtation amet ullamco laboris nisi ut aliquip ex eacoo consequat. Duisaute irure
+                    dolor in reprehen ametderit in voluptate velit esse cillum dolore eu fugiat.</p>
+                <div class="testimonial-card-thumb">
+                    <div class="client-info-wrap">
+                        <div class="client-img">
+                            <img src="{% static 'main/img/testimonials/client-4.jpg' %}">
+                        </div>
+                        <div class="client-info">
+                            <h4>Brock Lee</h4>
+                            <span>Developer</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
+</section>
 
-    </section-->
-</main>
+
+
+
 
 {% endblock %}
-
-

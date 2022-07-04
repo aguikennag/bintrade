@@ -62,7 +62,7 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
-ROOT_URLCONF = 'nintrend.urls'
+ROOT_URLCONF = 'afflus_trade.urls'
 
 
 
@@ -89,7 +89,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'nintrend.wsgi.application'
+WSGI_APPLICATION = 'afflus_trade.wsgi.application'
 
 AUTH_USER_MODEL = 'Users.User'
 # Database
@@ -163,16 +163,16 @@ STATIC_URL = '/static/'
 EMAIL_HOST  = "smtp.zoho.com"
 EMAIL_PORT = "587"
 #for other emails 
-EMAIL_HOST_USER = "support@nintrend.ltd"
-DEFAULT_FROM_EMAIL  = "support@nintrend.ltd"
+EMAIL_HOST_USER = "support@afflus-trade.com"
+DEFAULT_FROM_EMAIL  = "support@afflus-trade.com"
 EMAIL_HOST_PASSWORD = '#@Kyletech99'
-EMAIL_HOST_USER_ALERT = "transaction@nintrend.ltd"
-EMAIL_HOST_USER_SUPPORT = "support@nintrend.ltd"
+EMAIL_HOST_USER_ALERT = "transaction@afflus-trade.com"
+EMAIL_HOST_USER_SUPPORT = "support@afflus-trade.com"
 
 EMAIL_USE_TLS = "True"
 
-SITE_NAME = "Nintrend LTD."
-SITE_ADDRESS = "https://www.nintrend.ltd/"
+SITE_NAME = "AFFLUS TRADE"
+SITE_ADDRESS = "https://www.afflus-trade.com/"
 
 FREE_PLAN_DURATION = 2  #in days
 SUBSCRIPTION_DURATION = 365   #in days

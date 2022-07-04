@@ -3,54 +3,39 @@
 {% load crispy_forms_tags %}
 
     {% block content %}
-    <main class="nk-pages">
-        <div class="section" style="padding-top: 85px;">
-            <div class="container">
-                <div class="nk-blocks d-flex justify-content-center">
-                    <div class="ath-container m-0">
-                        <div class="ath-body">
-                            <h5 class="ath-heading title">Sign Up<small class="tc-default">Create New {{site_name_verbose}} Account</small></h5>
-                            <form action="" method="POST">
-                                {% csrf_token %}
-                                {{form|crispy}}
 
-                                <!--div class="field-item">
-                                    <div class="field-wrap">
-                                        <input type="text" class="input-bordered" placeholder="Your Name">
-                                    </div>
-                                </div>
-                                <div class="field-item">
-                                    <div class="field-wrap">
-                                        <input type="text" class="input-bordered" placeholder="Your Email">
-                                    </div>
-                                </div>
-                                <div class="field-item">
-                                    <div class="field-wrap">
-                                        <input type="password" class="input-bordered" placeholder="Password">
-                                    </div>
-                                </div>
-                                <div class="field-item">
-                                    <div class="field-wrap">
-                                        <input type="password" class="input-bordered" placeholder="Repeat Password">
-                                    </div>
-                                </div>
-                                <div class="field-item">
-                                    <input class="input-checkbox" id="agree-term-2" type="checkbox">
-                                    <label for="agree-term-2">I agree to Icos <a href="#">Privacy Policy</a> &amp; <a href="#">Terms</a>.</label>
-                                </div-->
-                                <button style="float: right;" class="btn btn-primary btn-block btn-md">Sign Up</button><br>
-                            </form>
-    
-                            <div class="ath-note text-center">
-                                Already have an account? <a href="{% url 'login' %}"> <strong>Sign in here</strong></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <section class="account-wrap ptb-100">
+        <div class="container">
+            <div class="section-title style1 text-center mb-40 mt-40">
+           
+                <h2>Create an account </h2>
             </div>
+
+            <form action="" class="account-form" method="POST">
+
+                {% csrf_token %}
+
+                {{form|crispy}}
+
+                <div class="col-md-12">
+                    <button type="submit" class="btn style1 w-100 d-block"> Register</button>
+                </div>
+
+            </form>
+            <p>Already have an account ? <a href="{% url 'login' %}">Login</a></p>
         </div>
-    </main>
+    </section>
+  
         
+
+
+
+
+    {% endblock %}
+
+
+
+
         {% block js %}
         <script>
    
@@ -58,7 +43,7 @@
               $(document).scrollTop(15)
             })
         </script>
-        {% endblock %}
+  
         {% endblock %}
     
 	
