@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'main/css/dark-theme.css' %}">
     <link rel="stylesheet" href="{% static 'main/css/responsive.css' %}">
-    <title>Raxa - Money Transfer & Banking HTML Template</title>
+    <title>{{site_name}} | Revolutionalizing blockchain investments </title>
     <link rel="icon" type="image/png" href="main/img/favicon.png">
 </head>
 
@@ -103,9 +103,10 @@
             <div class="header-bottom">
                 <div class="container">
                     <nav class="navbar navbar-expand-md navbar-light">
-                        <a class="navbar-brand" href="index.html">
-                            <img class="logo-light" src="{% static 'main/img/logo.png' %}" alt="logo">
-                            <img class="logo-dark" src="{% static 'main/img/logo-white.png' %}" alt="logo">
+                        <a class="navbar-brand" href="{% url 'index' %}">
+                            <b>{{site_name}}</b>
+                            <!--img class="logo-light" src="{% static 'main/img/logo.png' %}" alt="logo">
+                            <img class="logo-dark" src="{% static 'main/img/logo-white.png' %}" alt="logo"-->
                         </a>
                         <div class="collapse navbar-collapse main-menu-wrap" id="navbarSupportedContent">
                             <div class="menu-close xl-none">
