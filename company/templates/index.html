@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 
-<section class="hero-wrap style3 bg-squeeze" style="height: 75vh;">
+<section class="hero-wrap style3 bg-squeeze" style="height: 80vh;">
     <img src="{% static 'main/img/hero/hero-shape-10.png' %}" alt="Image" class="hero-shape-one">
     <img src="{% static 'main/img/hero/hero-shape-15.png' %}" alt="Image" class="hero-shape-two">
     <img src="{% static 'main/img/hero/hero-shape-14.png' %}" alt="Image" class="hero-shape-three">
@@ -15,8 +15,11 @@
                         <div class="hero-content" data-speed="0.10" data-revert="true">
                             <span>One Stop blockchain company</span>
                             <h1>We are all about the world of blockchain</h1>
-                            <p>Dea of denouncing pleasure and praising pain was born and lete system, and
-                                expound the ac teachings aitems to sed quia non numquam amet sit dolor.</p>
+                            <p>
+                                {{site_name}} demystifies blockchain and cryptocurrency trading, investment and
+                                financing. You don't need to be and expert trader to profit from the blockchain
+                                industry. We have made that possible.
+                            </p>
                             <div class="hero-btn">
                                 <a href="{% url 'register' %}" class="btn style1">Get Started</a>
                                 <!--a class="play-video" data-fancybox
@@ -28,15 +31,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 xl-none" style="">
+                    <div class="col-md-6 xl-none" style="margin-top: -30px;">
                         <div class="hero-img-wrap">
                             <img src="{% static 'main/img/hero/hero-shape-13.png' %}" alt="Image"
                                 class="hero-shape-five bounce">
                             <img src="{% static 'main/img/hero/hero-shape-12.png' %}"
                                 class="hero-shape-six moveHorizontal">
                             <center>
-                                <img style="height:170px;width: 200px;"
-                                    src="{% static 'main/img/hero/hero-slide-1.png' %}" alt="Image" class="hero-img">
+                                <img style="height:160px;width: 200px;"
+                                    src="{% static 'main/img/hero/trading.jpg' %}" alt="Image" class="hero-img">
                             </center>
                         </div>
 
@@ -48,7 +51,7 @@
                                 class="hero-shape-five bounce">
                             <img src="{% static 'main/img/hero/hero-shape-12.png' %}"
                                 class="hero-shape-six moveHorizontal">
-                            <img src="{% static 'main/img/hero/hero-slide-1.png' %}" alt="Image" class="hero-img">
+                            <img src="{% static 'main/img/hero/trading.jpg' %}" alt="Image" class="hero-img">
                         </div>
                     </div>
                 </div>
@@ -102,7 +105,7 @@
 <section class="feature-wrap mt-4 pb-75">
     <div class="section-title style1 text-center mb-40">
         <span>Features</span>
-        <h2 class="">What makes us unique</h2>
+        <h2 class="">We have room for everyone</h2>
     </div>
     <div class="container">
         <div class="row justify-content-center">
@@ -111,10 +114,11 @@
                     <div class="feature-info">
                         <div class="feature-title">
                             <span><img src="{% static 'main/img/feature/feature-icon-1.png' %}"></span>
-                            <h3>Create An Account</h3>
+                            <h3>Margin Traders</h3>
                         </div>
-                        <p>Lorem ipsum dolor sit amet dolor alut const slice elit aliquid dolor ametin perfer
-                            endis velit sed fuga volup tation sit praising pain.</p>
+                        <p>Your investments and trades can still yield profit weather the market is bullish or bearish.
+                            Easily take advantage of our Margin trading feature.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -123,10 +127,11 @@
                     <div class="feature-info">
                         <div class="feature-title">
                             <span><img src="{% static 'main/img/feature/feature-icon-2.png' %}"></span>
-                            <h3>Attach bank Account</h3>
+                            <h3>Prime Brokerage</h3>
                         </div>
-                        <p>Lorem ipsum dolor sit amet dolor alut const slice elit aliquid dolor ametin perfer
-                            endis velit sed fuga volup tation sit praising pain.</p>
+                        <p>
+                            Our platform is well designed to suit the needs of freelance brokers. We have built {{site_name}} so you don't need to start from scratch.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -135,10 +140,9 @@
                     <div class="feature-info">
                         <div class="feature-title">
                             <span><img src="{% static 'main/img/feature/feature-icon-3.png' %}"></span>
-                            <h3>Send Money</h3>
+                            <h3>Crypto Trading</h3>
                         </div>
-                        <p>Lorem ipsum dolor sit amet dolor alut const slice elit aliquid dolor ametin perfer
-                            endis velit sed fuga volup tation sit praising pain.</p>
+                        <p>From new to advanced crypto traders, {{site_name}} is very flexible to accomodate everyone.</p>
                     </div>
                 </div>
             </div>
@@ -206,7 +210,7 @@
 </section-->
 
 
-<div class="app-wrap" >
+<div class="app-wrap">
     <div class="container">
         <div class="counter-card-wrap" style="background: #030734;">
             <div class="counter-card">
@@ -258,25 +262,25 @@
                         class="shopping-shape-one moveHorizontal">
                     <img src="{% static 'main/img/shopping/shopping-shape-2.png' %}">
                     <div class="content-title style1 ">
-                        <span>Online Shopping</span>
-                        <h2>Shop Online Make In Online Banking Payments</h2>
-                        <p>There are many variations of passages of Lorem Ipsum amet avoilble but majority have
-                            suffered alteration in some form, by injected humur or randomise words which don't
-                            sure amet sit dolor quras alto lorem.</p>
+                        <span>Trade with the best</span>
+                        <h2>Simply replicate our near perfect trading strategies</h2>
+                        <p>There are many reasons you should use {{site_name}}, we want you to see for yourself</p>
                     </div>
                     <ul class="content-feature-list list-style">
-                        <li><i class="ri-check-double-line"></i>Cards that work all across the world.</li>
-                        <li><i class="ri-check-double-line"></i>Highest Returns on your investments.</li>
-                        <li><i class="ri-check-double-line"></i>No ATM fees. No minimum balance. No overdrafts.
+                        <li><i class="ri-check-double-line"></i>Increase Profitability</li>
+                        <li><i class="ri-check-double-line"></i>Explore new opportunities</li>
+                        <li><i class="ri-check-double-line"></i>100% user control, right from your dashboard
+                        </li>
+                        <li><i class="ri-check-double-line"></i>Enjoy rugged security and privacy.
                         </li>
                     </ul>
-                    <a href="register.html" class="btn style1">Signup Today</a>
+                    <a href="{% url 'register' %}" class="btn style1">Signup Now</a>
                 </div>
             </div>
             <div class="col-lg-6 col-12 order-lg-2 order-1">
-                <div class="shopping-img-wrap">
-                    <img src="{% static 'main/img/shopping/shopping-1.png' %}">
-                    <img src="{% static 'main/img/shopping/shopping-shape-3.png' %}">
+                <div class="shopping-img-wrap p-2">
+                    <img src="{% static 'main/img/hero/happy-trader.jpg' %}">
+                    <!--img src="{% static 'main/img/shopping/shopping-sape-3.png' %}"-->
                 </div>
             </div>
         </div>
@@ -342,18 +346,18 @@
                 <span class="quote-icon">
                     <i class="flaticon-quotation-mark"></i>
                 </span>
-                <p class="client-quote">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua enim minim veniam, quis nostrud exercise
-                    amet loremtation amet ullamco laboris nisi ut aliquip ex eacoo consequat. Duisaute irure
-                    dolor in reprehen ametderit in voluptate velit esse cillum dolore eu fugiat.</p>
+                <p class="client-quote">
+                    {{site_name}} Crushes All Competition. Platform offers the most leverage available anywhere in the
+                    crypto space.
+                </p>
                 <div class="testimonial-card-thumb">
                     <div class="client-info-wrap">
                         <div class="client-img">
                             <img src="{% static 'main/img/testimonials/client-7.jpg' %}">
                         </div>
                         <div class="client-info">
-                            <h4>Shonda Leer</h4>
-                            <span>Director, BAT</span>
+                            <h4>Shenar Leah</h4>
+                            <span>Crypto Trader</span>
                         </div>
                     </div>
                 </div>
@@ -362,17 +366,15 @@
                 <span class="quote-icon">
                     <i class="flaticon-quotation-mark"></i>
                 </span>
-                <p class="client-quote">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua enim minim veniam, quis nostrud exercise
-                    amet loremtation amet ullamco laboris nisi ut aliquip ex eacoo consequat. Duisaute irure
-                    dolor in reprehen ametderit in voluptate velit esse cillum dolore eu fugiat.</p>
+                <p class="client-quote">Most importantly, {{site_name}} employs the best and most advanced security
+                    practices available in the industry today.</p>
                 <div class="testimonial-card-thumb">
                     <div class="client-info-wrap">
                         <div class="client-img">
                             <img src="{% static 'main/img/testimonials/client-1.jpg' %}">
                         </div>
                         <div class="client-info">
-                            <h4>Alex Cruis</h4>
+                            <h4>Robert Cruis</h4>
                             <span>CEO, IBAC</span>
                         </div>
                     </div>
@@ -382,18 +384,16 @@
                 <span class="quote-icon">
                     <i class="flaticon-quotation-mark"></i>
                 </span>
-                <p class="client-quote">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua enim minim veniam, quis nostrud exercise
-                    amet loremtation amet ullamco laboris nisi ut aliquip ex eacoo consequat. Duisaute irure
-                    dolor in reprehen ametderit in voluptate velit esse cillum dolore eu fugiat.</p>
+                <p class="client-quote">{{site_name}} addresses problems like low liquidity, inability to earn from
+                    falling markets, unexpected down-times, high trading fees, and poor UI.</p>
                 <div class="testimonial-card-thumb">
                     <div class="client-info-wrap">
                         <div class="client-img">
                             <img src="{% static 'main/img/testimonials/client-2.jpg' %}">
                         </div>
                         <div class="client-info">
-                            <h4>Marion Ott</h4>
-                            <span>Founder, Olleo</span>
+                            <h4>Jadon Moris</h4>
+                            <span>Head of strategy and planning, Palmac</span>
                         </div>
                     </div>
                 </div>
@@ -402,18 +402,16 @@
                 <span class="quote-icon">
                     <i class="flaticon-quotation-mark"></i>
                 </span>
-                <p class="client-quote">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua enim minim veniam, quis nostrud exercise
-                    amet loremtation amet ullamco laboris nisi ut aliquip ex eacoo consequat. Duisaute irure
-                    dolor in reprehen ametderit in voluptate velit esse cillum dolore eu fugiat.</p>
+                <p class="client-quote">Research shows that {{site_name}} boasts a number of features that BitMEX simply
+                    does not.</p>
                 <div class="testimonial-card-thumb">
                     <div class="client-info-wrap">
                         <div class="client-img">
                             <img src="{% static 'main/img/testimonials/client-3.jpg' %}">
                         </div>
                         <div class="client-info">
-                            <h4>Harry Jackson</h4>
-                            <span>Enterpreneur</span>
+                            <h4>Henry Paterson</h4>
+                            <span>Crypto Broker</span>
                         </div>
                     </div>
                 </div>
