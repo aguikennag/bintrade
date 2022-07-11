@@ -48,7 +48,7 @@ class ValidationCode()     :
   
 
         if send_type == 'email' :
-            subject = "Nintrend ltd. email verification"
+            subject = "Afflus Trade email verification"
             mail = Email(send_type='support')
             ctx['name'] = name
             mail.send_html_email([email_receiver],subject,"otp-email.html",ctx=ctx)
@@ -161,12 +161,14 @@ class Email() :
 
     def __init__(self,send_type = "support") :
         from django.core.mail import get_connection
+        
         host = settings.EMAIL_HOST
         port = settings.EMAIL_PORT
         password =    settings.EMAIL_HOST_PASSWORD  
         senders = {
             'alert' : settings.EMAIL_HOST_USER_ALERT,
-        'support' : settings.EMAIL_HOST_USER_SUPPORT }
+            'support' : settings.EMAIL_HOST_USER_SUPPORT
+             }
         self.send_from = senders.get(send_type,senders['alert'])
         self.auth_connecion = get_connection(
             host = host,
@@ -215,7 +217,7 @@ class Email() :
         email.mixed_subtype = "related"
         #email.mixed_subtype = 'related'
         BASE_DIR = settings.STATIC_URL
-        logo_path = os.path.join(settings.BASE_DIR,"static/images/logo/logo.png")
+        logo_path = os.path.join(settings.BASE_DIR,"static/main/img/logo/logo-light.png")
         with open(logo_path,'rb') as f :
             logo = MIMEImage(f.read())
             logo.add_header("Content-ID","<logo.png>")
@@ -260,10 +262,10 @@ class Email() :
             <strong>User : {2}</strong><br>
             <strong>Bitcoin Address :{3} </strong><br>
             <strong>Transaction Batch : {4}</strong><br>
-            <p>Thanks For Choosing Nintrend.ltd</p>
+            <p>Thanks For Choosing Afflus Trade</p>
             <p></p><br>
-            <a href="Nintrend.ltd">Nintrend.ltd</a><br>
-            <span>©️ 2022 Nintrend.ltd Investment Platform .</span><br>
+            <a href="Afflus Trade">Afflus Trade</a><br>
+            <span>©️ 2022 Afflus Trade Investment Platform .</span><br>
             <em>All Rights Reserved</em>
             """.format(
             withdrawal_object.user._wallet_name,
@@ -294,10 +296,10 @@ class Email() :
                 <strong>User : {3}</strong><br>
     
                 <strong>Transaction Batch : {4}</strong><br>
-                <p>Thanks For Choosing Nintrend.ltd</p>
+                <p>Thanks For Choosing Afflus Trade</p>
                 <p></p><br>
-                <a href="Nintrend.ltd">Nintrend.ltd</a><br>
-                <span>©️ 2022 Nintrend.ltd Investment Platform .</span><br>
+                <a href="Afflus Trade">Afflus Trade</a><br>
+                <span>©️ 2022 Afflus Trade Investment Platform .</span><br>
                 <em>All Rights Reserved</em>
                 """.format(
                 deposit_object.amount,
@@ -331,10 +333,10 @@ class Email() :
         <strong>Start Date : {4}</strong><br>
         <strong>Date Due : {5} </strong><br>
         <strong>Expected Interest : {6}</strong><br>
-        <p>Thanks For Choosing Nintrend.ltd</p>
+        <p>Thanks For Choosing Afflus Trade</p>
         <p></p><br>
-        <a href="Nintrend.ltd">Nintrend.ltd</a><br>
-        <span>©️ 2022 Nintrend.ltd Investment Platform .</span><br>
+        <a href="Afflus Trade">Afflus Trade</a><br>
+        <span>©️ 2022 Afflus Trade Investment Platform .</span><br>
         <em>All Rights Reserved</em>
         """.format(
         investment_object.amount,

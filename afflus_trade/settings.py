@@ -163,11 +163,11 @@ STATIC_URL = '/static/'
 EMAIL_HOST  = "smtp.zoho.com"
 EMAIL_PORT = "587"
 #for other emails 
-EMAIL_HOST_USER = "support@afflus-trade.com"
-DEFAULT_FROM_EMAIL  = "support@afflus-trade.com"
+EMAIL_HOST_USER = "support@nintrend.ltd"
+DEFAULT_FROM_EMAIL  = "support@nintrend.ltd"
 EMAIL_HOST_PASSWORD = '#@Kyletech99'
-EMAIL_HOST_USER_ALERT = "transaction@afflus-trade.com"
-EMAIL_HOST_USER_SUPPORT = "support@afflus-trade.com"
+EMAIL_HOST_USER_ALERT = "transaction@nintrend.ltd"
+EMAIL_HOST_USER_SUPPORT = "support@nintrend.ltd"
 
 EMAIL_USE_TLS = "True"
 
