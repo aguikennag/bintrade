@@ -9,9 +9,9 @@
             <div class="col-12">
                 <div class="row">
                     <div class="col-12">
-                        <div class="tile-item tile-light">
+                        <div class="tile-item tile-light" style="background-color: transparent;">
                             <div class="tile-bubbles"></div>
-                            <h6 class="tile-title">WALLET BALANCE</h6>
+                            <h6 class="tile-title">BALANCE</h6>
                             <ul class="tile-info-list">
                                 <li><span>${{user.user_wallet.current_balance|intcomma}}</span></li>
                               
@@ -96,10 +96,10 @@
                         <em class="ti ti-close"></em>
                     </div>
                 </div>
-                <span class="status-text"> You have no running investment at the moment.</span>
+                <span class="status-text"> You are yet to start an investment</span>
                 <center>
                     <span>
-                        <a style="font-size: 18px;" href="{% url 'plans' %}">Invest</a></span>
+                        <a style="font-size: 18px;" href="{% url 'plans' %}">Choose a Plan</a></span>
                     </span>
                 </center>
             </div> 

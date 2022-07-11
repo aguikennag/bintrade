@@ -8,9 +8,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="description" content="making digital currency investments easier and safer">
 	<!-- Fav Icon  -->
-	<link rel="shortcut icon" href="images/favicon.png">
+	<link rel="shortcut icon" href="{% static 'main/img/logo/icon.png' %}">
 	<!-- Site Title  -->
-	<title>Nintrend.ltd | User dashboard</title>
+	<title>{{site_name}} | User dashboard</title>
 	<!-- Vendor Bundle CSS -->
 	<link rel="stylesheet" href="{% static 'user-dashboard/css/vendor.bundle.css' %}?ver=101">
 	<!-- Custom styles for this template -->
@@ -37,8 +37,8 @@
                     <div class="site-logo">
                       
                         <a href="{% url 'index' %}" class="site-brand">
-                            <b style="color: black;font-size: 18px;">{{site_name}}</b>
-                            <!--img style="height:41px;width:160px" src="{% static 'images/logo/logo.png' %}" alt="logo" srcset="{% static 'images/logo/logo.png' %} 2x"-->
+                            
+                            <img style="height:41px;width:160px" src="{% static 'main/img/logo/logo-light.png' %}" alt="logo" srcset="{% static 'main/img/logo/logo-light.png' %} 2x">
                         </a>
                     </div><!-- .site-logo -->
                     
@@ -133,13 +133,13 @@
                         </ul>
                     </div><!-- .user-box -->
                     <ul class="user-icon-nav">
-                        <li><a href="{% url 'dashboard' %}"><em class="ti ti-dashboard"></em>Dashboard</a></li>
+                        <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
                         
                       
-                        <li><a href="{% url 'transaction' %}"><em class="ti ti-control-shuffle"></em>Transactions</a></li>
-                        <li><a href="{% url 'referral' %}"><em class="ti ti-infinite"></em>Referral</a></li>
-                        <li><a href="{% url 'profile' %}"><em class="ti ti-user"></em>Account</a></li>
-                        <li><a href="{% url 'setting' %}"><em class="ti ti-lock"></em>Account Settings</a></li>
+                        <li><a href="{% url 'transaction' %}">Transactions</a></li>
+                        <li><a href="{% url 'referral' %}">Referral</a></li>
+                        <li><a href="{% url 'profile' %}">Account</a></li>
+                        <li><a href="{% url 'setting' %}">Account Settings</a></li>
                         
                     </ul><!-- .user-icon-nav -->
                     <div class="user-sidebar-sap"></div><!-- .user-sidebar-sap -->
