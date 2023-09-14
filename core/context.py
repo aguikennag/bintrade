@@ -13,15 +13,14 @@ def core(request) :
     ctx['site_name_full'] = "Bintrade"
     ctx['support_email'] = "support@nintrend.ltd"
     ctx['site_email'] = "support@nintrend.ltd"
-    ctx['site_phone'] = "+3594858454"
-    ctx['site_whatsapp_no'] = "+66658656fg6"
+    ctx['site_phone'] = ""
+    ctx['site_whatsapp_no'] = ""
     ctx['site_address'] = "No 23 winston road new york"
-    ctx['ltc_wallet_address'] = "ltc1q3spehp5aeunwnf75pnj2ka4h4h207cks09vrfx"
-    ctx['usdt_bep20_wallet_address'] = "0x23c6742837e45c2dcdd169b79d06eeeb6b108b9b"
-    ctx['usdt_trc20_wallet_address'] =  "TNiQErvJZMrnXHDGRyaxu9ZeVAPixk98AX"
-    ctx['eth_wallet_address'] = "0x35A3af01822B37FEb4f1E16319daAd1c208e0F9c"
-    ctx['btc_wallet_address'] = "1MJZZuHVErPeEa87rhBC6MpJyp3zRuPyp9"
-    ctx['bnb_wallet_address'] = "0x23c6742837e45c2dcdd169b79d06eeeb6b108b9b"
+    ctx['ltc_wallet_address'] = "ltc1qsvg0t9t6uehwawm0u6kgqtylxrnhctsey4q26e"
+    ctx['usdt_trc20_wallet_address'] =  "TJsjwva9wgeAsu48qXCMoAVdWf3CfpjsrT"
+    ctx['eth_wallet_address'] = "0xaFE97eeBDBD23940EB3c324887dbF3984A7A5B44"
+    ctx['btc_wallet_address'] = "bc1q6q0yutnp6xzdw2qzzr36fvnvhd3ue26ezwregv"
+    ctx['bnb_wallet_address'] = "bnb1tchrv3p808sv3zt0jgcu993qczfd42d3amzadn"
     
     return ctx  
 
