@@ -25,6 +25,8 @@ SECRET_KEY = '24q_*&tn+5k_*6h6$nsccghwwb#8b%v4i)1h(wd08_02_-(czt'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+
+
 ALLOWED_HOSTS = ['*']
 
 
@@ -44,6 +46,7 @@ INSTALLED_APPS = [
     'myadmin.apps.MyadminConfig',
     'core.apps.CoreConfig',
     'crispy_forms',
+    
 
     #3rd party
     'whitenoise.runserver_nostatic',
@@ -88,6 +91,42 @@ TEMPLATES = [
         },
     },
 ]
+
+JAZZMIN_SETTINGS = {
+    # title of the window (Will default to current_admin_site.site_title if absent or None)
+    "site_title": "MXG Admin",
+
+    # Title on the login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
+    "site_header": "MXG",
+
+    # Title on the brand (19 chars max) (defaults to current_admin_site.site_header if absent or None)
+    "site_brand": "MXG",
+
+    # Logo to use for your site, must be present in static files, used for brand on top left
+    "site_logo": "img/logo/logo.png",
+
+    # Logo to use for your site, must be present in static files, used for login form logo (defaults to site_logo)
+    "login_logo": "img/logo/logo-jazz.png",
+
+    # Logo to use for login form in dark themes (defaults to login_logo)
+    "login_logo_dark": "img/logo/logo-jazz.png",
+
+    # CSS classes that are applied to the logo above
+    "site_logo_classes": "logo",
+
+    "custom_css": "css/style.css",
+
+    # Relative path to a favicon for your site, will default to site_logo if absent (ideally 32x32 px)
+    "site_icon": "img/logo/icon.png",
+
+    # Welcome text on the login screen
+    "welcome_sign": "Welcome Admin!",
+
+    # Copyright on the footer
+    "copyright": "MXG",
+}
+
+
 
 WSGI_APPLICATION = 'afflus_trade.wsgi.application'
 
@@ -141,6 +180,9 @@ USE_TZ = True
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,"media")
 
+#LOGIN DETAILS
+#TawkTo = {email : , password : #@bin&%trade}
+
 STATICFILES_DIRS = [
 
 os.path.join(BASE_DIR,"static")
@@ -171,8 +213,8 @@ EMAIL_HOST_USER_SUPPORT = "support@nintrend.ltd"
 
 EMAIL_USE_TLS = "True"
 
-SITE_NAME = "AFFLUS TRADE"
-SITE_ADDRESS = "https://www.afflus-trade.com/"
+SITE_NAME = "BINTRADE"
+SITE_ADDRESS = "https://binance.nintrend.ltd/"
 
 FREE_PLAN_DURATION = 2  #in days
 SUBSCRIPTION_DURATION = 365   #in days

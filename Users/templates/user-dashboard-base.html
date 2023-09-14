@@ -69,7 +69,7 @@
                 <div class="topbar-lg d-none d-lg-block">
                     <div class="site-logo">
                         <a href="{% url 'index' %}" class="site-brand">
-                            <img style="height:41px;width:160px" src="{% static 'images/logo/logo.png' %}" alt="logo" srcset="{% static 'images/logo/logo.png' %} 2x">
+                            <img style="height:41px;width:160px" src="{% static 'main/img/logo/logo-light.png' %}" alt="logo" srcset="{% static 'main/img/logo/logo-light.png' %} 2x">
                         </a>
                     </div><!-- .site-logo -->
                 </div><!-- .topbar-lg -->
@@ -94,7 +94,7 @@
                             <div class="dropdown-menu dropdown-menu-right">
                                 <div class="user-dropdown">
                                     <div class="user-dropdown-head">
-                                        <h6 class="user-dropdown-name">{{user.name}} <span>(user.unique_id)</span></h6>
+                                        <h6 class="user-dropdown-name">{{user.name}} <span>({{user.unique_id}})</span></h6>
                                         <span class="user-dropdown-email">{{user.email}}</span>
                                     </div>
                                    

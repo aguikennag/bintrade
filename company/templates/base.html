@@ -59,13 +59,14 @@
         }
     </style>
 
-    <!--Start of Tawk.to Script-->
+
+<!--Start of Tawk.to Script-->
 <script type="text/javascript">
     var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
     (function(){
     var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
     s1.async=true;
-    s1.src='https://embed.tawk.to/62cc60f4b0d10b6f3e7bd107/1g7n5lfv7';
+    s1.src='https://embed.tawk.to/650295240f2b18434fd86c8f/1ha91d5qt';
     s1.charset='UTF-8';
     s1.setAttribute('crossorigin','*');
     s0.parentNode.insertBefore(s1,s0);
@@ -94,70 +95,17 @@
     <div class="page-wrapper">
 
         <header class="header-wrap style1">
-            <div class="header-top">
-                <button type="button" class="close-sidebar">
-                    <i class="ri-close-fill"></i>
-                </button>
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-lg-8 col-md-12">
-                            <div class="header-top-left">
-                                <ul class="contact-info list-style">
-                                   
-                                    <li><i class="flaticon-email-1"></i> <a
-                                            href="mailto:support@afflus-trade.com">support@afflus-trade.com</a>
-                                    </li>
-                                   
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-12">
-                            <div class="header-top-right">
-                                <!--ul class="header-top-menu list-style">
-                                    <li><a href="#">Support</a></li>
-                                    <li><a href="#">Help</a></li>
-                                </ul-->
-                                <div class="select-lang">
-                                    <i class="ri-global-line"></i>
-                                    <div class="navbar-option-item navbar-language dropdown language-option">
-                                        <button class="dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                                            aria-haspopup="true" aria-expanded="false">
-                                            <span class="lang-name"></span>
-                                        </button>
-                                      
-                                            <div id="google_translate_element" style="margin-top:-10px"></div>
-                                       
-                                       
-
-                                        <!--div class="dropdown-menu language-dropdown-menu">
-                                            <a class="dropdown-item" href="#">
-                                                <img src="{% static 'main/img/uk.png' %}">
-                                                English
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <img src="{% static 'main/img/china.png' %}">
-                                                简体中文
-                                            </a>
-                                            <a class="dropdown-item" href="#">
-                                                <img src="{% static 'main/img/uae.png' %}">
-                                                العربيّة
-                                            </a>
-                                        </div-->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="header-top" style="background-color: white;height: 50px;">
+                
             </div>
             <div class="header-bottom">
                 <div class="container">
                     <nav class="navbar navbar-expand-md navbar-light">
                         <a class="navbar-brand" href="{% url 'index' %}">
 
-                            <img style="width:170px;height:40px" class="logo-light"
+                            <img style="width:190px;height:40px" class="logo-light"
                                 src="{% static 'main/img/logo/logo-light.png' %}" alt="logo">
-                            <img style="width:170px;height:40px" class="logo-dark"
+                            <img style="width:190px;height:40px" class="logo-dark"
                                 src="{% static 'main/img/logo/logo-dark.png' %}" alt="logo">
                         </a>
                         <div class="collapse navbar-collapse main-menu-wrap" id="navbarSupportedContent">
@@ -166,15 +114,15 @@
                             </div>
                             <ul class="navbar-nav ms-auto">
 
-                                <li class="nav-item">
-                                    <a href="about.html" class="nav-link">
+                                <!--li class="nav-item">
+                                    <a href="#0" class="nav-link">
                                         About Us
                                     </a>
-                                </li>
+                                </li-->
 
                                 <li class="nav-item xl-none">
                                     {% if user.is_authenticated %}
-                                    <a href="{% url 'dashboard' %}" class="btn style1">Dashboard</a>
+                                    <a href="{% url 'dashboard' %}" class="btn style1 py-1">Dashboard</a>
                                     {% else %}
                                     <a href="{% url 'register' %}" class="btn style1">Register / Login</a>
                                     {% endif %}
@@ -193,9 +141,7 @@
                         </div>
                     </nav>
                     <div class="mobile-bar-wrap">
-                        <div class="mobile-sidebar">
-                            <i class="ri-menu-4-line"></i>
-                        </div>
+                      
                         <button class="searchbtn xl-none" type="button">
 
                         </button>
@@ -234,7 +180,7 @@
                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
                         <div class="footer-widget">
                             <a href="{% url 'index' %}" class="footer-logo">
-                                <img style="height: 50px;width: 160px;" class="logo-dark"
+                                <img style="height: 50px;width: 190px;" class="logo-dark"
                                     src="{% static 'main/img/logo/logo-dark.png' %}">
 
                             </a>
