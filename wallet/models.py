@@ -274,10 +274,10 @@ class Transaction(models.Model) :
     user  = models.ForeignKey(get_user_model(),on_delete = models.CASCADE,related_name = 'user_transaction')
     transaction_type = models.CharField(max_length=20,choices = t_choices)
     description = models.TextField()
-    status = models.CharField(max_length=10,choices = status,default = 'Pending')
+    status = models.CharField(max_length=20,choices = status,default = 'Pending')
     date = models.DateTimeField(auto_now_add=True)
     amount = models.FloatField(null = False)
-    coin = models.CharField(blank = True,null = True,max_length=10)
+    coin = models.CharField(blank = True,null = True,max_length=20)
 
     def __str__(self) :
         return self.transaction_id

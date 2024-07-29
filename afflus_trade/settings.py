@@ -13,7 +13,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '24q_*&tn+5k_*6h6$nsccghwwb#8b%v4i)1h(wd08_02_-(czt'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
 
 
@@ -224,3 +224,4 @@ SITE_ADDRESS = "https://binance.zealkoin.ltd/"
 FREE_PLAN_DURATION = 2  #in days
 SUBSCRIPTION_DURATION = 365   #in days
 
+DEFAULT_AUTO_FIELD='django.db.models.AutoField'

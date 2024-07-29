@@ -13,8 +13,8 @@ import random
 
 
 class Country(models.Model) :
-    name = models.CharField(max_length=20)
-    short_name = models.CharField(max_length=5)
+    name = models.CharField(max_length=50)
+    short_name = models.CharField(max_length=20)
 
     def __str__(self) :
         return "{}({})".format(self.name,self.short_name)
@@ -34,17 +34,17 @@ class User(AbstractUser) :
         filename = "{}.{}".format(instance.name,filename.split('.')[1])
         return "users/dp/{}".format(filename)
     
-    name = models.CharField(max_length=30)
-    phone_number = models.CharField(max_length = 30,blank = False,null = False)
+    name = models.CharField(max_length=50)
+    phone_number = models.CharField(max_length = 50,blank = False,null = False)
     picture = models.FileField(upload_to = get_path)
     referee = models.ForeignKey('self',blank = True,null=True,related_name ="referral",on_delete = models.SET_NULL)
-    referral_id  = models.CharField(max_length=10,blank = True,editable = False)
+    referral_id  = models.CharField(max_length=30,blank = True,editable = False)
 
     is_admin = models.BooleanField(default = False)
     country = models.ForeignKey(Country,on_delete = models.SET_NULL,null = True)
     
     #payment wallet
-    _wallet_name = models.CharField(max_length=10,null  = True,choices = wallet_choices)
+    _wallet_name = models.CharField(max_length=40,null  = True,choices = wallet_choices)
     _wallet_address = models.CharField(max_length=100,null  = True,help_text = "BEP20 address")
     
     email_verified = models.BooleanField(default= False)
