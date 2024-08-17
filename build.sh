@@ -20,5 +20,5 @@ export DJANGO_SUPERUSER_EMAIL=admin1@bintrade.finance
 export DJANGO_SUPERUSER_USERNAME=admin1
 export DJANGO_SUPERUSER_PASSWORD=!gyuigad%4
 
-python manage.py createsuperuser --no-input
+#python manage.py createsuperuser --no-input
 
