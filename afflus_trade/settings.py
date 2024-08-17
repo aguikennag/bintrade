@@ -27,7 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-     'django.contrib.humanize',
+    'django.contrib.humanize',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Users.apps.UsersConfig',
@@ -198,7 +198,7 @@ SITE_NAME = "loci Trade"
 STATIC_ROOT = os.path.join(BASE_DIR,"asset")
 
 STATIC_URL = '/static/'
-#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
  
 
 LOGIN_REDIRECT_URL = 'login-redirect'
