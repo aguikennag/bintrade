@@ -13,7 +13,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '24q_*&tn+5k_*6h6$nsccghwwb#8b%v4i)1h(wd08_02_-(czt'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
 
 
@@ -125,7 +125,7 @@ AUTH_USER_MODEL = 'Users.User'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-if True :
+if DEBUG :
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
